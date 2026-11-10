@@ -1,0 +1,5 @@
+# bases geradas por prepare_pbn_datasets.py (baixadas da UCI)
+data/*/*.npy
+__pycache__/
+*.pyc
+.DS_Store
