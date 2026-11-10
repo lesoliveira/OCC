@@ -19,16 +19,26 @@ recriá-las: `python prepare_pbn_datasets.py`.
 | `results_main/` | 0,1 | `hdbscan-leaf` | 6 | resultado principal, famílias fixas | melhores OCCs superam rf_msp (+5) e sskmeans (+9) com p ≈ 0,002; CNAE-9 é a exceção |
 | `results_v3/` | 0,1 | `hdbscan-leaf` | 6 | L2 no CNAE-9, HAR sem o atributo "sujeito", família `auto` | `auto` 0,736, acima de mst (+3,1; p = 0,014), rf_msp (+12) e sskmeans (+16); L2 resolve o CNAE-9; tirar o sujeito do HAR não muda nada |
 
-Pendente: `results_final/` — mesma configuração do `results_v3`, com o HAR
-de volta à versão do PBN (atributo "sujeito" incluído;
-`data/har/preproc.json.unused`). Só o HAR precisa rodar de novo:
+## Resultado final: `results_final/`
 
-```bash
-mkdir -p results_final/a0.1 && cp results_v3/a0.1/*.csv results_final/a0.1/
-K_EST=hdbscan-leaf ALPHAS="0.1" OUT=results_final \
-  FAMILIES="kmeans sskmeans rf_msp lr_msp gauss knn mst dic auto" \
-  bash run_pbn_gcd.sh har
-```
+Mesma configuração do `results_v3/` (α = 0,1, `hdbscan-leaf`, L2 no
+CNAE-9, família `auto`), com o HAR de volta à versão do PBN (atributo
+"sujeito" incluído; `data/har/preproc.json.unused`). As outras 5 bases são
+cópias do `results_v3/`; só o HAR foi rodado de novo.
+
+ACC All média nas 6 bases, K estimado (Wilcoxon pareado, 30 pares):
+
+| Método | ACC All | Δ vs auto | p |
+|---|---|---|---|
+| auto | 0,737 | — | — |
+| mst | 0,706 | −0,031 | 0,014 |
+| gauss | 0,699 | −0,038 | 0,002 |
+| rf_msp | 0,615 | −0,122 | < 0,001 |
+| sskmeans | 0,581 | −0,156 | < 0,001 |
+
+Com K conhecido, o `auto` também fica em 0,737. AUROC médio: auto 0,945,
+rf_msp 0,826. No HAR, o resultado com e sem o "sujeito" é praticamente o
+mesmo (auto 0,705 contra 0,702).
 
 ## Cuidados ao comparar pastas
 
