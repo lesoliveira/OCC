@@ -121,7 +121,14 @@ distâncias agruparem por pessoa). `--no-preproc` ignora o arquivo.
 conhecida (até 5) é deixada de fora e tratada como nova; as demais são
 divididas em treino (70%) e teste; vence a família com maior AUROC médio
 antigas × "nova". Candidatas em `--auto-families` (padrão gauss knn mst
-dic). O CSV guarda a família escolhida (`chosen`) e os AUROCs (`loco_*`).
+dic e o SVM com γ ∈ {0,1; 0,3; 1; 3; 10} × o padrão, escritos `svm@g`).
+O CSV guarda a família escolhida (`chosen`) e os AUROCs (`loco_*`).
+
+**SVM com γ ajustado (`svm-cv`)**: o One-class SVM não tem como ajustar
+γ por validação cruzada comum, porque não há negativos. O `svm-cv` usa o
+mesmo protocolo do `auto` (esconder uma classe conhecida e tratá-la como
+nova) para escolher γ na grade acima; `svm` é o γ padrão do scikit-learn
+(`scale`).
 
 **Variante `+ssk`** (ex.: `mst+ssk`): os rejeitados vão para o SS-k-means
 com as antigas ancoradas em D_L, em vez de k-means isolado. Fica fora do

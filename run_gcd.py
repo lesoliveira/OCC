@@ -29,7 +29,7 @@ from sklearn.preprocessing import StandardScaler
 
 from occ import (BASELINE_NAMES, FAMILY_NAMES, SSK_NAMES, ClosedMSP, OCCDiscovery,
                  SSKMeans, cluster_acc, estimate_k, estimate_k_labeled, gcd_acc,
-                 rejection_metrics, select_family)
+                 rejection_metrics, select_family, parse_spec, SVM_GRID)
 from splits import gcd_split, ncd_split
 
 
@@ -45,15 +45,22 @@ def load(path):
 def run_one(family, X_l, y_l, X_u, y_u, old_classes, scenario, alpha, k_known,
             occ_kwargs, seed, cal_mode="cv", k_est="silhouette", frag_c=2.0,
             auto_families=("gauss", "knn", "mst", "dic")):
+    """family: nome da família, uma variante ('svm@3'), 'svm-cv' (gamma do
+    SVM escolhido por deixa-uma-classe-de-fora em D_L) ou 'auto'."""
     t0 = time.perf_counter()
     novelty = None
     family, _, assign = family.partition("+")
     assign = assign or "kmeans"
     extra = {}
-    if family == "auto":  # escolha da família só com D_L (occ/select.py)
-        family, sc = select_family(X_l, y_l, auto_families, occ_kwargs, seed)
-        extra = {"chosen": family, "t_select_s": time.perf_counter() - t0}
+    if family in ("auto", "svm-cv"):  # escolha só com D_L (occ/select.py)
+        cands = auto_families if family == "auto" else [f"svm@{g:g}" for g in SVM_GRID]
+        spec, sc = select_family(X_l, y_l, cands, occ_kwargs, seed)
+        extra = {"chosen": spec, "t_select_s": time.perf_counter() - t0}
         extra.update({f"loco_{f}": v for f, v in sc.items()})
+        family = spec
+    family, kws = parse_spec(family)
+    if kws is not None:
+        occ_kwargs = {**occ_kwargs, family: kws}
     if family == "kmeans":  # piso sem D_L: k-means sobre D_U, K total = n_old + k_new
         n_old_u = len(old_classes) if scenario == "c2" else 0  # C1: D_U só tem novas
         k = n_old_u + k_known if k_known else \
@@ -127,9 +134,11 @@ def main():
                          "rejeitados, com correção dos fragmentos de classes "
                          "antigas; ver occ/fragments.py). Sem rejeição "
                          "(kmeans, sskmeans), as três últimas usam a silhueta.")
-    ap.add_argument("--auto-families", nargs="+", default=["gauss", "knn", "mst", "dic"],
+    ap.add_argument("--auto-families", nargs="+",
+                    default=["gauss", "knn", "mst", "dic"] + [f"svm@{g:g}" for g in SVM_GRID],
                     help="candidatas da família 'auto' (escolha por deixa-uma-"
-                         "classe-de-fora em D_L)")
+                         "classe-de-fora em D_L); 'svm@g' é o SVM com gamma = "
+                         "g x o 'scale' do scikit-learn")
     ap.add_argument("--frag-c", type=float, default=2.0,
                     help="sil-size/hdbscan*: tau = frag_c x tamanho esperado de "
                          "um fragmento")

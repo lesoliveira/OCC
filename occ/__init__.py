@@ -5,7 +5,7 @@ from .dichotomy import Dichotomizer, DichotomyOCC
 from .calibration import ClassWiseOCC
 from .kest import estimate_k, estimate_k_labeled
 from .gcd import OCCDiscovery
-from .select import select_family, loco_auroc
+from .select import select_family, loco_auroc, parse_spec, SVM_GRID
 from .baselines import SSKMeans, ClosedMSP
 from .metrics import cluster_acc, gcd_acc, rejection_metrics
 

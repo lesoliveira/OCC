@@ -16,6 +16,17 @@ from sklearn.metrics import roc_auc_score
 from .calibration import ClassWiseOCC
 
 
+SVM_GRID = (0.1, 0.3, 1.0, 3.0, 10.0)  # multiplicadores do gamma "scale"
+
+
+def parse_spec(spec):
+    """'svm@3' -> ('svm', {'gamma_mult': 3.0}); outras famílias sem mudança."""
+    fam, _, val = spec.partition("@")
+    if fam == "svm" and val:
+        return "svm", {"gamma_mult": float(val)}
+    return fam, None
+
+
 def loco_auroc(family, X_l, y_l, occ_kwargs=None, n_hold=5, train_frac=0.7,
                random_state=0):
     X_l, y_l = np.asarray(X_l, float), np.asarray(y_l)
@@ -44,10 +55,16 @@ def loco_auroc(family, X_l, y_l, occ_kwargs=None, n_hold=5, train_frac=0.7,
 
 def select_family(X_l, y_l, families=("gauss", "knn", "mst", "dic"),
                   occ_kwargs=None, random_state=0, **kw):
-    """Devolve (família escolhida, {família: AUROC})."""
+    """Devolve (família escolhida, {família: AUROC}).
+
+    Uma candidata pode ser uma variante, como 'svm@3' (gamma_mult = 3).
+    """
     occ_kwargs = occ_kwargs or {}
-    scores = {f: loco_auroc(f, X_l, y_l, occ_kwargs.get(f), random_state=random_state, **kw)
-              for f in families}
+    scores = {}
+    for f in families:
+        fam, kws = parse_spec(f)
+        scores[f] = loco_auroc(fam, X_l, y_l, kws if kws is not None else occ_kwargs.get(fam),
+                               random_state=random_state, **kw)
     valid = {f: s for f, s in scores.items() if s == s}
     best = max(valid, key=valid.get) if valid else families[0]
     return best, scores

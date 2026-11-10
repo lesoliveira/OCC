@@ -67,15 +67,25 @@ class KNNOCC(BaseOCC):
 
 
 class SVMOCC(BaseOCC):
-    """OCC-SVM: One-class SVM (Schölkopf) com kernel RBF."""
+    """OCC-SVM: One-class SVM (Schölkopf) com kernel RBF.
 
-    def __init__(self, nu=0.05, gamma="scale"):
+    gamma = gamma_mult / (d * var(X)), calculado nos dados da própria
+    classe; gamma_mult = 1 é o "scale" do scikit-learn. Sem negativos, o
+    gamma não se ajusta por validação cruzada comum; a família "svm-cv"
+    (occ/select.py) escolhe gamma_mult pelo protocolo deixa-uma-classe-de-
+    fora em D_L.
+    """
+
+    def __init__(self, nu=0.05, gamma_mult=1.0):
         self.nu = nu
-        self.gamma = gamma
+        self.gamma_mult = gamma_mult
 
     def fit(self, X):
-        self.svm_ = OneClassSVM(kernel="rbf", nu=self.nu, gamma=self.gamma)
-        self.svm_.fit(self._check(X))
+        X = self._check(X)
+        var = X.var()
+        gamma = self.gamma_mult / (X.shape[1] * (var if var > 0 else 1.0))
+        self.svm_ = OneClassSVM(kernel="rbf", nu=self.nu, gamma=gamma)
+        self.svm_.fit(X)
         return self
 
     def score(self, X):

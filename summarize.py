@@ -16,7 +16,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import wilcoxon
 
-OCC = ["gauss", "knn", "svm", "mst", "modes", "dic"]
+OCC = ["gauss", "knn", "svm", "svm-cv", "mst", "modes", "dic"]
 
 
 def md(df, index=True):
@@ -92,6 +92,14 @@ def main():
             lines.append(f"## K_new usado — {title}\n")
             lines.append(md(g))
             lines.append("")
+        for fam_sel in ("svm-cv",):
+            if "chosen" in dk and (dk.family == fam_sel).any():
+                a = dk[dk.family == fam_sel]
+                ch = a.groupby("base")["chosen"].agg(
+                    lambda v: ", ".join(f"{f}×{n}" for f, n in v.value_counts().items()))
+                lines.append(f"## gamma escolhido pelo {fam_sel} — {title}\n")
+                lines.append(md(ch.to_frame("escolhas nas sementes")))
+                lines.append("")
         if "chosen" in dk and (dk.family == "auto").any():
             a = dk[dk.family == "auto"]
             ch = a.groupby("base")["chosen"].agg(
