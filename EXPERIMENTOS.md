@@ -110,7 +110,17 @@ classes antigas. Com o modo padrão do HDBSCAN (`hdbscan`, "eom") em vez do
 6,2 para 2,2 (svm-cv); a ACC All média sobe de 0,685 para 0,708 (mst) e de
 0,684 para 0,717 (svm-cv), e a ACC New de ~0,36 para ~0,44. No pendigits os
 dois modos dão a mesma partição. O esquecimento não muda (OCC 3,6–4,9
-pontos, rf_msp 0,5). O C4 passa a usar `hdbscan` por padrão.
+pontos, rf_msp 0,5).
+
+## C2 com o HDBSCAN no modo padrão: `results_v6/`
+
+Mesma configuração do `results_v4/`, trocando `hdbscan-leaf` por `hdbscan`
+("eom"). Quase tudo igual, exceto o mfeat, onde o modo padrão funde as
+classes novas (K_new estimado 2,0–2,4 em vez de 5; com `leaf`, 5,0): o
+`auto-auroc` cai de 0,859 para 0,598 no mfeat e de 0,730 para 0,686 na
+média. Os dois modos erram em direções opostas: o `leaf` parte classes
+novas no letter do C4; o "eom" funde classes novas no mfeat do C2. O
+padrão continua `hdbscan-leaf` nos dois cenários.
 
 ## Cuidados ao comparar pastas
 

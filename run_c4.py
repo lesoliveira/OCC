@@ -328,7 +328,7 @@ def main():
     ap.add_argument("--sessions", type=int, default=3)
     ap.add_argument("--seeds", type=int, nargs="+", default=[0, 1, 2, 3, 4])
     ap.add_argument("--alpha", type=float, default=0.1)
-    ap.add_argument("--k-est", default="hdbscan",
+    ap.add_argument("--k-est", default="hdbscan-leaf",
                     choices=["silhouette", "sil-size", "hdbscan", "hdbscan-leaf"])
     ap.add_argument("--families", nargs="+",
                     default=["mst", "gauss", "svm-cv", "auto-auroc", "rf_msp", "sskmeans"])
