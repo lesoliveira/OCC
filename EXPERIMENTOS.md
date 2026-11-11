@@ -40,6 +40,29 @@ Com K conhecido, o `auto` também fica em 0,737. AUROC médio: auto 0,945,
 rf_msp 0,826. No HAR, o resultado com e sem o "sujeito" é praticamente o
 mesmo (auto 0,705 contra 0,702).
 
+## SVM com γ ajustado: `results_v4/`
+
+Mesma configuração do `results_final/`, com `svm` (γ padrão do
+scikit-learn), `svm-cv` (γ escolhido em D_L por deixa-uma-classe-de-fora,
+na grade {0,1; 0,3; 1; 3; 10} × o padrão) e o `auto` com as cinco variantes
+`svm@g` entre as candidatas.
+
+| Método | ACC All (K estimado) |
+|---|---|
+| auto (9 candidatas) | 0,730 |
+| svm-cv | 0,711 |
+| mst | 0,706 |
+| gauss | 0,699 |
+| svm (γ padrão) | 0,631 |
+| rf_msp | 0,615 |
+| sskmeans | 0,581 |
+
+O ajuste de γ vale 8 pontos ao SVM, que empata com mst e gauss. Com mais
+candidatas, o `auto` cai de 0,737 para 0,730 (no letter, escolhe `svm@10`
+em vez do mst) e deixa de ser significativamente melhor que svm-cv
+(p = 0,11) e mst (p = 0,07); continua acima de rf_msp e sskmeans
+(p < 0,001).
+
 ## Cuidados ao comparar pastas
 
 - Em `results/`, o `kmeans` com K estimado usava o K verdadeiro (erro
