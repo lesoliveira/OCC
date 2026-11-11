@@ -40,6 +40,9 @@ class OCCDiscovery:
                                    cal_mode=self.cal_mode).fit(X_l, y_l)
         self.n_old_ = len(self.model_.classes_)
         self.X_l_, self.y_l_ = np.asarray(X_l, float), np.asarray(y_l)
+        # médias por classe (usadas na reatribuição do ruído); atualizadas
+        # no incorporate, sem guardar as amostras das classes novas
+        self.means_ = {c: self.X_l_[self.y_l_ == c].mean(0) for c in self.model_.classes_}
         return self
 
     def novelty_score(self, X):
@@ -68,7 +71,7 @@ class OCCDiscovery:
             lab, k_new = corrected_discovery(
                 X_u[rej], C[P.argmax(axis=1)], int(C.max()) + 1, tau, self.k_est,
                 self.k_max_factor * self.n_old_, self.random_state,
-                old_means=np.array([self.X_l_[self.y_l_ == c].mean(0) for c in C]),
+                old_means=np.array([self.means_[c] for c in C]),
                 old_ids=C)
             y[rej] = lab
             info.update({"k_new": k_new, "tau": tau,
@@ -101,5 +104,7 @@ class OCCDiscovery:
             Xc = X[y == c]
             if len(Xc) >= self.min_new_size:
                 self.model_.add_class(c, Xc)
+                self.means_[c] = Xc.mean(0)
                 added.append(int(c))
+        self.n_old_ = len(self.model_.classes_)
         return added

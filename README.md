@@ -166,6 +166,27 @@ Três cuidados ao comparar com o artigo do PBN:
 - CNAE-9: os rótulos vão de 1 a 9, mas a divisão do PBN inclui a classe 0,
   que não existe; por isso ficam 4 conhecidas e 5 novas, como no artigo.
 
+## Cenário incremental (C4)
+
+```bash
+bash run_pbn_c4.sh pendigits letter       # 3 sessões, 5 sementes, α = 0,1
+bash run_pbn_c4.sh                        # todas as bases em data/
+```
+
+Protocolo (`run_c4.py`), inspirado no Continual GCD (MetaGCD, Happy):
+sessão 0 com D_L (metade das amostras das classes conhecidas); as classes
+novas, sorteadas pela semente, estreiam em T sessões (padrão 3); cada lote
+não rotulado traz parte das conhecidas, 60% das classes que estreiam e o
+resto das descobertas antes. Sem rótulos depois da sessão 0, sessões
+disjuntas, padronização só com a sessão 0. O OCC incorpora cada cluster
+descoberto como uma classe nova sem re-treinar as antigas; o `rf_msp` é
+re-treinado a cada sessão com os pseudorrótulos (e precisa guardar os
+dados); o `sskmeans` é refeito a cada sessão. O casamento cluster →
+classe é fixado na sessão em que o cluster aparece, para que um erro de
+descoberta se propague. O `summarize_c4.py` gera `summary_c4.md` com ACC
+All/Old/New, esquecimento das classes da sessão 0, classes descobertas e
+tempo por sessão.
+
 ## Decisões de implementação a conhecer
 
 - **Calibração por validação cruzada dentro da classe** (`cal_mode="cv"`,
