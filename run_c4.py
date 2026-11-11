@@ -43,6 +43,17 @@ Métricas por sessão (CSV, uma linha por método × semente × sessão):
 - acc_all_hung: ACC All com casamento húngaro refeito na sessão, como no
   C2 (para comparação).
 - n_model_classes, t_session_s.
+- Diagnóstico dos clusters espúrios (os criados na sessão que não casam
+  com nenhuma classe): spur_from_s0 / spur_from_prev / spur_from_new contam
+  quantos têm como classe majoritária uma classe da sessão 0, uma classe
+  já descoberta antes ou uma classe que estreia na sessão; spur_size_mean
+  é o tamanho médio deles.
+
+Incorporação (--inc-min): por padrão, só vira classe um cluster com pelo
+menos tau amostras, o tamanho esperado de um fragmento de classe antiga
+(o mesmo limiar usado pelo HDBSCAN); com 'fixed', basta 5 amostras. O
+mesmo limiar vale para os pseudorrótulos guardados pelo rf_msp. O
+sskmeans não tem rejeição nem tau e usa 5.
 
 Uso:
     python run_c4.py --data data/pendigits --seeds 0 1 2 3 4 \\
@@ -123,7 +134,9 @@ def scaler_s0(X_l):
 
 # ------------------------------------------------------------------ métodos
 class OCCStream:
-    def __init__(self, family, alpha, k_est, seed, auto_families, criterion):
+    def __init__(self, family, alpha, k_est, seed, auto_families, criterion, inc_min="tau",
+                 merge=True):
+        self.inc_min, self.merge = inc_min, merge
         self.family, self.alpha, self.k_est, self.seed = family, alpha, k_est, seed
         self.auto_families, self.criterion = auto_families, criterion
         self.chosen = None
@@ -143,8 +156,11 @@ class OCCStream:
 
     def session(self, X_u, fresh):
         y = self.m.discover(X_u)
+        if self.merge:
+            y = self.m.merge_duplicates(X_u, y, ratio=self.merge)
         y = fresh(y, self.m.model_.classes_)
-        self.m.incorporate(X_u, y)
+        tau = getattr(self.m, "last_tau_", None) if self.inc_min == "tau" else None
+        self.m.incorporate(X_u, y, min_size=tau)
         return y
 
     def n_classes(self):
@@ -154,8 +170,9 @@ class OCCStream:
 class MSPStream:
     """Classificador fechado re-treinado a cada sessão (guarda os dados)."""
 
-    def __init__(self, alpha, k_est, seed):
+    def __init__(self, alpha, k_est, seed, inc_min="tau"):
         self.alpha, self.k_est, self.seed = alpha, k_est, seed
+        self.inc_min = inc_min
 
     def start(self, X_l, y_l):
         self.Xm, self.ym = X_l.copy(), y_l.copy()
@@ -165,15 +182,17 @@ class MSPStream:
         m = ClosedMSP("rf", alpha=self.alpha, random_state=self.seed,
                       k_est=self.k_est).fit(self.Xm, self.ym)
         y = fresh(m.discover(X_u), m.classes_)
-        self._remember(X_u, y, m.classes_)
+        tau = getattr(m, "last_tau_", None) if self.inc_min == "tau" else None
+        self._remember(X_u, y, m.classes_, tau)
         self.k = len(np.unique(self.ym))
         return y
 
-    def _remember(self, X_u, y, old):
+    def _remember(self, X_u, y, old, min_size=None):
+        thr = 5 if min_size is None else max(5, min_size)
         new = ~np.isin(y, old)
         keep = np.zeros(len(y), bool)
         for c in np.unique(y[new]):
-            if (y == c).sum() >= 5:
+            if (y == c).sum() >= thr:
                 keep |= y == c
         self.Xm = np.vstack([self.Xm, X_u[keep]])
         self.ym = np.r_[self.ym, y[keep]]
@@ -231,12 +250,13 @@ def run(args):
         X_l, y_l = Xs[idx_l], y[idx_l]
         for fam in args.families:
             if fam == "rf_msp":
-                st = MSPStream(args.alpha, args.k_est, seed)
+                st = MSPStream(args.alpha, args.k_est, seed, args.inc_min)
             elif fam == "sskmeans":
-                st = SSKStream(args.alpha, args.k_est, seed)
+                st = SSKStream(args.alpha, args.k_est, seed, args.inc_min)
             else:
                 st = OCCStream(fam, args.alpha, args.k_est, seed,
-                               args.auto_families, args.auto_criterion)
+                               args.auto_families, args.auto_criterion, args.inc_min,
+                               0 if args.no_merge else args.merge_ratio)
             t0 = time.perf_counter()
             st.start(X_l, y_l)
             t_start = time.perf_counter() - t0
@@ -258,8 +278,20 @@ def run(args):
                 t1 = time.perf_counter()
                 yp = st.session(Xu, fresh)
                 dt = time.perf_counter() - t1
+                seen_before = set(matcher.map)
                 matcher.update(yu, yp)
                 hit = matcher.hits(yu, yp)
+                # diagnóstico: clusters novos desta sessão que não casaram com
+                # nenhuma classe (espúrios) — de que tipo de classe vêm?
+                spur = {"s0": 0, "prev": 0, "new": 0}
+                sizes = []
+                for p_ in np.unique(yp):
+                    if int(p_) in seen_before or matcher.map.get(int(p_)) != -999:
+                        continue
+                    tc = np.bincount(yu[yp == p_]).argmax()
+                    s_ = debut[int(tc)]
+                    spur["s0" if s_ == 0 else ("prev" if s_ < t else "new")] += 1
+                    sizes.append(int((yp == p_).sum()))
                 d = np.array([debut[int(c)] for c in yu])
                 old_cls = [c for c, s in debut.items() if s < t and s >= 0]
                 r = {"family": fam, "seed": seed, "session": t,
@@ -269,7 +301,11 @@ def run(args):
                      "acc_s0": hit[d == 0].mean(),
                      "acc_all_hung": gcd_acc(yu, yp, old_cls)["all"],
                      "n_model_classes": st.n_classes(),
+                     "n_spurious": sum(1 for p in np.unique(yp) if matcher.map.get(int(p)) == -999),
                      "n_true_classes": len([c for c, s in debut.items() if s <= t]),
+                     "spur_from_s0": spur["s0"], "spur_from_prev": spur["prev"],
+                     "spur_from_new": spur["new"],
+                     "spur_size_mean": float(np.mean(sizes)) if sizes else np.nan,
                      "t_session_s": dt, "t_start_s": t_start,
                      "chosen": getattr(st, "chosen", None)}
                 rows.append(r)
@@ -299,6 +335,18 @@ def main():
     ap.add_argument("--auto-families", nargs="+",
                     default=["gauss", "knn", "mst", "dic"] + [f"svm@{g:g}" for g in SVM_GRID])
     ap.add_argument("--auto-criterion", choices=["acc", "auroc"], default="auroc")
+    ap.add_argument("--inc-min", choices=["tau", "fixed"], default="tau",
+                    help="tamanho mínimo de um cluster para virar classe: 'tau' "
+                         "(padrão; o tamanho esperado de um fragmento de classe "
+                         "antiga, o mesmo limiar do HDBSCAN) ou 'fixed' (5 amostras)")
+    ap.add_argument("--no-merge", action="store_true",
+                    help="OCC: não junta clusters novos a classes existentes "
+                         "(OCCDiscovery.merge_duplicates)")
+    ap.add_argument("--merge-ratio", type=float, default=0.0,
+                    help="OCC: junta um cluster novo a uma classe existente se a "
+                         "distância entre os centros for <= ratio x o raio típico "
+                         "dessa classe (padrão 0 = desligado; no digits não "
+                         "ajudou)")
     ap.add_argument("--no-preproc", action="store_true")
     ap.add_argument("--out", default=None)
     run(ap.parse_args())

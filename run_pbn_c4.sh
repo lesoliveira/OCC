@@ -5,6 +5,7 @@
 #   bash run_pbn_c4.sh                       # bases presentes em data/
 #   bash run_pbn_c4.sh pendigits letter      # só algumas
 #   SESSIONS=3 OUT=results_c4 FAMILIES="mst svm-cv auto-auroc rf_msp sskmeans" bash run_pbn_c4.sh
+#   K_EST=hdbscan OUT=results_c4_eom bash run_pbn_c4.sh pendigits letter
 set -euo pipefail
 cd "$(dirname "$0")"
 BASES=("$@")
@@ -19,6 +20,7 @@ SESSIONS="${SESSIONS:-3}"
 ALPHA="${ALPHA:-0.1}"
 OUT="${OUT:-results_c4}"
 FAMILIES="${FAMILIES:-gauss mst svm-cv auto-auroc rf_msp sskmeans}"
+K_EST="${K_EST:-hdbscan-leaf}"
 PY="${PYTHON:-$(command -v python3 || command -v python)}"
 mkdir -p "$OUT"
 "$PY" - <<'PY' > "$OUT/versions.txt"
@@ -30,6 +32,6 @@ PY
 for b in "${BASES[@]}"; do
   echo "=== C4 $b"
   "$PY" -W ignore run_c4.py --data "data/$b" --seeds $SEEDS --sessions "$SESSIONS" \
-      --alpha "$ALPHA" --families $FAMILIES --out "$OUT/${b}_c4.csv"
+      --alpha "$ALPHA" --k-est "$K_EST" --families $FAMILIES --out "$OUT/${b}_c4.csv"
 done
 "$PY" summarize_c4.py "$OUT"

@@ -143,6 +143,7 @@ class ClosedMSP:
                 old_means=np.array([self.X_l_[self.y_l_ == c].mean(0) for c in self.classes_]),
                 old_ids=self.classes_)
             y[rej] = lab
+            self.last_tau_ = tau
             info.update({"k_new": k_new, "tau": tau,
                          "n_back_to_old": int(np.isin(lab, self.classes_).sum())})
         elif rej.sum() >= 2:

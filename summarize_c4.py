@@ -75,6 +75,14 @@ def main():
                        ("forgetting", "Esquecimento: acc_s0 (sessão 1) − acc_s0 (última); menor é melhor"),
                        ("t_mean", "Tempo médio por sessão (s)")]:
         L += [f"## {title}\n", md(table(r, col)), ""]
+    df = load(folder)
+    if "spur_from_s0" in df:
+        sp = df.groupby(["family", "base"])[["spur_from_s0", "spur_from_prev", "spur_from_new"]].sum()
+        sp = sp.div(df.groupby(["family", "base"]).seed.nunique(), axis=0).round(1)
+        sp.columns = ["de classe da sessão 0", "de classe já descoberta", "de classe nova"]
+        sp["tamanho médio"] = df.groupby(["family", "base"]).spur_size_mean.mean().round(0)
+        L += ["## Clusters espúrios por semente (somados nas sessões), pela classe majoritária\n",
+              md(sp), ""]
     cl = r.groupby(["family", "base"]).classes.agg(lambda v: ", ".join(v)).unstack()
     L += ["## Classes no modelo ao fim / classes verdadeiras (por semente)\n", md(cl), ""]
     if ref in set(r.family):

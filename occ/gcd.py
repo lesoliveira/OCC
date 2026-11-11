@@ -43,7 +43,37 @@ class OCCDiscovery:
         # médias por classe (usadas na reatribuição do ruído); atualizadas
         # no incorporate, sem guardar as amostras das classes novas
         self.means_ = {c: self.X_l_[self.y_l_ == c].mean(0) for c in self.model_.classes_}
+        self.radius_ = {c: self._radius(self.X_l_[self.y_l_ == c], self.means_[c])
+                        for c in self.model_.classes_}
         return self
+
+    @staticmethod
+    def _radius(Xc, mu):
+        return float(np.median(np.linalg.norm(Xc - mu, axis=1)))
+
+    def merge_duplicates(self, X, y, ratio=1.0):
+        """C4: um cluster novo cujo centróide cai dentro do raio típico de uma
+        classe existente (mediana das distâncias das amostras dessa classe
+        ao seu centro, vezes ratio) é rotulado como essa classe, em vez de
+        virar uma classe nova. Evita redescobrir, numa sessão seguinte, uma
+        classe já descoberta (ou um pedaço de uma classe antiga).
+        """
+        X, y = np.asarray(X, float), np.asarray(y).copy()
+        C = list(self.model_.classes_)
+        M = np.array([self.means_[c] for c in C])
+        R = np.array([self.radius_[c] for c in C])
+        merged = 0
+        for c in np.unique(y):
+            if c in self.means_:
+                continue
+            mu = X[y == c].mean(0)
+            q = np.linalg.norm(M - mu, axis=1) / np.maximum(R, 1e-12)
+            j = int(q.argmin())
+            if q[j] <= ratio:
+                y[y == c] = C[j]
+                merged += 1
+        self.last_merged_ = merged
+        return y
 
     def novelty_score(self, X):
         return self.model_.novelty_score(X)
@@ -58,6 +88,7 @@ class OCCDiscovery:
         para a sua classe antiga.
         """
         X_u = np.asarray(X_u, float)
+        self.last_tau_ = None
         y = self.model_.predict(X_u, self.alpha, calibrated)
         rej = y == -1
         info = {"n_rejected": int(rej.sum()), "k_new": 0}
@@ -74,6 +105,7 @@ class OCCDiscovery:
                 old_means=np.array([self.means_[c] for c in C]),
                 old_ids=C)
             y[rej] = lab
+            self.last_tau_ = tau
             info.update({"k_new": k_new, "tau": tau,
                          "n_back_to_old": int(np.isin(lab, C).sum())})
         elif rej.sum() >= 2:
@@ -89,22 +121,26 @@ class OCCDiscovery:
             info["k_new"] = 1
         return (y, info) if return_info else y
 
-    def incorporate(self, X, y):
+    def incorporate(self, X, y, min_size=None):
         """Cria OCCs para as classes descobertas (as que ainda não existem).
 
         Classes conhecidas não são re-treinadas. Clusters menores que
-        min_new_size são ignorados (ruído).
+        min_size (padrão min_new_size) são ignorados. No C4, usar
+        min_size = last_tau_ (tamanho de um fragmento de classe antiga)
+        evita que fragmentos virem classes permanentes.
         """
         X, y = np.asarray(X, float), np.asarray(y)
+        thr = self.min_new_size if min_size is None else max(self.min_new_size, min_size)
         known = set(self.model_.classes_.tolist())
         added = []
         for c in np.unique(y):
             if c == -1 or c in known:
                 continue
             Xc = X[y == c]
-            if len(Xc) >= self.min_new_size:
+            if len(Xc) >= thr:
                 self.model_.add_class(c, Xc)
                 self.means_[c] = Xc.mean(0)
+                self.radius_[c] = self._radius(Xc, self.means_[c])
                 added.append(int(c))
         self.n_old_ = len(self.model_.classes_)
         return added
