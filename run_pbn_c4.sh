@@ -6,7 +6,7 @@
 #   bash run_pbn_c4.sh pendigits letter      # só algumas
 #   SESSIONS=3 OUT=results_c4 FAMILIES="mst svm-cv auto-auroc rf_msp sskmeans" bash run_pbn_c4.sh
 #   K_EST=hdbscan OUT=results_c4_eom bash run_pbn_c4.sh pendigits letter
-#   EXTRA="--priority" OUT=results_c4_prio bash run_pbn_c4.sh
+#   EXTRA="--no-priority" OUT=results_c4_noprio bash run_pbn_c4.sh
 set -euo pipefail
 cd "$(dirname "$0")"
 BASES=("$@")

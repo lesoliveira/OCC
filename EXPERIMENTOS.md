@@ -141,6 +141,17 @@ são parecidas com elas: no HAR a acurácia nas classes da sessão 0 cai de
 0,82. Tempo: mst e svm-cv são 5–10× mais rápidos que o rf_msp, mas o gauss
 em alta dimensão (CNAE-9, HAR) é mais lento (1,6–4,8 s por sessão).
 
+## C4 com prioridade às classes mais antigas: `results_c4_prio/`
+
+Mesma rodada do `results_c4/` com `--priority`: entre as classes que
+aceitam uma amostra, vence a mais antiga. A ACC All média não muda
+(auto-auroc 0,694 nos dois; Δ = 0,000, p = 0,19), mas o esquecimento das
+classes da sessão 0 cai de 8,9 para 2,0 pontos (p = 0,0001), no nível do
+rf_msp re-treinado (1,8), sem guardar dados. No HAR, de 27,4 para −1,1;
+no CNAE-9, de 11,9 para 2,0. Mesmo efeito em mst (16,0 → 2,1), svm-cv
+(12,3 → 2,7) e gauss (9,2 → 1,9). A prioridade passa a ser o padrão do
+`run_c4.py` (`--no-priority` desliga).
+
 ## Cuidados ao comparar pastas
 
 - Em `results/`, o `kmeans` com K estimado usava o K verdadeiro (erro

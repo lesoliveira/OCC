@@ -49,7 +49,7 @@ Métricas por sessão (CSV, uma linha por método × semente × sessão):
   já descoberta antes ou uma classe que estreia na sessão; spur_size_mean
   é o tamanho médio deles.
 
-Prioridade (--priority, desligada por padrão): entre as classes que aceitam
+Prioridade (padrão; --no-priority desliga): entre as classes que aceitam
 uma amostra (p >= alpha), vence a mais antiga (sessão 0, depois a ordem de
 incorporação); dentro da mesma idade, a de maior p-valor. Assim uma classe
 descoberta só recebe o que as mais antigas rejeitam, e não "rouba" amostras
@@ -141,7 +141,7 @@ def scaler_s0(X_l):
 # ------------------------------------------------------------------ métodos
 class OCCStream:
     def __init__(self, family, alpha, k_est, seed, auto_families, criterion, inc_min="tau",
-                 merge=True, priority=False):
+                 merge=True, priority=True):
         self.inc_min, self.merge, self.priority = inc_min, merge, priority
         self.family, self.alpha, self.k_est, self.seed = family, alpha, k_est, seed
         self.auto_families, self.criterion = auto_families, criterion
@@ -264,7 +264,7 @@ def run(args):
                 st = OCCStream(fam, args.alpha, args.k_est, seed,
                                args.auto_families, args.auto_criterion, args.inc_min,
                                0 if args.no_merge else args.merge_ratio,
-                               args.priority)
+                               not args.no_priority)
             t0 = time.perf_counter()
             st.start(X_l, y_l)
             t_start = time.perf_counter() - t0
@@ -355,9 +355,10 @@ def main():
                          "distância entre os centros for <= ratio x o raio típico "
                          "dessa classe (padrão 0 = desligado; no digits não "
                          "ajudou)")
-    ap.add_argument("--priority", action="store_true",
-                    help="OCC: prioridade às classes mais antigas (entre as que "
-                         "aceitam a amostra, vence a mais antiga)")
+    ap.add_argument("--no-priority", action="store_true",
+                    help="OCC: desliga a prioridade às classes mais antigas (entre "
+                         "as que aceitam a amostra, passa a vencer a de maior "
+                         "p-valor; results_c4/)")
     ap.add_argument("--no-preproc", action="store_true")
     ap.add_argument("--out", default=None)
     run(ap.parse_args())
