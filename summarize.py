@@ -65,6 +65,43 @@ def wilcoxon_vs(df, metric, ref):
     return pd.DataFrame(rows).sort_values(f"Δ média vs {ref}", ascending=False)
 
 
+def friedman_block(M, ref=None, title=""):
+    """Friedman nas bases (Demšar, JMLR 2006) e Wilcoxon com correção de Holm
+    contra a referência, usando a média de cada base (uma observação por
+    base, sem pseudorreplicação das sementes). M: DataFrame base × método."""
+    from scipy.stats import friedmanchisquare
+    M = M.dropna(axis=1)  # só métodos presentes em todas as bases
+    L = [f"## Friedman nas bases (média das sementes por base) — {title}\n"]
+    if M.shape[0] < 3 or M.shape[1] < 3:
+        return L + ["(precisa de ao menos 3 bases e 3 métodos)", ""]
+    stat, p = friedmanchisquare(*[M[c].to_numpy() for c in M.columns])
+    ranks = M.rank(axis=1, ascending=False).mean().sort_values()
+    L.append(f"{M.shape[0]} bases, {M.shape[1]} métodos: χ² = {stat:.2f}, p = {p:.2g}\n")
+    ref = ref if ref in M.columns else ranks.index[0]
+    rows = []
+    for c in M.columns:
+        if c == ref:
+            continue
+        d = M[c] - M[ref]
+        pv = wilcoxon(d).pvalue if (d != 0).any() else 1.0
+        rows.append([c, d.mean(), pv])
+    rows.sort(key=lambda r: r[2])
+    m = len(rows)
+    adj, run = [], 0.0
+    for i, r in enumerate(rows):  # Holm
+        run = max(run, min(1.0, (m - i) * r[2]))
+        adj.append(run)
+    T = pd.DataFrame({"método": [r[0] for r in rows],
+                      f"Δ média vs {ref}": [round(r[1], 3) for r in rows],
+                      "p (Wilcoxon nas bases)": [round(r[2], 4) for r in rows],
+                      "p ajustado (Holm)": [round(a, 4) for a in adj],
+                      "rank médio": [round(ranks[r[0]], 2) for r in rows]})
+    L.append(f"Rank médio de {ref}: {ranks[ref]:.2f}\n")
+    L.append(md(T, index=False))
+    L.append("")
+    return L
+
+
 def main():
     folder = sys.argv[1] if len(sys.argv) > 1 else "results"
     df = load(folder)
@@ -110,6 +147,8 @@ def main():
             lines.append(f"## Wilcoxon pareado em acc_all contra o auto — {title}\n")
             lines.append(md(wilcoxon_vs(dk, "acc_all", "auto"), index=False))
             lines.append("")
+        M = dk.groupby(["base", "family"])["acc_all"].mean().unstack()
+        lines += friedman_block(M, "auto-auroc" if "auto-auroc" in M else "auto", title)
         is_occ = dk.family.str.split("+").str[0].isin(OCC)
         occ_means = dk[is_occ].groupby("family")["acc_all"].mean()
         best = occ_means.idxmax()

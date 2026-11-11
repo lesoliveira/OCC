@@ -20,7 +20,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import wilcoxon
 
-from summarize import md
+from summarize import friedman_block, md
 
 
 def load(folder):
@@ -97,6 +97,8 @@ def main():
                          "p (Wilcoxon)": round(pv, 4) if pv == pv else "—", "pares": len(d)})
         L += [f"## Wilcoxon pareado na ACC All média contra {ref}\n",
               md(pd.DataFrame(rows).sort_values(f"Δ vs {ref}", ascending=False), index=False), ""]
+    M = r.groupby(["base", "family"])["acc_all_mean"].mean().unstack()
+    L += friedman_block(M, ref, "ACC All média nas sessões")
     text = "\n".join(L)
     print(text)
     with open(os.path.join(folder, "summary_c4.md"), "w") as f:

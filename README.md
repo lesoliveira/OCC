@@ -166,6 +166,21 @@ Três cuidados ao comparar com o artigo do PBN:
 - CNAE-9: os rótulos vão de 1 a 9, mas a divisão do PBN inclui a classe 0,
   que não existe; por isso ficam 4 conhecidas e 5 novas, como no artigo.
 
+## Bases adicionais do OpenML
+
+```bash
+python prepare_pbn_datasets.py --only census --with-census   # a 7ª base do PBN
+python prepare_openml_datasets.py                            # 9 candidatas do OpenML
+```
+
+Critérios fixados antes de rodar os métodos (ver o cabeçalho do
+`prepare_openml_datasets.py`): ≥ 6 classes, ≥ 500 amostras, classes com
+menos de 20 amostras descartadas, sem imagens brutas; acima de 20.000
+amostras, subamostragem estratificada. Conhecidas = metade das classes,
+sorteadas com semente fixa. Cada base ganha um `meta.json` com origem e
+características. Os `summary.md` passam a ter o teste de Friedman nas
+bases (uma observação por base) e Wilcoxon com correção de Holm.
+
 ## Cenário incremental (C4)
 
 ```bash
