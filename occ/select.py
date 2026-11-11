@@ -3,12 +3,12 @@
 Dois critérios, ambos simulando classes novas com classes conhecidas
 escondidas:
 
-- "auroc" (o original, loco_auroc): esconde uma classe conhecida por vez;
+- "auroc" (padrão, loco_auroc): esconde uma classe conhecida por vez;
   OCCs treinados nas demais (fração train_frac de cada uma); AUROC do
   escore de novidade entre a classe escondida e as amostras restantes das
   demais. Mede só a rejeição.
 
-- "acc" (padrão, loco_eval): simula o GCD inteiro. Em cada repetição,
+- "acc" (loco_eval; pior que "auroc" nos testes do PBN, results_v5/): simula o GCD inteiro. Em cada repetição,
   esconde n_hidden classes conhecidas (2 se houver ao menos 4, senão 1);
   D_L' = train_frac das demais; D_U' = o resto das demais + todas as
   escondidas. Roda o pipeline completo (rejeição, HDBSCAN, reatribuição)
@@ -110,7 +110,7 @@ def loco_eval(family, X_l, y_l, occ_kwargs=None, n_rep=5, n_hidden=None,
 
 
 def select_family(X_l, y_l, families=("gauss", "knn", "mst", "dic"),
-                  occ_kwargs=None, random_state=0, criterion="acc", tie_tol=0.005,
+                  occ_kwargs=None, random_state=0, criterion="auroc", tie_tol=0.005,
                   **kw):
     """Devolve (família escolhida, {chave: valor}) com os escores de cada candidata.
 

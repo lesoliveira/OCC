@@ -63,6 +63,33 @@ em vez do mst) e deixa de ser significativamente melhor que svm-cv
 (p = 0,11) e mst (p = 0,07); continua acima de rf_msp e sskmeans
 (p < 0,001).
 
+## Critério do `auto`: `results_v5/`
+
+Compara o critério novo do `auto` (`acc`: GCD simulado em D_L, escondendo
+2 classes) com o original (`auto-auroc`: AUROC da rejeição, uma classe por
+vez). Nesta rodada o `svm-cv` também usou `acc`.
+
+ACC All média, K estimado, e perda em relação ao "oráculo" (a melhor
+família fixa de cada base entre gauss, knn, mst, dic e svm-cv, que só se
+conhece com os rótulos de D_U; média 0,754):
+
+| Método | ACC All | Perda média | Pior perda (base) |
+|---|---|---|---|
+| auto-auroc | 0,730 | 0,024 | 0,039 (optdigits) |
+| svm-cv | 0,725 | 0,030 | 0,130 (HAR) |
+| mst | 0,706 | 0,049 | 0,128 (HAR) |
+| auto (`acc`) | 0,699 | 0,055 | 0,140 (HAR) |
+| gauss | 0,699 | 0,056 | 0,157 (optdigits) |
+| rf_msp | 0,615 | 0,139 | 0,246 (mfeat) |
+| sskmeans | 0,581 | 0,173 | 0,347 (letter) |
+
+O critério `acc` escolhe o dic no CNAE-9 e no HAR (4 de 5 sementes), onde
+o dic é ruim: com 3 ou 4 classes conhecidas, o problema simulado sobra com
+1 ou 2 classes para treinar e fica ruidoso. O critério padrão volta a ser
+`auroc`. O `auto-auroc` não é significativamente melhor que o svm-cv na
+média (p = 0,95), mas é o mais robusto: a pior perda em relação ao
+oráculo cai de 0,13 (svm-cv, mst) para 0,04.
+
 ## Cuidados ao comparar pastas
 
 - Em `results/`, o `kmeans` com K estimado usava o K verdadeiro (erro

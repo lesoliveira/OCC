@@ -44,7 +44,7 @@ def load(path):
 
 def run_one(family, X_l, y_l, X_u, y_u, old_classes, scenario, alpha, k_known,
             occ_kwargs, seed, cal_mode="cv", k_est="silhouette", frag_c=2.0,
-            auto_families=("gauss", "knn", "mst", "dic"), auto_criterion="acc"):
+            auto_families=("gauss", "knn", "mst", "dic"), auto_criterion="auroc"):
     """family: nome da família, uma variante ('svm@3'), 'svm-cv' (gamma do
     SVM escolhido em D_L), 'auto' (família escolhida em D_L pelo critério
     auto_criterion) ou 'auto-auroc' (o mesmo, sempre com o critério AUROC,
@@ -145,9 +145,10 @@ def main():
                     help="candidatas da família 'auto' (escolha por deixa-uma-"
                          "classe-de-fora em D_L); 'svm@g' é o SVM com gamma = "
                          "g x o 'scale' do scikit-learn")
-    ap.add_argument("--auto-criterion", choices=["acc", "auroc"], default="acc",
-                    help="critério do auto/svm-cv: 'acc' (GCD simulado em D_L, "
-                         "ACC All; desempate pelo AUROC) ou 'auroc' (só rejeição)")
+    ap.add_argument("--auto-criterion", choices=["acc", "auroc"], default="auroc",
+                    help="critério do auto/svm-cv: 'auroc' (padrão; esconde uma "
+                         "classe por vez, AUROC da rejeição) ou 'acc' (GCD simulado "
+                         "em D_L, ACC All; pior nos testes: results_v5/)")
     ap.add_argument("--frag-c", type=float, default=2.0,
                     help="sil-size/hdbscan*: tau = frag_c x tamanho esperado de "
                          "um fragmento")
