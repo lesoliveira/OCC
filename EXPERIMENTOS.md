@@ -90,6 +90,17 @@ o dic é ruim: com 3 ou 4 classes conhecidas, o problema simulado sobra com
 média (p = 0,95), mas é o mais robusto: a pior perda em relação ao
 oráculo cai de 0,13 (svm-cv, mst) para 0,04.
 
+## Cenário incremental (C4): `results_c4/`
+
+`run_pbn_c4.sh pendigits letter`: 3 sessões, 5 sementes, α = 0,1,
+`hdbscan-leaf` (ver `run_c4.py`). ACC All média nas sessões: mst 0,783,
+svm-cv 0,779, auto-auroc 0,772, gauss 0,704, rf_msp re-treinado 0,678,
+sskmeans 0,419 (auto-auroc contra rf_msp: +0,094, p = 0,002). O OCC
+descobre melhor (ACC New ~0,61 contra 0,43) e atualiza ~5–10× mais rápido,
+mas cria classes demais (letter: 28–32 para 26; pendigits: 13–15 para 10)
+e perde 3–5 pontos nas classes da sessão 0 ao longo das sessões, contra
+~1 ponto do rf_msp, que guarda e re-treina com todos os dados.
+
 ## Cuidados ao comparar pastas
 
 - Em `results/`, o `kmeans` com K estimado usava o K verdadeiro (erro
