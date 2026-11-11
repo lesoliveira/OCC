@@ -122,6 +122,25 @@ média. Os dois modos erram em direções opostas: o `leaf` parte classes
 novas no letter do C4; o "eom" funde classes novas no mfeat do C2. O
 padrão continua `hdbscan-leaf` nos dois cenários.
 
+## C4 nas 6 bases: `results_c4/`
+
+`bash run_pbn_c4.sh` (3 sessões, 5 sementes, α = 0,1, `hdbscan-leaf`). A
+rodada antiga com só letter e pendigits foi sobrescrita; ela é igual a
+`results_c4_leaf/`.
+
+ACC All média nas sessões: auto-auroc 0,694; svm-cv 0,672; gauss 0,666;
+mst 0,656; rf_msp re-treinado 0,635; sskmeans 0,487. O auto-auroc supera
+todos com significância (Wilcoxon, 30 pares: svm-cv p = 0,014; gauss
+p = 0,001; mst p = 0,014; rf_msp p = 0,013). O OCC ganha em 5 das 6 bases
+(HAR: 0,581 contra 0,356 do rf_msp, que nunca descobre classe nenhuma); o
+rf_msp ganha no CNAE-9 (0,569 contra 0,457). Na última sessão a vantagem
+encolhe para 2 pontos (0,627 contra 0,608). Ponto fraco: interferência das
+classes descobertas nas conhecidas quando há poucas conhecidas e as novas
+são parecidas com elas: no HAR a acurácia nas classes da sessão 0 cai de
+0,87 para 0,60 na sessão 2 (rf_msp: 0,97 estável); no CNAE-9, de 0,93 para
+0,82. Tempo: mst e svm-cv são 5–10× mais rápidos que o rf_msp, mas o gauss
+em alta dimensão (CNAE-9, HAR) é mais lento (1,6–4,8 s por sessão).
+
 ## Cuidados ao comparar pastas
 
 - Em `results/`, o `kmeans` com K estimado usava o K verdadeiro (erro
