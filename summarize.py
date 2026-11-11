@@ -85,20 +85,28 @@ def friedman_block(M, ref=None, title=""):
         d = M[c] - M[ref]
         pv = wilcoxon(d).pvalue if (d != 0).any() else 1.0
         rows.append([c, d.mean(), pv])
-    rows.sort(key=lambda r: r[2])
-    m = len(rows)
-    adj, run = [], 0.0
-    for i, r in enumerate(rows):  # Holm
-        run = max(run, min(1.0, (m - i) * r[2]))
-        adj.append(run)
-    T = pd.DataFrame({"método": [r[0] for r in rows],
-                      f"Δ média vs {ref}": [round(r[1], 3) for r in rows],
-                      "p (Wilcoxon nas bases)": [round(r[2], 4) for r in rows],
-                      "p ajustado (Holm)": [round(a, 4) for a in adj],
-                      "rank médio": [round(ranks[r[0]], 2) for r in rows]})
+    # Holm separado por grupo de hipóteses, definido de antemão:
+    # baselines (a pergunta principal) e variantes de OCC (ablação)
+    BASE = {"kmeans", "sskmeans", "rf_msp", "lr_msp"}
     L.append(f"Rank médio de {ref}: {ranks[ref]:.2f}\n")
-    L.append(md(T, index=False))
-    L.append("")
+    for gname, grp in [("baselines", [r for r in rows if r[0] in BASE]),
+                       ("variantes de OCC (ablação)", [r for r in rows if r[0] not in BASE])]:
+        if not grp:
+            continue
+        grp.sort(key=lambda r: r[2])
+        m = len(grp)
+        adj, run = [], 0.0
+        for i, r in enumerate(grp):  # Holm dentro do grupo
+            run = max(run, min(1.0, (m - i) * r[2]))
+            adj.append(run)
+        T = pd.DataFrame({"método": [r[0] for r in grp],
+                          f"Δ média vs {ref}": [round(r[1], 3) for r in grp],
+                          "p (Wilcoxon nas bases)": [round(r[2], 4) for r in grp],
+                          f"p ajustado (Holm, {m} comparações)": [round(a, 4) for a in adj],
+                          "rank médio": [round(ranks[r[0]], 2) for r in grp]})
+        L.append(f"**{ref} contra {gname}**\n")
+        L.append(md(T, index=False))
+        L.append("")
     return L
 
 
