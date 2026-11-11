@@ -20,7 +20,7 @@ SESSIONS="${SESSIONS:-3}"
 ALPHA="${ALPHA:-0.1}"
 OUT="${OUT:-results_c4}"
 FAMILIES="${FAMILIES:-gauss mst svm-cv auto-auroc rf_msp sskmeans}"
-K_EST="${K_EST:-hdbscan-leaf}"
+K_EST="${K_EST:-hdbscan}"   # no C4, o leaf parte classes novas em dois (results_c4_leaf)
 PY="${PYTHON:-$(command -v python3 || command -v python)}"
 mkdir -p "$OUT"
 "$PY" - <<'PY' > "$OUT/versions.txt"

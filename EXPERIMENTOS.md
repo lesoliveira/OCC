@@ -101,6 +101,17 @@ mas cria classes demais (letter: 28–32 para 26; pendigits: 13–15 para 10)
 e perde 3–5 pontos nas classes da sessão 0 ao longo das sessões, contra
 ~1 ponto do rf_msp, que guarda e re-treina com todos os dados.
 
+## C4: modo do HDBSCAN, `results_c4_leaf/` × `results_c4_eom/`
+
+Diagnóstico dos clusters espúrios (que não casam com nenhuma classe):
+quase todos vêm de classes novas partidas em dois, não de fragmentos de
+classes antigas. Com o modo padrão do HDBSCAN (`hdbscan`, "eom") em vez do
+`leaf`, no letter os espúrios por semente caem de 3,6 para 1,0 (mst) e de
+6,2 para 2,2 (svm-cv); a ACC All média sobe de 0,685 para 0,708 (mst) e de
+0,684 para 0,717 (svm-cv), e a ACC New de ~0,36 para ~0,44. No pendigits os
+dois modos dão a mesma partição. O esquecimento não muda (OCC 3,6–4,9
+pontos, rf_msp 0,5). O C4 passa a usar `hdbscan` por padrão.
+
 ## Cuidados ao comparar pastas
 
 - Em `results/`, o `kmeans` com K estimado usava o K verdadeiro (erro
