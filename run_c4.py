@@ -49,6 +49,12 @@ Métricas por sessão (CSV, uma linha por método × semente × sessão):
   já descoberta antes ou uma classe que estreia na sessão; spur_size_mean
   é o tamanho médio deles.
 
+Prioridade (--priority, desligada por padrão): entre as classes que aceitam
+uma amostra (p >= alpha), vence a mais antiga (sessão 0, depois a ordem de
+incorporação); dentro da mesma idade, a de maior p-valor. Assim uma classe
+descoberta só recebe o que as mais antigas rejeitam, e não "rouba" amostras
+de classes conhecidas parecidas com ela.
+
 Incorporação (--inc-min): por padrão, só vira classe um cluster com pelo
 menos tau amostras, o tamanho esperado de um fragmento de classe antiga
 (o mesmo limiar usado pelo HDBSCAN); com 'fixed', basta 5 amostras. O
@@ -135,8 +141,8 @@ def scaler_s0(X_l):
 # ------------------------------------------------------------------ métodos
 class OCCStream:
     def __init__(self, family, alpha, k_est, seed, auto_families, criterion, inc_min="tau",
-                 merge=True):
-        self.inc_min, self.merge = inc_min, merge
+                 merge=True, priority=False):
+        self.inc_min, self.merge, self.priority = inc_min, merge, priority
         self.family, self.alpha, self.k_est, self.seed = family, alpha, k_est, seed
         self.auto_families, self.criterion = auto_families, criterion
         self.chosen = None
@@ -151,7 +157,8 @@ class OCCStream:
             self.chosen = fam
         base, kws = parse_spec(fam)
         self.m = OCCDiscovery(base, kws, alpha=self.alpha, random_state=self.seed,
-                              cal_mode="nested", k_est=self.k_est).fit(X_l, y_l)
+                              cal_mode="nested", k_est=self.k_est,
+                              priority=self.priority).fit(X_l, y_l)
         return self
 
     def session(self, X_u, fresh):
@@ -256,7 +263,8 @@ def run(args):
             else:
                 st = OCCStream(fam, args.alpha, args.k_est, seed,
                                args.auto_families, args.auto_criterion, args.inc_min,
-                               0 if args.no_merge else args.merge_ratio)
+                               0 if args.no_merge else args.merge_ratio,
+                               args.priority)
             t0 = time.perf_counter()
             st.start(X_l, y_l)
             t_start = time.perf_counter() - t0
@@ -347,6 +355,9 @@ def main():
                          "distância entre os centros for <= ratio x o raio típico "
                          "dessa classe (padrão 0 = desligado; no digits não "
                          "ajudou)")
+    ap.add_argument("--priority", action="store_true",
+                    help="OCC: prioridade às classes mais antigas (entre as que "
+                         "aceitam a amostra, vence a mais antiga)")
     ap.add_argument("--no-preproc", action="store_true")
     ap.add_argument("--out", default=None)
     run(ap.parse_args())

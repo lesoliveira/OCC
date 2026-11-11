@@ -52,6 +52,7 @@ class ClassWiseOCC:
         X = np.asarray(X, float)
         y = np.asarray(y)
         self.occs_, self.cal_ = {}, {}
+        self.tier_ = {}  # "idade" da classe: 0 = D_L; t = incorporada no lote t
         self.dic_ = None
         if self.family == "dic":
             # no modo 'split', o dichotomizer usa só a parte de treino; no
@@ -147,6 +148,7 @@ class ClassWiseOCC:
                           "com alpha <= 1/(n+1) nenhuma amostra é rejeitada")
         self.occs_[label] = occ
         self.cal_[label] = np.sort(cal)
+        self.tier_.setdefault(label, self.next_tier_ if hasattr(self, "next_tier_") else 0)
         return self
 
     @property
@@ -168,17 +170,31 @@ class ClassWiseOCC:
             P[:, j] = (1 + np.searchsorted(cal, S[:, j], side="right")) / (len(cal) + 1)
         return P
 
-    def predict(self, X, alpha=0.05, calibrated=True):
+    def predict(self, X, alpha=0.05, calibrated=True, priority=False):
         """Rótulos previstos; -1 = rejeitado (candidato a classe nova).
 
         calibrated=False usa o escore bruto (ablação A3): aceita pela
         classe de maior escore bruto e rejeita se esse escore estiver
         abaixo do quantil alpha da calibração daquela classe.
+
+        priority=True (cenário C4): entre as classes que aceitam a amostra
+        (p >= alpha), vence a mais antiga (menor tier_); dentro da mesma
+        idade, a de maior p-valor. Uma classe descoberta só recebe o que as
+        classes mais antigas rejeitam, como quando foi descoberta.
         """
         if calibrated:
             P = self.pvalues(X)
-            best = P.argmax(axis=1)
-            accept = P[np.arange(len(P)), best] >= alpha
+            if priority:
+                tiers = np.array([self.tier_.get(c, 0) for c in self.classes_], float)
+                ok = P >= alpha
+                # chave: idade primeiro (menor é melhor), p-valor depois
+                key = np.where(ok, -tiers[None, :] * 10.0 + P, -np.inf)
+                best = key.argmax(axis=1)
+                accept = ok.any(axis=1)
+                best = np.where(accept, best, P.argmax(axis=1))
+            else:
+                best = P.argmax(axis=1)
+                accept = P[np.arange(len(P)), best] >= alpha
         else:
             S = self.raw_scores(X)
             best = S.argmax(axis=1)

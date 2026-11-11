@@ -20,7 +20,8 @@ class OCCDiscovery:
     def __init__(self, family="gauss", occ_kwargs=None, alpha=0.05,
                  cal_size=0.2, k_max_factor=2, min_new_size=5,
                  dic_kwargs=None, random_state=0, cal_mode="cv",
-                 assign="kmeans", k_est="silhouette", frag_c=2.0):
+                 assign="kmeans", k_est="silhouette", frag_c=2.0, priority=False):
+        self.priority = priority
         self.k_est = k_est
         self.frag_c = frag_c
         self.cal_mode = cal_mode
@@ -89,7 +90,7 @@ class OCCDiscovery:
         """
         X_u = np.asarray(X_u, float)
         self.last_tau_ = None
-        y = self.model_.predict(X_u, self.alpha, calibrated)
+        y = self.model_.predict(X_u, self.alpha, calibrated, priority=self.priority)
         rej = y == -1
         info = {"n_rejected": int(rej.sum()), "k_new": 0}
         corr = (k_new is None and self.assign == "kmeans"
@@ -131,6 +132,7 @@ class OCCDiscovery:
         """
         X, y = np.asarray(X, float), np.asarray(y)
         thr = self.min_new_size if min_size is None else max(self.min_new_size, min_size)
+        self.model_.next_tier_ = getattr(self.model_, "next_tier_", 0) + 1
         known = set(self.model_.classes_.tolist())
         added = []
         for c in np.unique(y):
