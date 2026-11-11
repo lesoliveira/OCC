@@ -44,17 +44,23 @@ def load(path):
 
 def run_one(family, X_l, y_l, X_u, y_u, old_classes, scenario, alpha, k_known,
             occ_kwargs, seed, cal_mode="cv", k_est="silhouette", frag_c=2.0,
-            auto_families=("gauss", "knn", "mst", "dic")):
+            auto_families=("gauss", "knn", "mst", "dic"), auto_criterion="acc"):
     """family: nome da família, uma variante ('svm@3'), 'svm-cv' (gamma do
-    SVM escolhido por deixa-uma-classe-de-fora em D_L) ou 'auto'."""
+    SVM escolhido em D_L), 'auto' (família escolhida em D_L pelo critério
+    auto_criterion) ou 'auto-auroc' (o mesmo, sempre com o critério AUROC,
+    para comparar os dois critérios na mesma rodada)."""
     t0 = time.perf_counter()
     novelty = None
     family, _, assign = family.partition("+")
     assign = assign or "kmeans"
     extra = {}
-    if family in ("auto", "svm-cv"):  # escolha só com D_L (occ/select.py)
-        cands = auto_families if family == "auto" else [f"svm@{g:g}" for g in SVM_GRID]
-        spec, sc = select_family(X_l, y_l, cands, occ_kwargs, seed)
+    if family in ("auto", "auto-auroc", "svm-cv"):  # escolha só com D_L (occ/select.py)
+        cands = [f"svm@{g:g}" for g in SVM_GRID] if family == "svm-cv" else auto_families
+        crit = "auroc" if family == "auto-auroc" else auto_criterion
+        spec, sc = select_family(X_l, y_l, cands, occ_kwargs, seed,
+                                 criterion=crit, alpha=alpha,
+                                 k_est=k_est if k_est in ("sil-size", "hdbscan", "hdbscan-leaf")
+                                 else "hdbscan-leaf", frag_c=frag_c)
         extra = {"chosen": spec, "t_select_s": time.perf_counter() - t0}
         extra.update({f"loco_{f}": v for f, v in sc.items()})
         family = spec
@@ -139,6 +145,9 @@ def main():
                     help="candidatas da família 'auto' (escolha por deixa-uma-"
                          "classe-de-fora em D_L); 'svm@g' é o SVM com gamma = "
                          "g x o 'scale' do scikit-learn")
+    ap.add_argument("--auto-criterion", choices=["acc", "auroc"], default="acc",
+                    help="critério do auto/svm-cv: 'acc' (GCD simulado em D_L, "
+                         "ACC All; desempate pelo AUROC) ou 'auroc' (só rejeição)")
     ap.add_argument("--frag-c", type=float, default=2.0,
                     help="sil-size/hdbscan*: tau = frag_c x tamanho esperado de "
                          "um fragmento")
@@ -214,7 +223,7 @@ def main():
         for fam in args.families:
             r = run_one(fam, X_l, y_l, X_u, y_u, old, args.scenario, args.alpha,
                         k_new, occ_kwargs, seed, args.cal_mode, args.k_est,
-                        args.frag_c, tuple(args.auto_families))
+                        args.frag_c, tuple(args.auto_families), args.auto_criterion)
             r.update({"family": fam, "seed": seed, "k_mode": k_mode})
             rows.append(r)
             show = (f"acc={r['acc']:.3f}" if args.scenario == "c1" else

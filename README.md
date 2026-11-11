@@ -124,6 +124,14 @@ antigas × "nova". Candidatas em `--auto-families` (padrão gauss knn mst
 dic e o SVM com γ ∈ {0,1; 0,3; 1; 3; 10} × o padrão, escritos `svm@g`).
 O CSV guarda a família escolhida (`chosen`) e os AUROCs (`loco_*`).
 
+**Critério do `auto` (`--auto-criterion`, padrão `acc`)**: `acc` simula
+o GCD inteiro em D_L — esconde 2 classes conhecidas (1 se houver menos de
+4), roda rejeição + HDBSCAN e mede a ACC All; empates (< 0,005) vão para o
+AUROC simulado. `auroc` é o critério original (só a rejeição, uma classe
+escondida por vez). A família `auto-auroc` roda o `auto` sempre com
+`auroc`, para comparar os dois critérios na mesma rodada. O mesmo critério
+vale para o `svm-cv`.
+
 **SVM com γ ajustado (`svm-cv`)**: o One-class SVM não tem como ajustar
 γ por validação cruzada comum, porque não há negativos. O `svm-cv` usa o
 mesmo protocolo do `auto` (esconder uma classe conhecida e tratá-la como

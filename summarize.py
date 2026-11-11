@@ -92,12 +92,12 @@ def main():
             lines.append(f"## K_new usado — {title}\n")
             lines.append(md(g))
             lines.append("")
-        for fam_sel in ("svm-cv",):
+        for fam_sel in ("svm-cv", "auto-auroc"):
             if "chosen" in dk and (dk.family == fam_sel).any():
                 a = dk[dk.family == fam_sel]
                 ch = a.groupby("base")["chosen"].agg(
                     lambda v: ", ".join(f"{f}×{n}" for f, n in v.value_counts().items()))
-                lines.append(f"## gamma escolhido pelo {fam_sel} — {title}\n")
+                lines.append(f"## Escolha do {fam_sel} — {title}\n")
                 lines.append(md(ch.to_frame("escolhas nas sementes")))
                 lines.append("")
         if "chosen" in dk and (dk.family == "auto").any():
