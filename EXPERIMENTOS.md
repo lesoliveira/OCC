@@ -234,3 +234,13 @@ Bases: vowel, krvsk, census, helena, volkert. Famílias: gauss, knn, mst, rf_msp
 
 Conclusão: representações baratas não destravam essas bases, o que concorda
 com o diagnóstico do teto supervisionado (limite dos dados).
+
+### Vowel sem as colunas de contexto (`results_repr/vowel_sem_contexto.csv`)
+
+Teste de confirmação, NÃO é o resultado oficial (o pré-processamento das bases
+do OpenML foi fixado de antemão). O vowel tem 19 colunas one-hot de contexto:
+treino/teste (2), locutor (15) e sexo (2). Sem elas, C2, 5 sementes, α = 0,1:
+auto 0,366 -> 0,481 (AUROC 0,945 -> 0,964), rf_msp 0,456 -> 0,449,
+sskmeans 0,163 -> 0,312, kmeans 0,081 -> 0,178. O auto passa o rf_msp.
+Confirma que os grupos naturais do espaço original eram de contexto (locutor),
+não de vogal. A ACC continua moderada: o K estimado fica em 4,8 de 6.
