@@ -13,10 +13,11 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
+DATA="${DATA:-data}"   # pasta das bases (data_img para as de imagem)
 BASES=("$@")
 if [ ${#BASES[@]} -eq 0 ]; then
   BASES=()
-  for d in data/*/; do [ -f "$d/split.json" ] && BASES+=("$(basename "$d")"); done
+  for d in "$DATA"/*/; do [ -f "$d/split.json" ] && BASES+=("$(basename "$d")"); done
 fi
 SEEDS="${SEEDS:-0 1 2 3 4}"
 ALPHAS="${ALPHAS:-0.05 0.1 0.2}"
@@ -37,18 +38,18 @@ for m in (numpy, scipy, sklearn, pandas):
 PY
 
 for b in "${BASES[@]}"; do
-  [ -f "data/$b/split.json" ] || { echo "ERRO: base '$b' não encontrada em data/"; exit 1; }
+  [ -f "$DATA/$b/split.json" ] || { echo "ERRO: base '$b' não encontrada em $DATA/"; exit 1; }
 done
 
 for a in $ALPHAS; do
   R="$OUT/a$a"; mkdir -p "$R"
   for b in "${BASES[@]}"; do
     echo "=== alpha=$a $b: K estimado"
-    "$PY" -W ignore run_gcd.py --data "data/$b" --seeds $SEEDS --alpha "$a" \
+    "$PY" -W ignore run_gcd.py --data "$DATA/$b" --seeds $SEEDS --alpha "$a" \
         --cal-mode nested --k-est "$K_EST" ${FAM_ARG[@]+"${FAM_ARG[@]}"} --out "$R/${b}_c2_kest.csv"
     [ "$KKNOWN" = 0 ] && continue
     echo "=== alpha=$a $b: K conhecido"
-    "$PY" -W ignore run_gcd.py --data "data/$b" --seeds $SEEDS --alpha "$a" \
+    "$PY" -W ignore run_gcd.py --data "$DATA/$b" --seeds $SEEDS --alpha "$a" \
         --cal-mode nested --k-known ${FAM_ARG[@]+"${FAM_ARG[@]}"} --out "$R/${b}_c2_kknown.csv"
   done
   "$PY" summarize.py "$R"

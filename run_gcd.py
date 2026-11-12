@@ -29,7 +29,8 @@ from sklearn.preprocessing import StandardScaler
 
 from occ import (BASELINE_NAMES, FAMILY_NAMES, SSK_NAMES, ClosedMSP, OCCDiscovery,
                  SSKMeans, cluster_acc, estimate_k, estimate_k_labeled, gcd_acc,
-                 rejection_metrics, select_family, parse_spec, SVM_GRID)
+                 rejection_metrics, select_family, select_per_class, parse_spec,
+                 SVM_GRID)
 from splits import gcd_split, ncd_split
 
 
@@ -47,14 +48,27 @@ def run_one(family, X_l, y_l, X_u, y_u, old_classes, scenario, alpha, k_known,
             auto_families=("gauss", "knn", "mst", "dic"), auto_criterion="auroc"):
     """family: nome da família, uma variante ('svm@3'), 'svm-cv' (gamma do
     SVM escolhido em D_L), 'auto' (família escolhida em D_L pelo critério
-    auto_criterion) ou 'auto-auroc' (o mesmo, sempre com o critério AUROC,
-    para comparar os dois critérios na mesma rodada)."""
+    auto_criterion), 'auto-auroc' (o mesmo, sempre com o critério AUROC,
+    para comparar os dois critérios na mesma rodada) ou 'auto-pc' (seleção
+    por classe: cada classe conhecida com a sua própria família)."""
     t0 = time.perf_counter()
     novelty = None
     family, _, assign = family.partition("+")
     assign = assign or "kmeans"
     extra = {}
-    if family in ("auto", "auto-auroc", "svm-cv"):  # escolha só com D_L (occ/select.py)
+    family_map = None
+    if family == "auto-pc":  # seleção por classe (occ/select.py: select_per_class)
+        spec, chosen, sc = select_per_class(X_l, y_l, auto_families, occ_kwargs, seed)
+        family_map = {}
+        for k, f in chosen.items():
+            fam_k, kws_k = parse_spec(f)
+            family_map[k] = (fam_k, kws_k if kws_k is not None else occ_kwargs.get(fam_k))
+        extra = {"chosen": spec, "t_select_s": time.perf_counter() - t0,
+                 "chosen_pc": ";".join(f"{k}:{f}" for k, f in chosen.items()),
+                 "n_switched": sum(f != spec for f in chosen.values())}
+        extra.update({f"loco_{f}": v for f, v in sc.items()})
+        family = spec
+    elif family in ("auto", "auto-auroc", "svm-cv"):  # escolha só com D_L (occ/select.py)
         cands = [f"svm@{g:g}" for g in SVM_GRID] if family == "svm-cv" else auto_families
         crit = "auroc" if family == "auto-auroc" else auto_criterion
         spec, sc = select_family(X_l, y_l, cands, occ_kwargs, seed,
@@ -85,7 +99,8 @@ def run_one(family, X_l, y_l, X_u, y_u, old_classes, scenario, alpha, k_known,
     else:
         m = OCCDiscovery(family, occ_kwargs.get(family), alpha=alpha,
                          random_state=seed, cal_mode=cal_mode,
-                         assign=assign, k_est=k_est, frag_c=frag_c).fit(X_l, y_l)
+                         assign=assign, k_est=k_est, frag_c=frag_c,
+                         family_map=family_map).fit(X_l, y_l)
         t_fit = time.perf_counter() - t0
         y_hat, res = m.discover(X_u, k_new=k_known, return_info=True)
         novelty = m.novelty_score(X_u)

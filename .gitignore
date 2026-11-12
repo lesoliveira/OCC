@@ -3,3 +3,5 @@ data/*/*.npy
 __pycache__/
 *.pyc
 .DS_Store
+data_img/*/*.npy
+raw_img/

@@ -35,10 +35,16 @@ class ClassWiseOCC:
                 {'base': 'mst'} para modes)
     cal_mode: 'cv' (padrão), 'split' ou 'nested' (ver add_class)
     cal_size: fração reservada para calibração quando cal_mode='split'
+    family_map: {classe: (família, kwargs)} para dar a cada classe a sua
+                própria família (seleção por classe, occ/select.py). Classes
+                fora do mapa usam family/occ_kwargs. Os p-valores conformes
+                deixam OCCs de famílias diferentes na mesma escala.
     """
 
     def __init__(self, family="gauss", occ_kwargs=None, cal_size=0.2,
-                 dic_kwargs=None, random_state=0, cal_mode="cv", n_folds=5):
+                 dic_kwargs=None, random_state=0, cal_mode="cv", n_folds=5,
+                 family_map=None):
+        self.family_map = family_map or {}
         self.family = family
         self.occ_kwargs = occ_kwargs or {}
         self.cal_size = cal_size
@@ -54,7 +60,7 @@ class ClassWiseOCC:
         self.occs_, self.cal_ = {}, {}
         self.tier_ = {}  # "idade" da classe: 0 = D_L; t = incorporada no lote t
         self.dic_ = None
-        if self.family == "dic":
+        if self.family == "dic" or any(f == "dic" for f, _ in self.family_map.values()):
             # no modo 'split', o dichotomizer usa só a parte de treino; no
             # modo 'cv', usa todo D_L (as referências de cada fold excluem
             # a amostra calibrada, mas o classificador de pares já a viu:
@@ -67,7 +73,7 @@ class ClassWiseOCC:
                 Xtr, ytr = X, y
             self.dic_ = Dichotomizer(random_state=self.random_state,
                                      **self.dic_kwargs).fit(Xtr, ytr)
-            if self.cal_mode == "nested":
+            if self.cal_mode == "nested" and not self.family_map:
                 return self._fit_dic_nested(X, y)
         for c in np.unique(y):
             self.add_class(c, X[y == c])
@@ -123,25 +129,27 @@ class ClassWiseOCC:
         """
         Xc = np.asarray(Xc, float)
         n = len(Xc)
+        family, kwargs = self.family_map.get(label, (self.family, self.occ_kwargs))
+        kwargs = kwargs or {}
         if self.cal_mode in ("cv", "nested") and n >= 2 * self.n_folds:
             rng = np.random.default_rng(self.random_state)
             fold = rng.permutation(n) % self.n_folds
             cal = np.empty(n)
             for f in range(self.n_folds):
-                occ_f = build_occ(self.family, ("__cv__", label, f), self.dic_,
-                                  **self.occ_kwargs).fit(Xc[fold != f])
+                occ_f = build_occ(family, ("__cv__", label, f), self.dic_,
+                                  **kwargs).fit(Xc[fold != f])
                 cal[fold == f] = occ_f.score(Xc[fold == f])
             if self.dic_ is not None:  # limpa referências temporárias
                 for f in range(self.n_folds):
                     self.dic_.refs_.pop(("__cv__", label, f), None)
-            occ = build_occ(self.family, label, self.dic_, **self.occ_kwargs).fit(Xc)
+            occ = build_occ(family, label, self.dic_, **kwargs).fit(Xc)
         else:
             if n >= 10:
                 Xtr, Xcal = train_test_split(Xc, test_size=self.cal_size,
                                              random_state=self.random_state)
             else:  # classe muito pequena: calibra no próprio treino (otimista)
                 Xtr = Xcal = Xc
-            occ = build_occ(self.family, label, self.dic_, **self.occ_kwargs).fit(Xtr)
+            occ = build_occ(family, label, self.dic_, **kwargs).fit(Xtr)
             cal = occ.score(Xcal)
         if 1.0 / (len(cal) + 1) >= 0.05:
             warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "

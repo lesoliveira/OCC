@@ -243,3 +243,25 @@ O classificador fechado com MSP é o baseline a bater: em pixels brutos,
 ele supera todos os OCCs. O digits serve como teste de fumaça; o teste
 real é com atributos DINO e as bases do PBN. A silhueta tende a
 subestimar K_new nessa base (escolhe 2 em vez de 5).
+
+## Estudo com imagens (DINO congelado)
+
+```bash
+pip install torch torchvision
+python prepare_image_features.py --only cifar10 --max-samples 5000   # teste rápido
+python prepare_image_features.py --only cifar10 cifar100             # completo
+python prepare_image_features.py --only cub --ssb-split cub_osr_splits.pkl
+bash run_images.sh cifar10        # C2 em results_img/, C4 em results_img_c4/
+```
+
+`prepare_image_features.py` extrai uma vez o vetor CLS do DINO ViT-B/16 e grava
+em `data_img/<base>/` no formato das bases tabulares, com a divisão de classes
+de Vaze et al. (a mesma do SimGCD). Depois disso tudo roda em CPU. Para o CUB,
+a divisão SSB vem do repositório do SimGCD (`data/ssb_splits/cub_osr_splits.pkl`).
+Os scripts `run_pbn_gcd.sh` e `run_pbn_c4.sh` aceitam `DATA=data_img`.
+
+## Seleção por classe (`auto-pc`)
+
+`--families auto-pc` no `run_gcd.py`: cada classe conhecida fica com a família
+cujo OCC melhor separa a própria classe das classes escondidas (mesma simulação
+do `auto`, `occ/select.py: select_per_class`). Resultados em `results_pc/`.

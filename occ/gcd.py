@@ -20,7 +20,9 @@ class OCCDiscovery:
     def __init__(self, family="gauss", occ_kwargs=None, alpha=0.05,
                  cal_size=0.2, k_max_factor=2, min_new_size=5,
                  dic_kwargs=None, random_state=0, cal_mode="cv",
-                 assign="kmeans", k_est="silhouette", frag_c=2.0, priority=False):
+                 assign="kmeans", k_est="silhouette", frag_c=2.0, priority=False,
+                 family_map=None):
+        self.family_map = family_map
         self.priority = priority
         self.k_est = k_est
         self.frag_c = frag_c
@@ -38,7 +40,8 @@ class OCCDiscovery:
     def fit(self, X_l, y_l):
         self.model_ = ClassWiseOCC(self.family, self.occ_kwargs, self.cal_size,
                                    self.dic_kwargs, self.random_state,
-                                   cal_mode=self.cal_mode).fit(X_l, y_l)
+                                   cal_mode=self.cal_mode,
+                                   family_map=self.family_map).fit(X_l, y_l)
         self.n_old_ = len(self.model_.classes_)
         self.X_l_, self.y_l_ = np.asarray(X_l, float), np.asarray(y_l)
         # médias por classe (usadas na reatribuição do ruído); atualizadas

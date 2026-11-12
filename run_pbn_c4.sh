@@ -9,12 +9,13 @@
 #   EXTRA="--no-priority" OUT=results_c4_noprio bash run_pbn_c4.sh
 set -euo pipefail
 cd "$(dirname "$0")"
+DATA="${DATA:-data}"   # pasta das bases (data_img para as de imagem)
 BASES=("$@")
 if [ ${#BASES[@]} -eq 0 ]; then
-  for d in data/*/; do [ -f "$d/split.json" ] && BASES+=("$(basename "$d")"); done
+  for d in "$DATA"/*/; do [ -f "$d/split.json" ] && BASES+=("$(basename "$d")"); done
 fi
 for b in "${BASES[@]}"; do
-  [ -f "data/$b/split.json" ] || { echo "ERRO: base '$b' não encontrada em data/"; exit 1; }
+  [ -f "$DATA/$b/split.json" ] || { echo "ERRO: base '$b' não encontrada em $DATA/"; exit 1; }
 done
 SEEDS="${SEEDS:-0 1 2 3 4}"
 SESSIONS="${SESSIONS:-3}"
@@ -32,7 +33,7 @@ for m in (numpy, scipy, sklearn, pandas):
 PY
 for b in "${BASES[@]}"; do
   echo "=== C4 $b"
-  "$PY" -W ignore run_c4.py --data "data/$b" --seeds $SEEDS --sessions "$SESSIONS" \
+  "$PY" -W ignore run_c4.py --data "$DATA/$b" --seeds $SEEDS --sessions "$SESSIONS" \
       --alpha "$ALPHA" --k-est "$K_EST" --families $FAMILIES ${EXTRA:-} --out "$OUT/${b}_c4.csv"
 done
 "$PY" summarize_c4.py "$OUT"

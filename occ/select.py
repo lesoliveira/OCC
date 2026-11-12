@@ -36,7 +36,13 @@ def parse_spec(spec):
 
 
 def loco_auroc(family, X_l, y_l, occ_kwargs=None, n_hold=5, train_frac=0.7,
-               random_state=0):
+               random_state=0, per_class=False):
+    """AUROC médio da rejeição com uma classe escondida por vez.
+
+    per_class=True devolve também {classe k: AUROC médio do OCC de k}: em
+    cada rodada, o p-valor do OCC de k deve ser alto no teste da própria
+    classe k e baixo na classe escondida. É o critério da seleção por classe.
+    """
     X_l, y_l = np.asarray(X_l, float), np.asarray(y_l)
     rng = np.random.default_rng(random_state)
     classes = np.unique(y_l)
@@ -44,6 +50,7 @@ def loco_auroc(family, X_l, y_l, occ_kwargs=None, n_hold=5, train_frac=0.7,
         return np.nan
     hold = rng.permutation(classes)[:min(n_hold, len(classes))]
     aucs = []
+    pc = {k: [] for k in classes}
     for c in hold:
         rest = y_l != c
         tr = np.zeros(len(y_l), bool)
@@ -57,8 +64,18 @@ def loco_auroc(family, X_l, y_l, occ_kwargs=None, n_hold=5, train_frac=0.7,
                          cal_mode="cv").fit(X_l[tr], y_l[tr])
         Xt = np.vstack([X_l[y_l == c], X_l[te]])
         lab = np.r_[np.ones((y_l == c).sum()), np.zeros(te.sum())]
-        aucs.append(roc_auc_score(lab, m.novelty_score(Xt)))
-    return float(np.mean(aucs)) if aucs else np.nan
+        P = m.pvalues(Xt)
+        aucs.append(roc_auc_score(lab, 1.0 - P.max(axis=1)))
+        if per_class:
+            yt = np.r_[np.full((y_l == c).sum(), c), y_l[te]]
+            for j, k in enumerate(m.classes_):
+                sel = (lab == 1) | (yt == k)
+                if (yt == k).sum() >= 2:
+                    pc[k].append(roc_auc_score(lab[sel], 1.0 - P[sel, j]))
+    g = float(np.mean(aucs)) if aucs else np.nan
+    if per_class:
+        return g, {k: float(np.mean(v)) for k, v in pc.items() if v}
+    return g
 
 
 def _splits(y_l, n_rep, n_hidden, train_frac, rng):
@@ -139,3 +156,32 @@ def select_family(X_l, y_l, families=("gauss", "knn", "mst", "dic"),
         best = max(tied, key=lambda f: (auc.get(f, -1) if auc.get(f) == auc.get(f) else -1, valid[f]))
     scores = {**{f"auc_{f}": v for f, v in auc.items()}, **{f"acc_{f}": v for f, v in acc.items()}}
     return best, scores
+
+
+def select_per_class(X_l, y_l, families=("gauss", "knn", "mst", "dic"),
+                     occ_kwargs=None, random_state=0, margin=0.0):
+    """Seleção por classe: cada classe conhecida fica com a família cujo OCC
+    melhor separa a própria classe das classes escondidas (loco_auroc com
+    per_class=True). Devolve (família global, {classe: família}, escores).
+
+    A família global é a do 'auto' (maior AUROC médio da rejeição). Uma
+    classe só troca de família se o ganho no seu AUROC passar de `margin`;
+    classes sem escore ficam com a global.
+    """
+    occ_kwargs = occ_kwargs or {}
+    glob, per = {}, {}
+    for f in families:
+        fam, kws = parse_spec(f)
+        kk = kws if kws is not None else occ_kwargs.get(fam)
+        glob[f], per[f] = loco_auroc(fam, X_l, y_l, kk, random_state=random_state,
+                                     per_class=True)
+    valid = {f: v for f, v in glob.items() if v == v}
+    best = max(valid, key=valid.get) if valid else families[0]
+    chosen = {}
+    for k in np.unique(y_l):
+        sc = {f: per[f][k] for f in families if k in per[f]}
+        top = max(sc, key=sc.get) if sc else best
+        if sc and best in sc and sc[top] - sc[best] <= margin:
+            top = best
+        chosen[k] = top
+    return best, chosen, {f"auc_{f}": v for f, v in glob.items()}
