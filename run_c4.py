@@ -254,6 +254,13 @@ def run(args):
         else:
             mu, sd = scaler_s0(X[idx_l])
             Xs = (X - mu) / sd
+        if args.pca:
+            # PCA ajustada só em S0 (rotulado): nas sessões seguintes nada é
+            # reajustado, como o resto do modelo incremental
+            from sklearn.decomposition import PCA
+            pca = PCA(min(args.pca, Xs.shape[1], len(idx_l) - 1),
+                      random_state=seed).fit(Xs[idx_l])
+            Xs = pca.transform(Xs)
         X_l, y_l = Xs[idx_l], y[idx_l]
         for fam in args.families:
             if fam == "rf_msp":
@@ -359,6 +366,9 @@ def main():
                     help="OCC: desliga a prioridade às classes mais antigas (entre "
                          "as que aceitam a amostra, passa a vencer a de maior "
                          "p-valor; results_c4/)")
+    ap.add_argument("--pca", type=int, default=0,
+                    help="reduz para N dimensões com PCA ajustada só em S0 (0 = não "
+                         "reduz); usado nas características de imagem")
     ap.add_argument("--no-preproc", action="store_true")
     ap.add_argument("--out", default=None)
     run(ap.parse_args())

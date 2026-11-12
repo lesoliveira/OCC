@@ -12,7 +12,7 @@
 #
 # REPR (padrão pca64): redução de dimensão sem rótulos, só no C2. Com 768
 # dimensões e poucas amostras por classe os OCCs rejeitam mal (results_img_diag/).
-# O C4 ainda roda nas 768 dimensões (a PCA teria de ser ajustada só em S0).
+# No C4 a PCA (mesmo N) é ajustada só na sessão inicial S0 (run_c4.py --pca).
 set -euo pipefail
 cd "$(dirname "$0")"
 export DATA="${DATA:-data_img}"
@@ -24,5 +24,7 @@ REPR="${REPR:-pca64}"
 ALPHAS="0.1" EXTRA="--repr $REPR" K_EST=hdbscan-leaf KKNOWN="${KKNOWN:-1}" OUT="${OUT_C2:-results_img}" \
   FAMILIES="$FAM_C2" bash run_pbn_gcd.sh "$@"
 [ "${SO_C2:-0}" = 1 ] && exit 0
-ALPHA=0.1 K_EST=hdbscan-leaf OUT="${OUT_C4:-results_img_c4}" \
+C4_EXTRA=""
+case "$REPR" in pca[0-9]*) C4_EXTRA="--pca ${REPR#pca}";; esac
+ALPHA=0.1 EXTRA="$C4_EXTRA" K_EST=hdbscan-leaf OUT="${OUT_C4:-results_img_c4}" \
   FAMILIES="$FAM_C4" bash run_pbn_c4.sh "$@"
