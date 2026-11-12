@@ -260,3 +260,24 @@ casos: optdigits (+0,036) e pendigits (+0,021). Pior: isolet (-0,044).
 
 Conclusão: a seleção por classe não melhora sobre o auto; a seleção por
 amostra (dinâmica) fica como trabalho futuro. O auto continua o padrão.
+
+## results_img_diag — CIFAR-10 com DINO, subamostra de 5 mil, 1 semente (diagnóstico)
+
+Primeiro teste (768 dimensões, L2): auto/gauss 0,617 de ACC All, AUROC 0,842,
+só 49% das novas rejeitadas; k-means 0,685 (K estimado) e 0,845 (K conhecido,
+igual ao publicado por Vaze et al., 0,836). Causa: 250 amostras rotuladas por
+classe em 768 dimensões. Com PCA sem rótulos em D_L ∪ D_U (`--repr pcaN`):
+
+| dim | gauss ACC | gauss AUROC | knn ACC | AUROC simulado (gauss) |
+|---|---|---|---|---|
+| 768 | 0,617 | 0,842 | 0,601 | 0,934 |
+| 8   | 0,730 | 0,908 | 0,747 | 0,942 |
+| 16  | 0,789 | 0,941 | 0,785 | 0,962 |
+| 32  | 0,773 | 0,957 | 0,755 | 0,971 |
+| 64  | 0,754 | 0,945 | 0,750 | 0,976 |
+| 128 | 0,729 | 0,927 | 0,710 | 0,974 |
+
+PCA branqueada (pcaw64) piora (gauss 0,555). O AUROC simulado em D_L (classes
+escondidas) põe as 768 dimensões em último e escolheria 64: dá para escolher a
+dimensão sem olhar D_U. Com K conhecido e pca32: knn 0,815, k-means 0,847.
+Uma semente e subamostra: confirmar na base completa.

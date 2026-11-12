@@ -8,6 +8,11 @@
 #   bash run_images.sh cifar10         # só algumas
 #   SEEDS="0" bash run_images.sh cifar10        # teste rápido, uma semente
 #   SO_C2=1 bash run_images.sh cifar10          # pula o C4
+#   REPR=raw bash run_images.sh cifar10         # sem PCA (768 dimensões)
+#
+# REPR (padrão pca64): redução de dimensão sem rótulos, só no C2. Com 768
+# dimensões e poucas amostras por classe os OCCs rejeitam mal (results_img_diag/).
+# O C4 ainda roda nas 768 dimensões (a PCA teria de ser ajustada só em S0).
 set -euo pipefail
 cd "$(dirname "$0")"
 export DATA="${DATA:-data_img}"
@@ -15,7 +20,8 @@ export SEEDS="${SEEDS:-0 1 2}"
 FAM_C2="${FAM_C2:-auto mst gauss rf_msp lr_msp sskmeans kmeans}"
 FAM_C4="${FAM_C4:-auto-auroc mst gauss rf_msp sskmeans}"
 
-ALPHAS="0.1" K_EST=hdbscan-leaf KKNOWN="${KKNOWN:-1}" OUT="${OUT_C2:-results_img}" \
+REPR="${REPR:-pca64}"
+ALPHAS="0.1" EXTRA="--repr $REPR" K_EST=hdbscan-leaf KKNOWN="${KKNOWN:-1}" OUT="${OUT_C2:-results_img}" \
   FAMILIES="$FAM_C2" bash run_pbn_gcd.sh "$@"
 [ "${SO_C2:-0}" = 1 ] && exit 0
 ALPHA=0.1 K_EST=hdbscan-leaf OUT="${OUT_C4:-results_img_c4}" \

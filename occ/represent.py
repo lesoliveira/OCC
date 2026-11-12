@@ -3,6 +3,9 @@ para todos os métodos.
 
 - "qpca": transformação quantílica para a normal + PCA com branqueamento
   (95% da variância). Não usa rótulos; ajustada em D_L ∪ D_U (transdutivo).
+- "pcaN" / "pcawN": PCA para N dimensões (sem / com branqueamento), sem
+  rótulos, ajustada em D_L ∪ D_U. Para características de imagem (768
+  dimensões), em que há poucas amostras por classe para a dimensão.
 - "rfleaf": floresta aleatória treinada só em D_L; cada amostra vira o vetor
   das folhas em que cai (one-hot), reduzido por SVD truncado. A distância
   euclidiana nesse espaço é a distância de proximidade da floresta. Risco
@@ -23,6 +26,13 @@ def transform(kind, X_l, y_l, X_u, random_state=0, n_comp=64):
                                  random_state=random_state).fit(A)
         pca = PCA(0.95, whiten=True, random_state=random_state).fit(qt.transform(A))
         return pca.transform(qt.transform(X_l)), pca.transform(qt.transform(X_u))
+    if kind.startswith("pca"):  # "pca64": PCA sem rótulos em D_L ∪ D_U; "pcaw64": branqueada
+        from sklearn.decomposition import PCA
+        white = kind.startswith("pcaw")
+        k = int(kind[4:] if white else kind[3:])
+        A = np.vstack([X_l, X_u])
+        pca = PCA(min(k, A.shape[1], len(A) - 1), whiten=white, random_state=random_state).fit(A)
+        return pca.transform(X_l), pca.transform(X_u)
     if kind == "rfleaf":
         from sklearn.decomposition import TruncatedSVD
         from sklearn.ensemble import RandomForestClassifier

@@ -174,8 +174,8 @@ def main():
     ap.add_argument("--cal-mode", choices=["cv", "split", "nested"], default="cv",
                     help="calibração dos OCCs; 'nested' remove o vazamento do Dic")
     ap.add_argument("--modes-base", default="knn", choices=["gauss", "knn", "mst", "svm"])
-    ap.add_argument("--repr", choices=["raw", "qpca", "rfleaf"], default="raw",
-                    help="representação (occ/represent.py): 'qpca' quantílica + PCA "
+    ap.add_argument("--repr", default="raw",
+                    help="representação (occ/represent.py): raw, pcaN, pcawN, 'qpca' quantílica + PCA "
                          "branqueada (sem rótulos); 'rfleaf' folhas de uma floresta "
                          "treinada em D_L")
     ap.add_argument("--no-preproc", action="store_true",
