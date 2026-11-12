@@ -1,0 +1,23 @@
+{
+ "n": 20001,
+ "d": 98,
+ "classes": 7,
+ "categorical_columns": 44,
+ "constant_columns_removed": 0,
+ "dropped_classes_lt_min": [],
+ "min_class_size": 95,
+ "max_class_size": 9752,
+ "class_names": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7"
+ ],
+ "source": "OpenML",
+ "openml_name": "covertype",
+ "openml_version": 3,
+ "openml_id": 150
+}

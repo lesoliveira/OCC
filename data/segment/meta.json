@@ -1,0 +1,23 @@
+{
+ "n": 2310,
+ "d": 18,
+ "classes": 7,
+ "categorical_columns": 0,
+ "constant_columns_removed": 1,
+ "dropped_classes_lt_min": [],
+ "min_class_size": 330,
+ "max_class_size": 330,
+ "class_names": [
+  "brickface",
+  "cement",
+  "foliage",
+  "grass",
+  "path",
+  "sky",
+  "window"
+ ],
+ "source": "OpenML",
+ "openml_name": "segment",
+ "openml_version": 1,
+ "openml_id": 36
+}

@@ -1,0 +1,22 @@
+{
+ "n": 6430,
+ "d": 36,
+ "classes": 6,
+ "categorical_columns": 0,
+ "constant_columns_removed": 0,
+ "dropped_classes_lt_min": [],
+ "min_class_size": 625,
+ "max_class_size": 1531,
+ "class_names": [
+  "1.",
+  "2.",
+  "3.",
+  "4.",
+  "5.",
+  "7."
+ ],
+ "source": "OpenML",
+ "openml_name": "satimage",
+ "openml_version": 1,
+ "openml_id": 182
+}

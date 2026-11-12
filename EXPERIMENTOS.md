@@ -152,6 +152,34 @@ no CNAE-9, de 11,9 para 2,0. Mesmo efeito em mst (16,0 → 2,1), svm-cv
 (12,3 → 2,7) e gauss (9,2 → 1,9). A prioridade passa a ser o padrão do
 `run_c4.py` (`--no-priority` desliga).
 
+## C2 em 15 bases: `results_v7/`
+
+As 6 do PBN (cópias do `results_v4/`), mais o Census (a 7ª do PBN) e 8 do
+OpenML (`prepare_openml_datasets.py`, critérios fixados de antemão; o
+shuttle foi reprovado: sobram 5 classes depois de descartar as com menos de
+20 amostras). α = 0,1, `hdbscan-leaf`, `auto` com o critério AUROC.
+
+ACC All média (K estimado): auto 0,546; svm-cv 0,529; mst 0,524; gauss
+0,524; dic 0,516; knn 0,514; rf_msp 0,506; svm 0,491; lr_msp 0,464;
+sskmeans 0,447; kmeans 0,371. Friedman nas bases: χ² = 31,6, p = 0,0005.
+Holm só nos 4 baselines: auto supera kmeans (p = 0,0005), sskmeans
+(0,008) e lr_msp (0,043), mas não o rf_msp (p = 0,21; o auto ganha em 9 de
+15 bases). Entre as variantes de OCC, só o svm de γ padrão fica abaixo com
+significância.
+
+As 6 derrotas para o rf_msp se dividem em dois grupos:
+- census, helena, krvsk, volkert: nenhum método detecta as classes novas
+  nos atributos brutos (o maior AUROC entre os métodos fica entre 0,56 e
+  0,73; o OCC não rejeita quase nada e K_new estimado ≈ 0). A ACC vira a
+  acurácia de classificação das conhecidas, em que a floresta é melhor.
+  Census: classes ordinais (anos de escolaridade).
+- covertype (desbalanceado; K superestimado, 7,4 para 4) e vowel (990
+  amostras, ~45 rotuladas por classe): o OCC detecta bem (AUROC 0,87 e
+  0,95, contra 0,65 e 0,67 do rf_msp), mas agrupa mal.
+Nas 11 bases em que algum método detecta as novas (maior AUROC ≥ 0,9), o
+auto ganha do rf_msp em 9. AUROC do auto maior que o do rf_msp em 12 de 15
+bases (Wilcoxon nas bases, p = 0,064).
+
 ## Cuidados ao comparar pastas
 
 - Em `results/`, o `kmeans` com K estimado usava o K verdadeiro (erro

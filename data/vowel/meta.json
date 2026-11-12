@@ -1,0 +1,27 @@
+{
+ "n": 990,
+ "d": 29,
+ "classes": 11,
+ "categorical_columns": 3,
+ "constant_columns_removed": 0,
+ "dropped_classes_lt_min": [],
+ "min_class_size": 90,
+ "max_class_size": 90,
+ "class_names": [
+  "hAd",
+  "hEd",
+  "hId",
+  "hOd",
+  "hUd",
+  "hYd",
+  "had",
+  "hed",
+  "hid",
+  "hod",
+  "hud"
+ ],
+ "source": "OpenML",
+ "openml_name": "vowel",
+ "openml_version": 1,
+ "openml_id": 58
+}
