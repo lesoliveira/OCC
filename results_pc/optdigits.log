@@ -12,3 +12,11 @@ seed=2 auto-pc     all=0.781 old=0.942 new=0.701 auroc=0.964 k_new=4 t=30.3s
 seed=3 auto-pc     all=0.788 old=0.956 new=0.704 auroc=0.959 k_new=4 t=29.8s
 /usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
   warn(
+seed=4 auto-pc     all=0.801 old=0.959 new=0.721 auroc=0.973 k_new=4 t=33.6s
+
+Média por família:
+         acc_all  acc_old  acc_new  auroc  fpr95  old_false_reject  k_new  t_total_s
+family                                                                              
+auto-pc    0.782     0.95    0.697  0.964   0.18             0.005    4.0     30.662
+
+Resultados salvos em results_pc/optdigits_c2_kest.csv
