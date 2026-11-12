@@ -1,0 +1,15 @@
+{
+ "base": "covertype",
+ "n": 20001,
+ "d": 98,
+ "classes": 7,
+ "acaso": 0.4876,
+ "rf_acc": 0.8211,
+ "rf_bal": 0.6413,
+ "rf_acc_novas": 0.8296,
+ "rf_acc_conhecidas": 0.7266,
+ "knn_acc": 0.764,
+ "knn_bal": 0.5562,
+ "knn_acc_novas": 0.7763,
+ "knn_acc_conhecidas": 0.6273
+}

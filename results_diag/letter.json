@@ -1,0 +1,15 @@
+{
+ "base": "letter",
+ "n": 14000,
+ "d": 16,
+ "classes": 26,
+ "acaso": 0.0409,
+ "rf_acc": 0.9504,
+ "rf_bal": 0.9502,
+ "rf_acc_novas": 0.9468,
+ "rf_acc_conhecidas": 0.9517,
+ "knn_acc": 0.9218,
+ "knn_bal": 0.9214,
+ "knn_acc_novas": 0.9161,
+ "knn_acc_conhecidas": 0.9239
+}

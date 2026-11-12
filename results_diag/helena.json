@@ -1,0 +1,15 @@
+{
+ "base": "helena",
+ "n": 20000,
+ "d": 27,
+ "classes": 100,
+ "acaso": 0.0614,
+ "rf_acc": 0.3326,
+ "rf_bal": 0.1544,
+ "rf_acc_novas": 0.3908,
+ "rf_acc_conhecidas": 0.2573,
+ "knn_acc": 0.244,
+ "knn_bal": 0.1175,
+ "knn_acc_novas": 0.2759,
+ "knn_acc_conhecidas": 0.2029
+}

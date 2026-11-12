@@ -1,0 +1,15 @@
+{
+ "base": "segment",
+ "n": 2310,
+ "d": 18,
+ "classes": 7,
+ "acaso": 0.1429,
+ "rf_acc": 0.9788,
+ "rf_bal": 0.9788,
+ "rf_acc_novas": 0.9742,
+ "rf_acc_conhecidas": 0.9848,
+ "knn_acc": 0.9355,
+ "knn_bal": 0.9355,
+ "knn_acc_novas": 0.9076,
+ "knn_acc_conhecidas": 0.9727
+}

@@ -1,0 +1,15 @@
+{
+ "base": "cnae9",
+ "n": 864,
+ "d": 856,
+ "classes": 9,
+ "acaso": 0.1169,
+ "rf_acc": 0.897,
+ "rf_bal": 0.8974,
+ "rf_acc_novas": 0.883,
+ "rf_acc_conhecidas": 0.9151,
+ "knn_acc": 0.8715,
+ "knn_bal": 0.8722,
+ "knn_acc_novas": 0.8439,
+ "knn_acc_conhecidas": 0.9072
+}

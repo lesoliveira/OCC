@@ -1,0 +1,15 @@
+{
+ "base": "vowel",
+ "n": 990,
+ "d": 29,
+ "classes": 11,
+ "acaso": 0.0909,
+ "rf_acc": 0.9677,
+ "rf_bal": 0.9677,
+ "rf_acc_novas": 0.9704,
+ "rf_acc_conhecidas": 0.9644,
+ "knn_acc": 0.7687,
+ "knn_bal": 0.7687,
+ "knn_acc_novas": 0.7833,
+ "knn_acc_conhecidas": 0.7511
+}

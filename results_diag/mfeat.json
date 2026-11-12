@@ -1,0 +1,15 @@
+{
+ "base": "mfeat",
+ "n": 1600,
+ "d": 216,
+ "classes": 10,
+ "acaso": 0.1044,
+ "rf_acc": 0.9644,
+ "rf_bal": 0.9644,
+ "rf_acc_novas": 0.9637,
+ "rf_acc_conhecidas": 0.9651,
+ "knn_acc": 0.9606,
+ "knn_bal": 0.9607,
+ "knn_acc_novas": 0.9624,
+ "knn_acc_conhecidas": 0.9589
+}

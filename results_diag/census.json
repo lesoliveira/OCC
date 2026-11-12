@@ -1,0 +1,15 @@
+{
+ "base": "census",
+ "n": 18000,
+ "d": 67,
+ "classes": 18,
+ "acaso": 0.0556,
+ "rf_acc": 0.3351,
+ "rf_bal": 0.3351,
+ "rf_acc_novas": 0.396,
+ "rf_acc_conhecidas": 0.3047,
+ "knn_acc": 0.2714,
+ "knn_bal": 0.2714,
+ "knn_acc_novas": 0.3448,
+ "knn_acc_conhecidas": 0.2347
+}

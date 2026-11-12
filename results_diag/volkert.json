@@ -1,0 +1,15 @@
+{
+ "base": "volkert",
+ "n": 20000,
+ "d": 147,
+ "classes": 10,
+ "acaso": 0.2196,
+ "rf_acc": 0.6326,
+ "rf_bal": 0.486,
+ "rf_acc_novas": 0.503,
+ "rf_acc_conhecidas": 0.7374,
+ "knn_acc": 0.6059,
+ "knn_bal": 0.5102,
+ "knn_acc_novas": 0.4425,
+ "knn_acc_conhecidas": 0.7381
+}

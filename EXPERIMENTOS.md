@@ -205,3 +205,15 @@ atributos, leva 16 s).
   (~α).
 - `data/<base>/preproc.json` muda os atributos para todos os métodos; em
   `results_v3/` vale para CNAE-9 (`l2`) e HAR (`drop_cols`).
+
+## results_diag — teto supervisionado (diag_teto.py)
+
+Com todas as classes rotuladas, acurácia por validação cruzada (3 partes) de um
+RF e de um kNN no espaço padronizado, nas 15 bases. As 4 bases sem sinal são as
+4 de menor teto: census 0,335, helena 0,333, volkert 0,633, krvsk 0,657 (RF);
+todas as outras ficam acima de 0,82. Conclusão: em census e helena o limite é
+dos dados, não da métrica. Maior diferença RF − kNN: vowel (0,97 contra 0,77)
+e krvsk (0,66 contra 0,50), onde uma representação melhor pode ajudar.
+
+Código novo: `occ/represent.py` e `--repr {raw,qpca,rfleaf}` no run_gcd.py
+(padrão raw, resultados antigos inalterados). Piloto em results_repr/.

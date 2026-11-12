@@ -1,0 +1,15 @@
+{
+ "base": "satimage",
+ "n": 6430,
+ "d": 36,
+ "classes": 6,
+ "acaso": 0.2381,
+ "rf_acc": 0.9107,
+ "rf_bal": 0.8827,
+ "rf_acc_novas": 0.9521,
+ "rf_acc_conhecidas": 0.8759,
+ "knn_acc": 0.9003,
+ "knn_bal": 0.8806,
+ "knn_acc_novas": 0.9487,
+ "knn_acc_conhecidas": 0.8596
+}

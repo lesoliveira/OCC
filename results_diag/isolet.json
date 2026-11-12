@@ -1,0 +1,15 @@
+{
+ "base": "isolet",
+ "n": 7797,
+ "d": 617,
+ "classes": 26,
+ "acaso": 0.0385,
+ "rf_acc": 0.9428,
+ "rf_bal": 0.9428,
+ "rf_acc_novas": 0.9341,
+ "rf_acc_conhecidas": 0.9515,
+ "knn_acc": 0.8684,
+ "knn_bal": 0.8684,
+ "knn_acc_novas": 0.8379,
+ "knn_acc_conhecidas": 0.8989
+}

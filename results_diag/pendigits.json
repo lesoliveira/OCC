@@ -1,0 +1,15 @@
+{
+ "base": "pendigits",
+ "n": 7494,
+ "d": 16,
+ "classes": 10,
+ "acaso": 0.1041,
+ "rf_acc": 0.9905,
+ "rf_bal": 0.9907,
+ "rf_acc_novas": 0.993,
+ "rf_acc_conhecidas": 0.9881,
+ "knn_acc": 0.9907,
+ "knn_bal": 0.9907,
+ "knn_acc_novas": 0.993,
+ "knn_acc_conhecidas": 0.9884
+}

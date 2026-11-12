@@ -1,0 +1,15 @@
+{
+ "base": "krvsk",
+ "n": 20002,
+ "d": 23,
+ "classes": 18,
+ "acaso": 0.1623,
+ "rf_acc": 0.6574,
+ "rf_bal": 0.6313,
+ "rf_acc_novas": 0.6326,
+ "rf_acc_conhecidas": 0.6693,
+ "knn_acc": 0.5044,
+ "knn_bal": 0.4142,
+ "knn_acc_novas": 0.4037,
+ "knn_acc_conhecidas": 0.5529
+}

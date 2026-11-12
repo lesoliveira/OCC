@@ -159,6 +159,10 @@ def main():
     ap.add_argument("--cal-mode", choices=["cv", "split", "nested"], default="cv",
                     help="calibração dos OCCs; 'nested' remove o vazamento do Dic")
     ap.add_argument("--modes-base", default="knn", choices=["gauss", "knn", "mst", "svm"])
+    ap.add_argument("--repr", choices=["raw", "qpca", "rfleaf"], default="raw",
+                    help="representação (occ/represent.py): 'qpca' quantílica + PCA "
+                         "branqueada (sem rótulos); 'rfleaf' folhas de uma floresta "
+                         "treinada em D_L")
     ap.add_argument("--no-preproc", action="store_true",
                     help="ignora data/<base>/preproc.json")
     ap.add_argument("--out", default=None, help="CSV de resultados")
@@ -210,6 +214,9 @@ def main():
             sc = StandardScaler().fit(X_l if args.scale == "labeled"
                                       else np.vstack([X_l, X_u]))
             X_l, X_u = sc.transform(X_l), sc.transform(X_u)
+        if args.repr != "raw":
+            from occ.represent import transform
+            X_l, X_u = transform(args.repr, X_l, y_l, X_u, random_state=seed)
         k_true = len(np.unique(y_u[~np.isin(y_u, old)]))
         if args.k_known:
             k_new, k_mode = k_true, "known"
