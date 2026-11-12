@@ -1,0 +1,4 @@
+pré-processamento {'l2': True}: X (864, 856), scale=none
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=0 auto-pc     all=0.567 old=0.747 new=0.497 auroc=0.897 k_new=2 t=58.6s
