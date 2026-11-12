@@ -1,14 +1,14 @@
 {
  "source": "cifar10",
  "subset": "train",
- "model": "DINO ViT-B/16, CLS (timm vit_base_patch16_224.dino)",
- "n": 5000,
+ "model": "DINO ViT-B/16, CLS (torch.hub facebookresearch/dino)",
+ "n": 50000,
  "d": 768,
  "classes": 10,
  "known": 5,
  "novel": 5,
  "split": "Vaze et al.: classes 0-4 conhecidas",
- "max_samples": 5000,
+ "max_samples": 0,
  "seed": 0,
  "transform": "Resize(256, bicubic) + CenterCrop(224) + Normalize(ImageNet)"
 }
