@@ -1,0 +1,40 @@
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=0 gauss       all=0.298 old=0.134 new=0.462 auroc=0.569 k_new=0 t=1.8s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=0 knn         all=0.214 old=0.074 new=0.353 auroc=0.589 k_new=0 t=1.0s
+seed=0 mst         all=0.228 old=0.144 new=0.312 auroc=0.548 k_new=0 t=5.6s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=0 rf_msp      all=0.313 old=0.181 new=0.446 auroc=0.439 k_new=2 t=35.1s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=1 gauss       all=0.310 old=0.140 new=0.479 auroc=0.559 k_new=0 t=2.3s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=1 knn         all=0.223 old=0.110 new=0.337 auroc=0.579 k_new=0 t=1.0s
+seed=1 mst         all=0.230 old=0.132 new=0.329 auroc=0.528 k_new=0 t=5.9s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=1 rf_msp      all=0.313 old=0.181 new=0.446 auroc=0.437 k_new=2 t=33.9s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=2 gauss       all=0.310 old=0.153 new=0.467 auroc=0.572 k_new=0 t=2.1s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=2 knn         all=0.239 old=0.080 new=0.399 auroc=0.585 k_new=0 t=1.1s
+seed=2 mst         all=0.241 old=0.127 new=0.356 auroc=0.539 k_new=0 t=5.7s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=2 rf_msp      all=0.320 old=0.181 new=0.458 auroc=0.440 k_new=0 t=31.7s
+
+Média por família:
+        acc_all  acc_old  acc_new  auroc  fpr95  old_false_reject  k_new  t_total_s
+family                                                                             
+gauss     0.306    0.143    0.470  0.567  0.916             0.000  0.000      2.063
+knn       0.226    0.088    0.363  0.585  0.900             0.000  0.000      1.034
+mst       0.233    0.134    0.332  0.538  0.904             0.000  0.000      5.720
+rf_msp    0.315    0.181    0.450  0.439  0.961             0.037  1.333     33.565
+
+Resultados salvos em results_repr/census_rfleaf.csv

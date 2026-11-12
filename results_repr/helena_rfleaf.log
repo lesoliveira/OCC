@@ -1,0 +1,118 @@
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 2: só 17 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 27: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 28: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 52: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=0 gauss       all=0.177 old=0.163 new=0.182 auroc=0.627 k_new=3 t=9.8s
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 2: só 17 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 27: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 28: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 52: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=0 knn         all=0.164 old=0.138 new=0.174 auroc=0.608 k_new=4 t=1.5s
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 2: só 17 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 27: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 28: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 52: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=0 mst         all=0.143 old=0.159 new=0.137 auroc=0.595 k_new=3 t=4.4s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=0 rf_msp      all=0.216 old=0.169 new=0.234 auroc=0.554 k_new=2 t=39.5s
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 2: só 17 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 27: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 28: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 52: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=1 gauss       all=0.178 old=0.201 new=0.169 auroc=0.620 k_new=2 t=8.8s
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 2: só 17 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 27: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 28: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 52: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=1 knn         all=0.173 old=0.191 new=0.166 auroc=0.609 k_new=4 t=1.5s
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 2: só 17 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 27: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 28: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 52: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=1 mst         all=0.141 old=0.177 new=0.127 auroc=0.593 k_new=3 t=4.4s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=1 rf_msp      all=0.215 old=0.221 new=0.213 auroc=0.554 k_new=21 t=60.4s
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 2: só 17 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 27: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 28: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 52: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=2 gauss       all=0.173 old=0.188 new=0.168 auroc=0.620 k_new=0 t=13.4s
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 2: só 17 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 27: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 28: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 52: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=2 knn         all=0.160 old=0.171 new=0.156 auroc=0.606 k_new=6 t=1.7s
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 2: só 17 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 27: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 28: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/home/claude/occ/occ/calibration.py:147: UserWarning: classe 52: só 18 pontos de calibração; com alpha <= 1/(n+1) nenhuma amostra é rejeitada
+  warnings.warn(f"classe {label}: só {len(cal)} pontos de calibração; "
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=2 mst         all=0.139 old=0.112 new=0.149 auroc=0.588 k_new=2 t=4.6s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=2 rf_msp      all=0.214 old=0.176 new=0.229 auroc=0.543 k_new=2 t=44.4s
+
+Média por família:
+        acc_all  acc_old  acc_new  auroc  fpr95  old_false_reject  k_new  t_total_s
+family                                                                             
+gauss     0.176    0.184    0.173  0.622  0.799             0.004  1.667     10.643
+knn       0.166    0.167    0.165  0.608  0.822             0.009  4.667      1.530
+mst       0.141    0.149    0.138  0.592  0.836             0.004  2.667      4.489
+rf_msp    0.215    0.189    0.225  0.551  0.954             0.058  8.333     48.079
+
+Resultados salvos em results_repr/helena_rfleaf.csv

@@ -217,3 +217,20 @@ e krvsk (0,66 contra 0,50), onde uma representação melhor pode ajudar.
 
 Código novo: `occ/represent.py` e `--repr {raw,qpca,rfleaf}` no run_gcd.py
 (padrão raw, resultados antigos inalterados). Piloto em results_repr/.
+
+## results_repr — piloto de representações (C2, 3 sementes, α = 0,1)
+
+Bases: vowel, krvsk, census, helena, volkert. Famílias: gauss, knn, mst, rf_msp
+(sem auto). Comparado com results_v7 nas mesmas 3 sementes.
+
+- `qpca` (quantílica + PCA branqueada): piora quase tudo; em vowel derruba o
+  AUROC do gauss de 0,85 para 0,50. Descartada.
+- `rfleaf` (folhas de um RF treinado em D_L): melhora o AUROC dos OCCs em
+  krvsk (mst 0,68 -> 0,76), helena (gauss 0,57 -> 0,62) e census (knn 0,51 ->
+  0,59); em volkert o melhor continua sendo o rf_msp (0,73). A ACC All sobe
+  pouco (krvsk mst 0,345 -> 0,382; helena gauss 0,125 -> 0,176) e os OCCs
+  continuam abaixo do rf_msp nas 4 bases de novidade não detectável. Em vowel
+  iguala o que o auto já obtinha com svm no espaço original.
+
+Conclusão: representações baratas não destravam essas bases, o que concorda
+com o diagnóstico do teto supervisionado (limite dos dados).
