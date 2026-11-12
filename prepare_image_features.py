@@ -24,7 +24,8 @@ Pré-processamento das imagens: redimensiona para 256 (bicúbico), recorte
 central de 224, normalização do ImageNet. Sem aumento de dados.
 
 Precisa de internet (baixa as bases e os pesos do DINO) e de:
-    pip install torch torchvision
+    pip install torch torchvision certifi timm
+(timm só é usado se o download dos pesos pelo torch.hub falhar.)
 
 Uso:
     python prepare_image_features.py --only cifar10 --max-samples 5000   # teste rápido
@@ -39,6 +40,12 @@ import time
 
 import numpy as np
 
+try:  # o Python do python.org no macOS não usa os certificados do sistema;
+    import certifi  # o pacote certifi traz uma lista atualizada
+    os.environ.setdefault("SSL_CERT_FILE", certifi.where())
+except ImportError:
+    pass
+
 CUB_URL = "https://data.caltech.edu/records/65de6-vp158/files/CUB_200_2011.tgz"
 BASES = ("cifar10", "cifar100", "cub")
 
@@ -52,6 +59,31 @@ def pick_device(name):
     if getattr(torch.backends, "mps", None) is not None and torch.backends.mps.is_available():
         return torch.device("mps")  # Mac com Apple Silicon
     return torch.device("cpu")
+
+
+def load_dino(source):
+    """DINO ViT-B/16; a saída é o vetor CLS (768).
+
+    'hub': pesos oficiais via torch.hub (dl.fbaipublicfiles.com).
+    'timm': os mesmos pesos, hospedados no Hugging Face (pip install timm).
+    'auto': tenta o hub e, se o download falhar, usa o timm.
+    """
+    import torch
+    if source in ("hub", "auto"):
+        try:
+            return torch.hub.load("facebookresearch/dino:main", "dino_vitb16"), "torch.hub facebookresearch/dino"
+        except Exception as e:  # noqa: BLE001
+            if source == "hub":
+                raise
+            print(f"AVISO: o download pelo torch.hub falhou ({type(e).__name__}: {e}).\n"
+                  "       Tentando os mesmos pesos pelo timm (Hugging Face).")
+    try:
+        import timm
+    except ImportError as e:
+        raise SystemExit("Instale o timm para baixar os pesos pelo Hugging Face:\n"
+                         "    pip install timm") from e
+    return (timm.create_model("vit_base_patch16_224.dino", pretrained=True, num_classes=0),
+            "timm vit_base_patch16_224.dino")
 
 
 def build_transform():
@@ -159,6 +191,8 @@ def main():
     ap.add_argument("--batch-size", type=int, default=64)
     ap.add_argument("--workers", type=int, default=2)
     ap.add_argument("--device", default="auto", help="auto, cpu, mps ou cuda")
+    ap.add_argument("--model-source", choices=["auto", "hub", "timm"], default="auto",
+                    help="de onde baixar os pesos do DINO (auto: hub, depois timm)")
     ap.add_argument("--no-download", action="store_true")
     ap.add_argument("--seed", type=int, default=0)
     args = ap.parse_args()
@@ -166,8 +200,9 @@ def main():
     import torch
     device = pick_device(args.device)
     print(f"dispositivo: {device}")
-    # pesos oficiais do DINO (Caron et al., 2021); a saída é o vetor CLS
-    model = torch.hub.load("facebookresearch/dino:main", "dino_vitb16").to(device).eval()
+    model, model_src = load_dino(args.model_source)  # Caron et al., 2021
+    model = model.to(device).eval()
+    print(f"modelo: {model_src}")
     transform = build_transform()
     rng = np.random.default_rng(args.seed)
 
@@ -189,7 +224,7 @@ def main():
             json.dump({"known": known, "novel": novel}, f)
         with open(os.path.join(d, "preproc.json"), "w") as f:
             json.dump({"l2": True}, f)
-        meta = {"source": name, "subset": "train", "model": "DINO ViT-B/16 (facebookresearch/dino), CLS",
+        meta = {"source": name, "subset": "train", "model": f"DINO ViT-B/16, CLS ({model_src})",
                 "n": int(len(y)), "d": int(X.shape[1]), "classes": int(len(classes)),
                 "known": len(known), "novel": len(novel), "split": how,
                 "max_samples": args.max_samples, "seed": args.seed,

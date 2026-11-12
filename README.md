@@ -247,7 +247,7 @@ subestimar K_new nessa base (escolhe 2 em vez de 5).
 ## Estudo com imagens (DINO congelado)
 
 ```bash
-pip install torch torchvision
+pip install torch torchvision certifi timm
 python prepare_image_features.py --only cifar10 --max-samples 5000   # teste rápido
 python prepare_image_features.py --only cifar10 cifar100             # completo
 python prepare_image_features.py --only cub --ssb-split cub_osr_splits.pkl
