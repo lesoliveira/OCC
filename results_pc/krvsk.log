@@ -1,0 +1,12 @@
+seed=0 auto-pc     all=0.352 old=0.423 new=0.278 auroc=0.671 k_new=0 t=61.9s
+seed=1 auto-pc     all=0.350 old=0.419 new=0.279 auroc=0.673 k_new=0 t=63.0s
+seed=2 auto-pc     all=0.324 old=0.388 new=0.257 auroc=0.649 k_new=0 t=62.6s
+seed=3 auto-pc     all=0.332 old=0.377 new=0.286 auroc=0.653 k_new=0 t=60.3s
+seed=4 auto-pc     all=0.355 old=0.411 new=0.296 auroc=0.677 k_new=0 t=65.0s
+
+Média por família:
+         acc_all  acc_old  acc_new  auroc  fpr95  old_false_reject  k_new  t_total_s
+family                                                                              
+auto-pc    0.343    0.404    0.279  0.665  0.864               0.0    0.0     62.552
+
+Resultados salvos em results_pc/krvsk_c2_kest.csv

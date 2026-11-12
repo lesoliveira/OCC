@@ -1,0 +1,12 @@
+seed=0 auto-pc     all=0.258 old=0.149 new=0.367 auroc=0.570 k_new=0 t=71.0s
+seed=1 auto-pc     all=0.270 old=0.109 new=0.430 auroc=0.573 k_new=0 t=71.5s
+seed=2 auto-pc     all=0.249 old=0.152 new=0.346 auroc=0.577 k_new=0 t=68.1s
+seed=3 auto-pc     all=0.263 old=0.143 new=0.383 auroc=0.559 k_new=0 t=68.8s
+seed=4 auto-pc     all=0.260 old=0.110 new=0.409 auroc=0.558 k_new=0 t=67.5s
+
+Média por família:
+         acc_all  acc_old  acc_new  auroc  fpr95  old_false_reject  k_new  t_total_s
+family                                                                              
+auto-pc     0.26    0.133    0.387  0.567  0.889               0.0    0.0     69.393
+
+Resultados salvos em results_pc/census_c2_kest.csv
