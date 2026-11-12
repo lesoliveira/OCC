@@ -244,3 +244,19 @@ auto 0,366 -> 0,481 (AUROC 0,945 -> 0,964), rf_msp 0,456 -> 0,449,
 sskmeans 0,163 -> 0,312, kmeans 0,081 -> 0,178. O auto passa o rf_msp.
 Confirma que os grupos naturais do espaço original eram de contexto (locutor),
 não de vogal. A ACC continua moderada: o K estimado fica em 4,8 de 6.
+
+## results_pc — seleção por classe (`auto-pc`), C2, 15 bases, 5 sementes
+
+Cada classe conhecida fica com a família cujo OCC melhor separa a própria
+classe das classes escondidas (mesma simulação do auto). Comparado com o auto
+de results_v7, mesmas sementes.
+
+Resultado negativo: ACC All média 0,544 contra 0,546 do auto (Wilcoxon nas
+bases p = 0,64; 5 bases melhoram mais de 0,005 e 6 pioram). O AUROC médio cai
+de 0,843 para 0,822, com quedas grandes em covertype (0,865 -> 0,686) e har
+(0,950 -> 0,824), as duas com só 3 classes conhecidas: cada classe é avaliada
+contra no máximo 2 classes escondidas, e a escolha fica ruidosa. Melhores
+casos: optdigits (+0,036) e pendigits (+0,021). Pior: isolet (-0,044).
+
+Conclusão: a seleção por classe não melhora sobre o auto; a seleção por
+amostra (dinâmica) fica como trabalho futuro. O auto continua o padrão.
