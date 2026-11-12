@@ -180,6 +180,21 @@ Nas 11 bases em que algum método detecta as novas (maior AUROC ≥ 0,9), o
 auto ganha do rf_msp em 9. AUROC do auto maior que o do rf_msp em 12 de 15
 bases (Wilcoxon nas bases, p = 0,064).
 
+## C4 em 15 bases: `results_c4_v2/`
+
+As 6 do PBN são cópias do `results_c4_prio/`; as 9 novas rodaram com a
+configuração final (prioridade, `hdbscan-leaf`). ACC All média nas sessões:
+auto-auroc 0,474; rf_msp re-treinado 0,471; svm-cv 0,463; mst 0,453; gauss
+0,445; sskmeans 0,363. Friedman nas bases: p = 0,17. O auto supera o
+sskmeans (Holm, p = 0,036) e empata com o rf_msp (Δ = 0,004, p = 0,80).
+Descoberta melhor no OCC (ACC New 0,303 contra 0,244) e reconhecimento
+melhor no rf_msp (ACC Old 0,682 contra 0,637). Esquecimento igual (1,2 e
+1,4 pontos). Nas 11 bases em que a novidade é detectável no C2, o auto
+ganha do rf_msp em 7, perde em 3 (isolet, cnae9, segment) e empata em 1;
+nas 4 sem sinal (census, helena, krvsk, volkert), perde em todas. Tempo
+médio por sessão: auto 0,8 s, rf_msp 1,7 s (o gauss no isolet, com 617
+atributos, leva 16 s).
+
 ## Cuidados ao comparar pastas
 
 - Em `results/`, o `kmeans` com K estimado usava o K verdadeiro (erro
