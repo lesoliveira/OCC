@@ -1,0 +1,28 @@
+seed=0 gauss       all=0.268 old=0.280 new=0.255 auroc=0.537 k_new=0 t=0.2s
+seed=0 knn         all=0.295 old=0.327 new=0.261 auroc=0.589 k_new=0 t=0.6s
+seed=0 mst         all=0.312 old=0.335 new=0.288 auroc=0.616 k_new=0 t=8.9s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=0 rf_msp      all=0.344 old=0.430 new=0.255 auroc=0.578 k_new=0 t=19.4s
+seed=1 gauss       all=0.268 old=0.281 new=0.256 auroc=0.528 k_new=0 t=0.2s
+seed=1 knn         all=0.295 old=0.334 new=0.255 auroc=0.583 k_new=0 t=0.6s
+seed=1 mst         all=0.326 old=0.346 new=0.305 auroc=0.612 k_new=0 t=8.4s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=1 rf_msp      all=0.348 old=0.426 new=0.268 auroc=0.579 k_new=0 t=18.1s
+seed=2 gauss       all=0.264 old=0.276 new=0.251 auroc=0.525 k_new=0 t=0.2s
+seed=2 knn         all=0.299 old=0.333 new=0.264 auroc=0.588 k_new=0 t=0.6s
+seed=2 mst         all=0.321 old=0.345 new=0.297 auroc=0.617 k_new=0 t=8.3s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=2 rf_msp      all=0.345 old=0.419 new=0.268 auroc=0.565 k_new=0 t=18.8s
+
+Média por família:
+        acc_all  acc_old  acc_new  auroc  fpr95  old_false_reject  k_new  t_total_s
+family                                                                             
+gauss     0.267    0.279    0.254  0.530  0.938               0.0    0.0      0.202
+knn       0.296    0.331    0.260  0.586  0.912               0.0    0.0      0.581
+mst       0.320    0.342    0.297  0.615  0.873               0.0    0.0      8.537
+rf_msp    0.346    0.425    0.264  0.574  0.884               0.0    0.0     18.766
+
+Resultados salvos em results_repr/krvsk_qpca.csv

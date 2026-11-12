@@ -1,0 +1,46 @@
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=0 gauss       all=0.362 old=0.347 new=0.369 auroc=0.929 k_new=10 t=0.6s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=0 knn         all=0.356 old=0.364 new=0.352 auroc=0.891 k_new=0 t=0.3s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=0 mst         all=0.371 old=0.720 new=0.226 auroc=0.940 k_new=10 t=0.6s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=0 rf_msp      all=0.414 old=0.338 new=0.446 auroc=0.733 k_new=10 t=4.1s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=1 gauss       all=0.388 old=0.773 new=0.228 auroc=0.939 k_new=10 t=0.9s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=1 knn         all=0.388 old=0.200 new=0.467 auroc=0.887 k_new=0 t=0.2s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=1 mst         all=0.373 old=0.182 new=0.452 auroc=0.945 k_new=0 t=0.3s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=1 rf_msp      all=0.422 old=0.511 new=0.385 auroc=0.783 k_new=8 t=3.8s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=2 gauss       all=0.358 old=0.191 new=0.428 auroc=0.913 k_new=0 t=0.3s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=2 knn         all=0.328 old=0.387 new=0.304 auroc=0.866 k_new=0 t=0.1s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=2 mst         all=0.359 old=0.196 new=0.428 auroc=0.922 k_new=0 t=0.4s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=2 rf_msp      all=0.467 old=0.338 new=0.520 auroc=0.748 k_new=2 t=3.5s
+
+Média por família:
+        acc_all  acc_old  acc_new  auroc  fpr95  old_false_reject  k_new  t_total_s
+family                                                                             
+gauss     0.369    0.437    0.341  0.927  0.339             0.009  6.667      0.597
+knn       0.357    0.317    0.374  0.881  0.521             0.000  0.000      0.198
+mst       0.368    0.366    0.369  0.936  0.427             0.006  3.333      0.445
+rf_msp    0.434    0.396    0.451  0.755  0.744             0.028  6.667      3.814
+
+Resultados salvos em results_repr/vowel_rfleaf.csv
