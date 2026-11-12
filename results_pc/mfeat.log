@@ -1,0 +1,22 @@
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=0 auto-pc     all=0.862 old=0.958 new=0.813 auroc=0.967 k_new=5 t=61.6s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=1 auto-pc     all=0.775 old=0.776 new=0.774 auroc=0.970 k_new=4 t=61.9s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=2 auto-pc     all=0.869 old=0.953 new=0.827 auroc=0.954 k_new=5 t=59.0s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=3 auto-pc     all=0.869 old=0.963 new=0.822 auroc=0.974 k_new=5 t=60.5s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=4 auto-pc     all=0.829 old=0.960 new=0.763 auroc=0.965 k_new=5 t=60.1s
+
+Média por família:
+         acc_all  acc_old  acc_new  auroc  fpr95  old_false_reject  k_new  t_total_s
+family                                                                              
+auto-pc    0.841    0.922      0.8  0.966  0.195             0.008    4.8     60.626
+
+Resultados salvos em results_pc/mfeat_c2_kest.csv
