@@ -2,3 +2,9 @@ pré-processamento {'l2': True}: X (864, 856), scale=none
 /usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
   warn(
 seed=0 auto-pc     all=0.567 old=0.747 new=0.497 auroc=0.897 k_new=2 t=58.6s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=1 auto-pc     all=0.591 old=0.705 new=0.546 auroc=0.886 k_new=3 t=48.4s
+/usr/local/lib/python3.13/site-packages/sklearn/cluster/_hdbscan/hdbscan.py:722: FutureWarning: The default value of `copy` will change from False to True in 1.10. Explicitly set a value for `copy` to silence this warning.
+  warn(
+seed=2 auto-pc     all=0.545 old=0.726 new=0.474 auroc=0.917 k_new=2 t=51.6s
