@@ -341,3 +341,16 @@ Nota (PBN no C2): o primeiro teste no vowel estimou K total = 3 com 5 classes
 conhecidas (K_new = −2, ACC Old 0). O intervalo da silhueta passou de [2, 3·n_old]
 para [n_old + 1, n_old + 30]. O k-means de referência do run_gcd.py ainda usa
 [2, 3·n_old] e tem o mesmo defeito; rever antes da tabela final.
+
+### results_pbn — PBN no C2, 15 bases, 5 sementes
+
+ACC All média: K conhecido PBN 0,506, auto 0,567, RF-MSP 0,528 (auto > PBN em 9
+bases, PBN > auto em 5; Wilcoxon p = 0,041). K estimado PBN 0,485, auto 0,546,
+RF-MSP 0,506 (9 contra 6; p = 0,12). PBN ganha em census, cnae9, isolet,
+optdigits e vowel; perde muito em letter (0,38 contra 0,64), mfeat, pendigits,
+covertype e satimage.
+
+Defeito encontrado: na busca de hiperparâmetros, bases com 3 classes
+conhecidas (covertype, satimage, segment) escondiam uma só classe, e o ARI nas
+escondidas fica degenerado (todas as tentativas 0 ou quase). A busca agora
+esconde pelo menos 2 classes; refazer a busca e o C2 dessas três bases.

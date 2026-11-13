@@ -183,7 +183,10 @@ def tune(X, y_known, labeled, n_novel, n_trials=20, n_folds=3, n_hidden=None,
     yk = np.asarray(y_known)
     classes = np.unique(yk[labeled])
     if n_hidden is None:
-        n_hidden = max(1, len(classes) // 2)
+        # pelo menos 2 classes escondidas: com uma só o ARI nas escondidas é
+        # degenerado (rótulo verdadeiro único). Com 3 conhecidas ficam 2
+        # escondidas e 1 rotulada, como o PBN fez na har.
+        n_hidden = min(max(2, len(classes) // 2), len(classes) - 1)
     folds = [np.sort(rng.choice(classes, n_hidden, replace=False)) for _ in range(n_folds)]
     d = X.shape[1]
     best, best_score, history = None, -np.inf, []
@@ -206,4 +209,4 @@ def tune(X, y_known, labeled, n_novel, n_trials=20, n_folds=3, n_hidden=None,
         log(f"  tentativa {t + 1}/{n_trials}: ARI {score:.3f} {hp}")
         if score > best_score:
             best, best_score = hp, score
-    return best, best_score, history
+    return best, best_score, history, n_hidden

@@ -182,11 +182,12 @@ def main():
         n_novel = len(np.unique(y[~labeled]))
         print(f"[{base}] busca: {args.trials} tentativas x {args.folds} dobras, "
               f"{args.epochs} épocas")
-        best, score, hist = tune(X, y, labeled, n_novel, args.trials, args.folds,
+        best, score, hist, n_hid = tune(X, y, labeled, n_novel, args.trials, args.folds,
                                  epochs=args.epochs, device=args.device)
         os.makedirs(os.path.join(args.out, "hparams"), exist_ok=True)
         with open(os.path.join(args.out, "hparams", f"{base}.json"), "w") as f:
-            json.dump({"best": best, "ari_hidden": score, "trials": args.trials,
+            json.dump({"best": best, "ari_hidden": score, "n_hidden": n_hid,
+                       "trials": args.trials,
                        "folds": args.folds, "history": hist}, f, indent=1)
         print(f"[{base}] melhor: {best} (ARI nas escondidas {score:.3f})")
         return
