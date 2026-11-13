@@ -1,0 +1,12 @@
+seed=0 auto        all=0.744 old=0.791 new=0.716 auroc=0.987 k_new=2 t=46.1s
+seed=1 auto        all=0.743 old=0.793 new=0.714 auroc=0.988 k_new=2 t=45.5s
+seed=2 auto        all=0.735 old=0.770 new=0.714 auroc=0.987 k_new=2 t=46.4s
+seed=3 auto        all=0.739 old=0.781 new=0.715 auroc=0.988 k_new=2 t=47.3s
+seed=4 auto        all=0.739 old=0.780 new=0.715 auroc=0.988 k_new=2 t=46.7s
+
+Média por família:
+        acc_all  acc_old  acc_new  auroc  fpr95  old_false_reject  k_new  t_total_s
+family                                                                             
+auto       0.74    0.783    0.715  0.988  0.048             0.078    2.0     46.407
+
+Resultados salvos em results_ksil15/satimage_c2_kest.csv

@@ -1,1 +1,12 @@
 seed=0 auto        all=0.393 old=0.693 new=0.269 auroc=0.938 k_new=10 t=48.5s
+seed=1 auto        all=0.414 old=0.182 new=0.511 auroc=0.953 k_new=0 t=41.9s
+seed=2 auto        all=0.405 old=0.667 new=0.296 auroc=0.933 k_new=10 t=51.4s
+seed=3 auto        all=0.384 old=0.707 new=0.250 auroc=0.963 k_new=10 t=48.4s
+seed=4 auto        all=0.328 old=0.711 new=0.169 auroc=0.938 k_new=10 t=49.7s
+
+Média por família:
+        acc_all  acc_old  acc_new  auroc  fpr95  old_false_reject  k_new  t_total_s
+family                                                                             
+auto      0.385    0.592    0.299  0.945  0.378             0.033    8.0      47.95
+
+Resultados salvos em results_ksil15/vowel_c2_kest.csv

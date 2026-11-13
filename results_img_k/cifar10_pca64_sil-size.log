@@ -1,1 +1,27 @@
 pré-processamento {'l2': True}: X (50000, 768), scale=none
+seed=0 auto        all=0.841 old=0.895 new=0.814 auroc=0.951 k_new=5 t=329.2s
+seed=0 mst         all=0.809 old=0.892 new=0.768 auroc=0.936 k_new=5 t=60.9s
+seed=0 kmeans      all=0.636 old=0.000 new=0.955 k_new=0 t=22.5s
+seed=0 sskmeans    all=0.686 old=0.179 new=0.940 k_new=1 t=12.3s
+seed=0 rf_msp      all=0.613 old=0.535 new=0.653 auroc=0.876 k_new=3 t=128.1s
+seed=1 auto        all=0.843 old=0.892 new=0.819 auroc=0.951 k_new=5 t=319.2s
+seed=1 mst         all=0.813 old=0.884 new=0.777 auroc=0.936 k_new=5 t=68.8s
+seed=1 kmeans      all=0.687 old=0.180 new=0.940 k_new=1 t=23.7s
+seed=1 sskmeans    all=0.692 old=0.179 new=0.949 k_new=1 t=17.3s
+seed=1 rf_msp      all=0.622 old=0.723 new=0.571 auroc=0.881 k_new=4 t=121.9s
+seed=2 auto        all=0.841 old=0.885 new=0.818 auroc=0.949 k_new=5 t=301.8s
+seed=2 mst         all=0.811 old=0.876 new=0.779 auroc=0.934 k_new=5 t=59.2s
+seed=2 kmeans      all=0.685 old=0.180 new=0.938 k_new=1 t=21.9s
+seed=2 sskmeans    all=0.660 old=0.179 new=0.900 k_new=1 t=8.5s
+seed=2 rf_msp      all=0.609 old=0.720 new=0.554 auroc=0.874 k_new=4 t=127.1s
+
+Média por família:
+          acc_all  acc_old  acc_new  auroc  fpr95  old_false_reject  k_new  t_total_s
+family                                                                               
+auto        0.841    0.891    0.817  0.950  0.249             0.091  5.000    316.751
+kmeans      0.670    0.120    0.944    NaN    NaN               NaN  0.667     22.670
+mst         0.811    0.884    0.775  0.935  0.300             0.091  5.000     63.000
+rf_msp      0.615    0.659    0.593  0.877  0.728             0.093  3.667    125.697
+sskmeans    0.679    0.179    0.929    NaN    NaN               NaN  1.000     12.732
+
+Resultados salvos em results_img_k/cifar10_pca64_sil-size.csv

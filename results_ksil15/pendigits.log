@@ -1,0 +1,12 @@
+seed=0 auto        all=0.877 old=0.907 new=0.862 auroc=0.991 k_new=5 t=61.7s
+seed=1 auto        all=0.878 old=0.910 new=0.862 auroc=0.990 k_new=5 t=66.1s
+seed=2 auto        all=0.778 old=0.896 new=0.718 auroc=0.940 k_new=5 t=64.5s
+seed=3 auto        all=0.875 old=0.898 new=0.863 auroc=0.989 k_new=5 t=60.8s
+seed=4 auto        all=0.791 old=0.906 new=0.733 auroc=0.945 k_new=5 t=58.1s
+
+Média por família:
+        acc_all  acc_old  acc_new  auroc  fpr95  old_false_reject  k_new  t_total_s
+family                                                                             
+auto       0.84    0.904    0.807  0.971  0.147              0.09    5.0     62.228
+
+Resultados salvos em results_ksil15/pendigits_c2_kest.csv

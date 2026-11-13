@@ -1,0 +1,13 @@
+pré-processamento {'l2': True}: X (864, 856), scale=none
+seed=0 auto        all=0.572 old=0.874 new=0.454 auroc=0.897 k_new=4 t=73.7s
+seed=1 auto        all=0.558 old=0.653 new=0.522 auroc=0.897 k_new=4 t=79.0s
+seed=2 auto        all=0.542 old=0.705 new=0.478 auroc=0.924 k_new=6 t=71.2s
+seed=3 auto        all=0.544 old=0.863 new=0.419 auroc=0.888 k_new=7 t=67.3s
+seed=4 auto        all=0.572 old=0.905 new=0.441 auroc=0.914 k_new=6 t=68.8s
+
+Média por família:
+        acc_all  acc_old  acc_new  auroc  fpr95  old_false_reject  k_new  t_total_s
+family                                                                             
+auto      0.557      0.8    0.463  0.904  0.511             0.084    5.4     72.009
+
+Resultados salvos em results_ksil15/cnae9_c2_kest.csv
