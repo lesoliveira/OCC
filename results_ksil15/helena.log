@@ -1,2 +1,12 @@
 seed=0 auto        all=0.122 old=0.107 new=0.127 auroc=0.567 k_new=0 t=153.9s
 seed=1 auto        all=0.125 old=0.069 new=0.147 auroc=0.542 k_new=2 t=153.6s
+seed=2 auto        all=0.120 old=0.089 new=0.132 auroc=0.565 k_new=2 t=155.5s
+seed=3 auto        all=0.105 old=0.074 new=0.117 auroc=0.565 k_new=0 t=162.5s
+seed=4 auto        all=0.099 old=0.062 new=0.113 auroc=0.572 k_new=0 t=159.3s
+
+Média por família:
+        acc_all  acc_old  acc_new  auroc  fpr95  old_false_reject  k_new  t_total_s
+family                                                                             
+auto      0.114     0.08    0.127  0.562  0.931             0.003    0.8    156.941
+
+Resultados salvos em results_ksil15/helena_c2_kest.csv
