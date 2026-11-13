@@ -301,3 +301,19 @@ Escolher o estimador pelo GCD simulado em D_L (2 classes escondidas;
 results_ksil15/sim_cifar10.csv) acerta o CIFAR-10 mas erra 5 de 8 bases
 tabulares, incluindo o mfeat. Conclusão: nenhum estimador serve aos dois tipos
 de dados e não há como escolher só com D_L. hdbscan-leaf continua o padrão.
+
+## results_c1 — cenário C1 (protocolo do PBN), 7 bases do PBN, K conhecido, 3 sementes
+
+Avaliação transdutiva (novas de X_train). k-means no espaço original:
+har 0,759, letter 0,521, pendigits 0,867, mfeat 0,896, optdigits 0,776,
+cnae9 0,679, census 0,498 (média 0,714). Bate com a coluna k-means da tabela
+3 do PBN (média 69,5, avaliada no teste), o que confirma bases e divisões.
+Os OCCs (gauss, mst) ficam abaixo do k-means em todas as bases: no C1 todo o
+D_U é de classes novas por hipótese, a rejeição só atrapalha (manda novas para
+classes antigas) e o método não tem o que oferecer. O C1 entra no artigo só
+como validação do protocolo; a comparação com o PBN é no C2 e no C4.
+
+PBN reimplementado em occ/pbn.py (PyTorch, segue o código oficial) e
+run_pbn_baseline.py: --scenario c1 reproduz o protocolo do artigo (ACC no
+teste) para validar; --scenario c2 roda o PBN no GCD; --tune aplica a busca
+de hiperparâmetros do artigo nas bases sem hiperparâmetros publicados.

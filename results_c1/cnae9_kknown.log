@@ -1,0 +1,23 @@
+pré-processamento {'l2': True}: X (864, 856), scale=none
+seed=0 kmeans      acc=0.671 k_new=5 t=0.1s
+seed=0 sskmeans    acc=0.441 k_new=5 t=0.0s
+seed=0 gauss       acc=0.540 k_new=5 t=9.9s
+seed=0 mst         acc=0.542 k_new=5 t=0.2s
+seed=1 kmeans      acc=0.684 k_new=5 t=0.1s
+seed=1 sskmeans    acc=0.663 k_new=5 t=0.1s
+seed=1 gauss       acc=0.585 k_new=5 t=9.9s
+seed=1 mst         acc=0.489 k_new=5 t=0.2s
+seed=2 kmeans      acc=0.682 k_new=5 t=0.1s
+seed=2 sskmeans    acc=0.583 k_new=5 t=0.0s
+seed=2 gauss       acc=0.556 k_new=5 t=9.8s
+seed=2 mst         acc=0.493 k_new=5 t=0.2s
+
+Média por família:
+            acc  k_new  t_total_s
+family                           
+gauss     0.561    5.0      9.848
+kmeans    0.679    5.0      0.079
+mst       0.508    5.0      0.201
+sskmeans  0.563    5.0      0.045
+
+Resultados salvos em results_c1/cnae9_c1_kknown.csv

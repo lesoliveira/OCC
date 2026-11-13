@@ -1,0 +1,22 @@
+seed=0 kmeans      acc=0.898 k_new=5 t=0.1s
+seed=0 sskmeans    acc=0.759 k_new=5 t=0.0s
+seed=0 gauss       acc=0.863 k_new=5 t=0.8s
+seed=0 mst         acc=0.856 k_new=5 t=0.3s
+seed=1 kmeans      acc=0.898 k_new=5 t=0.1s
+seed=1 sskmeans    acc=0.731 k_new=5 t=0.0s
+seed=1 gauss       acc=0.872 k_new=5 t=0.9s
+seed=1 mst         acc=0.852 k_new=5 t=0.2s
+seed=2 kmeans      acc=0.890 k_new=5 t=0.0s
+seed=2 sskmeans    acc=0.833 k_new=5 t=0.0s
+seed=2 gauss       acc=0.863 k_new=5 t=0.7s
+seed=2 mst         acc=0.853 k_new=5 t=0.2s
+
+Média por família:
+            acc  k_new  t_total_s
+family                           
+gauss     0.866    5.0      0.837
+kmeans    0.896    5.0      0.061
+mst       0.854    5.0      0.245
+sskmeans  0.774    5.0      0.027
+
+Resultados salvos em results_c1/mfeat_c1_kknown.csv
