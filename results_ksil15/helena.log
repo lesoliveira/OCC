@@ -1,0 +1,2 @@
+seed=0 auto        all=0.122 old=0.107 new=0.127 auroc=0.567 k_new=0 t=153.9s
+seed=1 auto        all=0.125 old=0.069 new=0.147 auroc=0.542 k_new=2 t=153.6s

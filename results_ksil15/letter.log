@@ -1,3 +1,12 @@
 seed=0 auto        all=0.657 old=0.898 new=0.335 auroc=0.915 k_new=9 t=403.9s
 seed=1 auto        all=0.594 old=0.891 new=0.197 auroc=0.916 k_new=25 t=299.8s
 seed=2 auto        all=0.598 old=0.885 new=0.214 auroc=0.918 k_new=25 t=369.2s
+seed=3 auto        all=0.594 old=0.915 new=0.166 auroc=0.916 k_new=16 t=87.4s
+seed=4 auto        all=0.597 old=0.889 new=0.207 auroc=0.918 k_new=25 t=74.2s
+
+Média por família:
+        acc_all  acc_old  acc_new  auroc  fpr95  old_false_reject  k_new  t_total_s
+family                                                                             
+auto      0.608    0.896    0.224  0.917  0.431             0.063   20.0    246.909
+
+Resultados salvos em results_ksil15/letter_c2_kest.csv

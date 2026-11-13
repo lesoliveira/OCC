@@ -1,0 +1,12 @@
+seed=0 auto        all=0.367 old=0.658 new=0.188 auroc=0.650 k_new=0 t=146.7s
+seed=1 auto        all=0.357 old=0.659 new=0.171 auroc=0.656 k_new=0 t=146.4s
+seed=2 auto        all=0.364 old=0.629 new=0.200 auroc=0.646 k_new=0 t=145.7s
+seed=3 auto        all=0.367 old=0.635 new=0.202 auroc=0.644 k_new=0 t=147.1s
+seed=4 auto        all=0.371 old=0.642 new=0.204 auroc=0.642 k_new=0 t=147.3s
+
+Média por família:
+        acc_all  acc_old  acc_new  auroc  fpr95  old_false_reject  k_new  t_total_s
+family                                                                             
+auto      0.365    0.645    0.193  0.648  0.897               0.0    0.0    146.603
+
+Resultados salvos em results_ksil15/volkert_c2_kest.csv
