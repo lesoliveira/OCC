@@ -281,3 +281,23 @@ PCA branqueada (pcaw64) piora (gauss 0,555). O AUROC simulado em D_L (classes
 escondidas) põe as 768 dimensões em último e escolheria 64: dá para escolher a
 dimensão sem olhar D_U. Com K conhecido e pca32: knn 0,815, k-means 0,847.
 Uma semente e subamostra: confirmar na base completa.
+
+## results_img_k e results_ksil15 — estimador de K: sil-size x hdbscan-leaf
+
+CIFAR-10 completo (DINO, PCA 64, C2, 3 sementes; results_img_k/): o HDBSCAN
+marca ~58% dos rejeitados como ruído (densidade rala em 64 dimensões), funde
+classes novas vizinhas e devolve ~7 mil rejeitados às classes antigas (só ~1,1
+mil eram antigas). auto: hdbscan-leaf 0,660 ± 0,002 (K = 3 de 5); sil-size
+0,841 ± 0,001 (K = 5 nas 3 sementes), igual ao K conhecido. A rodada de 3
+sementes feita no Mac (results_img/, hdbscan-leaf) reproduz os mesmos números.
+
+Tabulares, auto, 5 sementes (results_ksil15/ contra results_v7/): hdbscan-leaf
+0,547 e sil-size 0,521 de média; sil-size ganha em 4 bases (satimage +0,055,
+optdigits +0,045, covertype +0,035, vowel +0,019) e perde em 8, com colapsos
+em mfeat (−0,298, K = 2 de 5) e isolet (−0,142, K = 2 de 13), e superestima no
+letter (K = 20 de 7). Wilcoxon nas bases p = 0,64.
+
+Escolher o estimador pelo GCD simulado em D_L (2 classes escondidas;
+results_ksil15/sim_cifar10.csv) acerta o CIFAR-10 mas erra 5 de 8 bases
+tabulares, incluindo o mfeat. Conclusão: nenhum estimador serve aos dois tipos
+de dados e não há como escolher só com D_L. hdbscan-leaf continua o padrão.
