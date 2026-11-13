@@ -317,3 +317,22 @@ PBN reimplementado em occ/pbn.py (PyTorch, segue o código oficial) e
 run_pbn_baseline.py: --scenario c1 reproduz o protocolo do artigo (ACC no
 teste) para validar; --scenario c2 roda o PBN no GCD; --tune aplica a busca
 de hiperparâmetros do artigo nas bases sem hiperparâmetros publicados.
+
+### results_pbn — validação do PBN reimplementado (C1, protocolo do artigo, 10 rodadas)
+
+ACC no teste (novas), nosso / publicado (tabelas 4 e 5 do PBN):
+
+| base | K conhecido | K estimado |
+|---|---|---|
+| har | 0,784 / 0,767 | 0,711 / 0,711 |
+| letter | 0,653 / 0,624 | 0,624 / 0,613 |
+| pendigits | 0,824 / 0,828 | 0,832 / 0,830 |
+| census | 0,633 / 0,624 | 0,482 / 0,498 |
+| mfeat | 0,912 / 0,917 | 0,899 / 0,906 |
+| optdigits | 0,933 / 0,926 | 0,877 / 0,905 |
+| cnae9 | 0,704 / 0,726 | 0,425 / 0,508 |
+| média | 0,778 / 0,773 | 0,693 / 0,710 |
+
+Com K conhecido a reimplementação reproduz o artigo (diferenças dentro de um
+desvio). Com K estimado fica 1,7 ponto abaixo na média, quase todo no cnae9
+(K estimado 2,5 contra 5 no artigo). Rodado no Mac (CPU), cerca de 1 hora.
