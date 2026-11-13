@@ -15,8 +15,9 @@ C2 (GCD transdutivo, como o run_gcd.py): mesma divisão por semente
   (gcd_split), mesma padronização (D_L ∪ D_U) e mesmo preproc.json. O PBN
   treina com D_L rotulado e D_U sem rótulo; o k-means no espaço latente agrupa
   D_U em n_old + K_new grupos; ACC All/Old/New com casamento húngaro.
-  K estimado: silhueta no espaço latente com K total de 2 a 3 * n_old, o mesmo
-  intervalo do k-means do run_gcd.py.
+  K estimado: silhueta no espaço latente com K total de n_old + 1 a n_old + 30
+  (no GCD as classes conhecidas estão em D_U por construção; o intervalo de
+  K_new, de 1 a 30, é o do notebook do PBN, que usa de 2 a 30).
 
 Hiperparâmetros: os publicados pelo PBN nas 7 bases dele ("GT k" com K
 conhecido, "Estimated k" com K estimado). Nas outras bases, rode antes
@@ -136,7 +137,7 @@ def run_c2(args, base, X, y, old_fixed, l2, rows):
             Zu = m.embed(X_u)
             n_old = len(old)
             k = n_old + k_true if k_mode == "known" else \
-                silhouette_k(m.embed(X_u, normalize=True), 2, 3 * n_old, 3, seed)
+                silhouette_k(m.embed(X_u, normalize=True), n_old + 1, n_old + 30, 3, seed)
             pred = kmeans_labels(Zu, k, seed)
             a = gcd_acc(y_u, pred, old)
             rows.append({"base": base, "scenario": "c2", "family": "pbn", "seed": seed,

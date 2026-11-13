@@ -336,3 +336,8 @@ ACC no teste (novas), nosso / publicado (tabelas 4 e 5 do PBN):
 Com K conhecido a reimplementação reproduz o artigo (diferenças dentro de um
 desvio). Com K estimado fica 1,7 ponto abaixo na média, quase todo no cnae9
 (K estimado 2,5 contra 5 no artigo). Rodado no Mac (CPU), cerca de 1 hora.
+
+Nota (PBN no C2): o primeiro teste no vowel estimou K total = 3 com 5 classes
+conhecidas (K_new = −2, ACC Old 0). O intervalo da silhueta passou de [2, 3·n_old]
+para [n_old + 1, n_old + 30]. O k-means de referência do run_gcd.py ainda usa
+[2, 3·n_old] e tem o mesmo defeito; rever antes da tabela final.
