@@ -1,0 +1,18 @@
+seed=0 kmeans      all=0.651 old=0.768 new=0.582 k_new=1 t=0.8s
+seed=0 sskmeans    all=0.537 old=0.712 new=0.433 k_new=1 t=0.3s
+seed=1 kmeans      all=0.650 old=0.767 new=0.581 k_new=1 t=0.7s
+seed=1 sskmeans    all=0.532 old=0.704 new=0.430 k_new=1 t=0.4s
+seed=2 kmeans      all=0.611 old=0.679 new=0.571 k_new=2 t=0.8s
+seed=2 sskmeans    all=0.615 old=0.808 new=0.501 k_new=2 t=0.4s
+seed=3 kmeans      all=0.650 old=0.767 new=0.581 k_new=1 t=0.8s
+seed=3 sskmeans    all=0.532 old=0.699 new=0.433 k_new=1 t=0.4s
+seed=4 kmeans      all=0.645 old=0.752 new=0.581 k_new=1 t=0.7s
+seed=4 sskmeans    all=0.527 old=0.691 new=0.430 k_new=1 t=0.3s
+
+Média por família:
+          acc_all  acc_old  acc_new  k_new  t_total_s
+family                                               
+kmeans      0.642    0.747    0.579    1.2      0.758
+sskmeans    0.549    0.723    0.445    1.2      0.353
+
+Resultados salvos em results_kmfix/satimage_c2_kest.csv

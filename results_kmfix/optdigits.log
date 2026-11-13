@@ -1,0 +1,18 @@
+seed=0 kmeans      all=0.709 old=0.517 new=0.806 k_new=9 t=1.6s
+seed=0 sskmeans    all=0.713 old=0.535 new=0.803 k_new=5 t=0.7s
+seed=1 kmeans      all=0.731 old=0.530 new=0.833 k_new=10 t=1.5s
+seed=1 sskmeans    all=0.613 old=0.552 new=0.645 k_new=5 t=0.7s
+seed=2 kmeans      all=0.759 old=0.638 new=0.820 k_new=8 t=1.6s
+seed=2 sskmeans    all=0.777 old=0.640 new=0.846 k_new=5 t=0.7s
+seed=3 kmeans      all=0.723 old=0.472 new=0.849 k_new=7 t=1.4s
+seed=3 sskmeans    all=0.804 old=0.713 new=0.850 k_new=5 t=0.7s
+seed=4 kmeans      all=0.658 old=0.428 new=0.774 k_new=8 t=1.5s
+seed=4 sskmeans    all=0.802 old=0.704 new=0.851 k_new=5 t=0.7s
+
+Média por família:
+          acc_all  acc_old  acc_new  k_new  t_total_s
+family                                               
+kmeans      0.716    0.517    0.816    8.4      1.516
+sskmeans    0.742    0.629    0.799    5.0      0.688
+
+Resultados salvos em results_kmfix/optdigits_c2_kest.csv
