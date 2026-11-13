@@ -1,0 +1,16 @@
+seed=0 sskmeans    S1 all=0.550 old=0.835 new=0.250 s0=0.835 classes=4/4 t=0.4s
+seed=0 sskmeans    S2 all=0.233 old=0.473 new=0.000 s0=0.553 classes=5/5 t=0.7s
+seed=0 sskmeans    S3 all=0.169 old=0.276 new=0.049 s0=0.534 classes=6/6 t=2.1s
+seed=1 sskmeans    S1 all=0.887 old=0.740 new=0.995 s0=0.740 classes=5/4 t=0.4s
+seed=1 sskmeans    S2 all=0.500 old=0.838 new=0.084 s0=0.768 classes=6/5 t=0.9s
+seed=1 sskmeans    S3 all=0.419 old=0.569 new=0.208 s0=0.777 classes=7/6 t=2.1s
+seed=2 sskmeans    S1 all=0.474 old=0.795 new=0.137 s0=0.795 classes=4/4 t=0.4s
+seed=2 sskmeans    S2 all=0.825 old=0.648 new=0.996 s0=0.809 classes=5/5 t=0.7s
+seed=2 sskmeans    S3 all=0.576 old=0.774 new=0.353 s0=0.772 classes=6/6 t=2.2s
+seed=3 sskmeans    S1 all=0.497 old=0.791 new=0.188 s0=0.791 classes=4/4 t=0.4s
+seed=3 sskmeans    S2 all=0.496 old=0.612 new=0.368 s0=0.751 classes=5/5 t=0.9s
+seed=3 sskmeans    S3 all=0.497 old=0.494 new=0.500 s0=0.725 classes=7/6 t=1.9s
+seed=4 sskmeans    S1 all=0.274 old=0.645 new=0.000 s0=0.645 classes=4/4 t=0.3s
+seed=4 sskmeans    S2 all=0.307 old=0.378 new=0.219 s0=0.550 classes=5/5 t=0.8s
+seed=4 sskmeans    S3 all=0.250 old=0.347 new=0.114 s0=0.588 classes=6/6 t=1.6s
+Resultados salvos em results_kmfix_c4/har_c4.csv

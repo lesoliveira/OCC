@@ -1,0 +1,16 @@
+seed=0 sskmeans    S1 all=0.268 old=0.347 new=0.213 s0=0.347 classes=10/7 t=0.1s
+seed=0 sskmeans    S2 all=0.137 old=0.171 new=0.102 s0=0.173 classes=19/9 t=0.1s
+seed=0 sskmeans    S3 all=0.041 old=0.016 new=0.067 s0=0.000 classes=32/11 t=0.4s
+seed=1 sskmeans    S1 all=0.169 old=0.293 new=0.083 s0=0.293 classes=10/7 t=0.0s
+seed=1 sskmeans    S2 all=0.068 old=0.054 new=0.083 s0=0.067 classes=19/9 t=0.1s
+seed=1 sskmeans    S3 all=0.052 old=0.038 new=0.067 s0=0.027 classes=33/11 t=0.3s
+seed=2 sskmeans    S1 all=0.202 old=0.400 new=0.065 s0=0.400 classes=9/7 t=0.0s
+seed=2 sskmeans    S2 all=0.105 old=0.099 new=0.111 s0=0.133 classes=15/9 t=0.1s
+seed=2 sskmeans    S3 all=0.066 old=0.066 new=0.067 s0=0.067 classes=26/11 t=0.2s
+seed=3 sskmeans    S1 all=0.148 old=0.240 new=0.083 s0=0.240 classes=10/7 t=0.0s
+seed=3 sskmeans    S2 all=0.114 old=0.144 new=0.083 s0=0.187 classes=14/9 t=0.1s
+seed=3 sskmeans    S3 all=0.061 old=0.022 new=0.100 s0=0.000 classes=27/11 t=0.2s
+seed=4 sskmeans    S1 all=0.158 old=0.253 new=0.093 s0=0.253 classes=10/7 t=0.0s
+seed=4 sskmeans    S2 all=0.087 old=0.081 new=0.093 s0=0.120 classes=19/9 t=0.1s
+seed=4 sskmeans    S3 all=0.069 old=0.038 new=0.100 s0=0.067 classes=33/11 t=0.3s
+Resultados salvos em results_kmfix_c4/vowel_c4.csv

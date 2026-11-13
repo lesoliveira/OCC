@@ -368,3 +368,18 @@ SS-k-means), que substituem as linhas desses métodos nas tabelas.
 PBN no C4 (run_c4.py --families pbn): re-treinado a cada sessão com os dados
 guardados, como o RF-MSP; a sessão é atribuída pelo SS-k-means no espaço
 latente. Roda no Mac (C4=1 bash run_pbn_all.sh).
+
+### Baselines corrigidos (results_kmfix, results_kmfix_c4) e quadro do C2 com o PBN
+
+Mínimo de K corrigido: k-means C2 0,371 -> 0,425 (isolet 0,10 -> 0,48,
+segment 0,36 -> 0,58, satimage 0,46 -> 0,64); SS-k-means C2 0,447 -> 0,455;
+SS-k-means C4 0,363 -> 0,376.
+
+C2, K estimado, 15 bases, auto contra baselines (Friedman p = 0,012):
+auto 0,546 (rank 2,33), RF-MSP 0,506 (3,13), PBN 0,489 (3,20), LR-MSP 0,464
+(3,87), SS-k-means 0,455 (3,67), k-means 0,425 (4,80). Wilcoxon com Holm:
+k-means 0,001, SS-k-means 0,017, LR-MSP 0,065, PBN 0,30, RF-MSP 0,30.
+Com a correção, a diferença para o LR-MSP deixou de ser significativa (era
+0,043 com 4 baselines; agora são 5 comparações).
+
+C4: auto 0,474, RF-MSP 0,471 (p = 0,80), SS-k-means 0,376 (p = 0,041).
