@@ -1,0 +1,19 @@
+pré-processamento {'l2': True}: X (864, 856), scale=none
+seed=0 kmeans      all=0.510 old=0.000 new=0.708 k_new=1 t=0.8s
+seed=0 sskmeans    all=0.427 old=0.189 new=0.520 k_new=1 t=0.4s
+seed=1 kmeans      all=0.498 old=0.195 new=0.616 k_new=1 t=0.9s
+seed=1 sskmeans    all=0.352 old=0.400 new=0.333 k_new=1 t=0.3s
+seed=2 kmeans      all=0.524 old=0.205 new=0.649 k_new=1 t=0.7s
+seed=2 sskmeans    all=0.514 old=0.211 new=0.632 k_new=1 t=0.3s
+seed=3 kmeans      all=0.566 old=0.189 new=0.713 k_new=2 t=0.9s
+seed=3 sskmeans    all=0.473 old=0.405 new=0.499 k_new=2 t=0.3s
+seed=4 kmeans      all=0.523 old=0.168 new=0.661 k_new=1 t=0.8s
+seed=4 sskmeans    all=0.446 old=0.205 new=0.540 k_new=1 t=0.3s
+
+Média por família:
+          acc_all  acc_old  acc_new  k_new  t_total_s
+family                                               
+kmeans      0.524    0.152    0.669    1.2      0.822
+sskmeans    0.442    0.282    0.505    1.2      0.345
+
+Resultados salvos em results_kmfix/cnae9_c2_kest.csv

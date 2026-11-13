@@ -7,6 +7,7 @@
 #   bash run_pbn_all.sh                      # as 15 bases
 #   bash run_pbn_all.sh vowel segment        # só algumas
 #   SEEDS="0" bash run_pbn_all.sh vowel      # teste rápido
+#   C4=1 bash run_pbn_all.sh                 # PBN no C4 (incremental), depois da busca
 set -euo pipefail
 cd "$(dirname "$0")"
 PY=python3; command -v python3 >/dev/null || PY=python
@@ -20,7 +21,13 @@ for b in "${BASES[@]}"; do
     echo "== $b: busca de hiperparâmetros $(date +%T)"
     $PY run_pbn_baseline.py --data "data/$b" --tune
   fi
-  echo "== $b: C2 $(date +%T)"
-  $PY run_pbn_baseline.py --data "data/$b" --scenario c2 --seeds $SEEDS
+  if [ "${C4:-0}" = 1 ]; then
+    echo "== $b: C4 $(date +%T)"
+    $PY run_c4.py --data "data/$b" --families pbn --sessions 3 --alpha 0.1 \
+      --k-est hdbscan-leaf --seeds $SEEDS --out "results_pbn/${b}_c4_pbn.csv"
+  else
+    echo "== $b: C2 $(date +%T)"
+    $PY run_pbn_baseline.py --data "data/$b" --scenario c2 --seeds $SEEDS
+  fi
 done
 echo "fim $(date +%T)"

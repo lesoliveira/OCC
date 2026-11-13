@@ -84,7 +84,8 @@ def run_one(family, X_l, y_l, X_u, y_u, old_classes, scenario, alpha, k_known,
     if family == "kmeans":  # piso sem D_L: k-means sobre D_U, K total = n_old + k_new
         n_old_u = len(old_classes) if scenario == "c2" else 0  # C1: D_U só tem novas
         k = n_old_u + k_known if k_known else \
-            estimate_k(X_u, 2, 3 * len(old_classes), seed)
+            estimate_k(X_u, n_old_u + 1 if n_old_u else 2,
+                       max(n_old_u + 2, 3 * len(old_classes)), seed)
         y_hat = KMeans(k, n_init=10, random_state=seed).fit_predict(X_u)
         res = {"n_rejected": np.nan, "k_new": k - n_old_u}
     elif family == "sskmeans":  # piso com D_L, sem rejeição

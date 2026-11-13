@@ -1,0 +1,18 @@
+seed=0 kmeans      all=0.081 old=0.116 new=0.067 k_new=10 t=0.2s
+seed=0 sskmeans    all=0.178 old=0.089 new=0.215 k_new=5 t=0.1s
+seed=1 kmeans      all=0.080 old=0.111 new=0.067 k_new=10 t=0.2s
+seed=1 sskmeans    all=0.152 old=0.089 new=0.178 k_new=5 t=0.1s
+seed=2 kmeans      all=0.080 old=0.111 new=0.067 k_new=10 t=0.1s
+seed=2 sskmeans    all=0.150 old=0.080 new=0.180 k_new=5 t=0.1s
+seed=3 kmeans      all=0.081 old=0.116 new=0.067 k_new=10 t=0.2s
+seed=3 sskmeans    all=0.163 old=0.062 new=0.206 k_new=5 t=0.1s
+seed=4 kmeans      all=0.081 old=0.116 new=0.067 k_new=10 t=0.2s
+seed=4 sskmeans    all=0.171 old=0.076 new=0.211 k_new=5 t=0.1s
+
+Média por família:
+          acc_all  acc_old  acc_new  k_new  t_total_s
+family                                               
+kmeans      0.081    0.114    0.067   10.0      0.155
+sskmeans    0.163    0.079    0.198    5.0      0.069
+
+Resultados salvos em results_kmfix/vowel_c2_kest.csv

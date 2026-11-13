@@ -217,6 +217,36 @@ class SSKStream(MSPStream):
         return y
 
 
+class PBNStream(MSPStream):
+    """PBN (Troisemaine et al.) re-treinado a cada sessão, como o RF-MSP.
+
+    Em cada sessão o PBN é treinado com os dados guardados (S0 e as classes
+    já descobertas, com seus pseudo-rótulos) rotulados e a sessão atual sem
+    rótulo. No espaço latente, o SS-k-means ancorado nas classes do modelo
+    atribui a sessão às classes existentes ou a grupos novos (K_new estimado
+    pela silhueta), como o SSKStream faz no espaço original. Precisa de torch.
+    """
+
+    def __init__(self, alpha, k_est, seed, hp, epochs=200, device="cpu"):
+        super().__init__(alpha, k_est, seed)
+        self.hp, self.epochs, self.device = hp, epochs, device
+
+    def session(self, X_u, fresh):
+        from occ.pbn import PBN
+        old = np.unique(self.ym)
+        codes = np.searchsorted(old, self.ym)
+        Xa = np.vstack([self.Xm, X_u])
+        labeled = np.r_[np.ones(len(self.Xm), bool), np.zeros(len(X_u), bool)]
+        ya = np.r_[codes, -np.ones(len(X_u), int)]
+        m = PBN(**self.hp, epochs=self.epochs, random_state=self.seed,
+                device=self.device).fit(Xa, ya, labeled)
+        y = SSKMeans(random_state=self.seed).fit_predict(m.embed(self.Xm), self.ym,
+                                                        m.embed(X_u), None)
+        y = fresh(y, old)
+        self._remember(X_u, y, old)
+        return y
+
+
 # ----------------------------------------------------------------- avaliação
 class Matcher:
     """Casamento fixo id previsto -> classe verdadeira, construído sessão a sessão."""
@@ -267,6 +297,12 @@ def run(args):
                 st = MSPStream(args.alpha, args.k_est, seed, args.inc_min)
             elif fam == "sskmeans":
                 st = SSKStream(args.alpha, args.k_est, seed, args.inc_min)
+            elif fam == "pbn":
+                from run_pbn_baseline import hparams_for
+                hp, _ = hparams_for(os.path.basename(args.data.rstrip("/")), "est",
+                                    "results_pbn")
+                st = PBNStream(args.alpha, args.k_est, seed, hp, args.pbn_epochs,
+                               args.device)
             else:
                 st = OCCStream(fam, args.alpha, args.k_est, seed,
                                args.auto_families, args.auto_criterion, args.inc_min,
@@ -347,6 +383,9 @@ def main():
                     choices=["silhouette", "sil-size", "hdbscan", "hdbscan-leaf"])
     ap.add_argument("--families", nargs="+",
                     default=["mst", "gauss", "svm-cv", "auto-auroc", "rf_msp", "sskmeans"])
+    ap.add_argument("--pbn-epochs", type=int, default=200,
+                    help="épocas do PBN (família 'pbn'; precisa de torch)")
+    ap.add_argument("--device", default="cpu", help="cpu ou mps, para o PBN")
     ap.add_argument("--auto-families", nargs="+",
                     default=["gauss", "knn", "mst", "dic"] + [f"svm@{g:g}" for g in SVM_GRID])
     ap.add_argument("--auto-criterion", choices=["acc", "auroc"], default="auroc")

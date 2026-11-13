@@ -354,3 +354,17 @@ Defeito encontrado: na busca de hiperparâmetros, bases com 3 classes
 conhecidas (covertype, satimage, segment) escondiam uma só classe, e o ARI nas
 escondidas fica degenerado (todas as tentativas 0 ou quase). A busca agora
 esconde pelo menos 2 classes; refazer a busca e o C2 dessas três bases.
+
+Busca refeita (2 classes escondidas) em covertype, satimage e segment. PBN no
+C2 com as 15 bases: K conhecido 0,512 (auto 0,567; Wilcoxon p = 0,055), K
+estimado 0,489 (auto 0,546; p = 0,15). auto > PBN em 9 bases nos dois casos.
+
+Correção nos baselines: k-means e SS-k-means estimavam o K total a partir de
+2, podendo escolher menos grupos que classes conhecidas. Agora o mínimo é
+n_old + 1 e o máximo continua o de antes (3·n_old no k-means, 2·n_old no
+SS-k-means). Rodadas novas em results_kmfix (C2) e results_kmfix_c4 (C4,
+SS-k-means), que substituem as linhas desses métodos nas tabelas.
+
+PBN no C4 (run_c4.py --families pbn): re-treinado a cada sessão com os dados
+guardados, como o RF-MSP; a sessão é atribuída pelo SS-k-means no espaço
+latente. Roda no Mac (C4=1 bash run_pbn_all.sh).

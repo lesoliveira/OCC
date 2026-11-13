@@ -40,8 +40,12 @@ class SSKMeans:
         X_l, X_u, y_l = np.asarray(X_l, float), np.asarray(X_u, float), np.asarray(y_l)
         old = np.unique(y_l)
         if k_new is None:  # estimativa sem rótulos de D_U (silhueta em D_U)
-            k_new = max(1, estimate_k(X_u, 2, self.k_max_factor * len(old),
-                                      self.random_state) - len(old))
+            # K total entre n_old + 1 e k_max_factor * n_old: as classes
+            # conhecidas estão em D_U por construção (antes o mínimo era 2, o
+            # que deixava escolher menos grupos que classes conhecidas)
+            k_new = estimate_k(X_u, len(old) + 1,
+                               max(len(old) + 2, self.k_max_factor * len(old)),
+                               self.random_state) - len(old)
         rng = np.random.default_rng(self.random_state)
         C = [X_l[y_l == c].mean(axis=0) for c in old]
         for _ in range(k_new):  # k-means++ a partir dos centróides existentes

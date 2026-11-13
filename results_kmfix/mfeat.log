@@ -1,0 +1,2 @@
+seed=0 kmeans      all=0.738 old=0.574 new=0.821 k_new=3 t=0.8s
+seed=0 sskmeans    all=0.670 old=0.731 new=0.639 k_new=3 t=0.4s
