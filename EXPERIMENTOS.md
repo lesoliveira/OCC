@@ -383,3 +383,13 @@ Com a correção, a diferença para o LR-MSP deixou de ser significativa (era
 0,043 com 4 baselines; agora são 5 comparações).
 
 C4: auto 0,474, RF-MSP 0,471 (p = 0,80), SS-k-means 0,376 (p = 0,041).
+
+### results_pbn — PBN no C4 (15 bases, 5 sementes, 3 sessões)
+
+ACC All média nas sessões: auto 0,474, RF-MSP 0,471, PBN 0,427, SS-k-means
+(corrigido) 0,376. Friedman p = 0,16; ranks auto 2,33, RF-MSP 2,13, PBN 2,40,
+SS-k-means 3,13. Wilcoxon com Holm (3 comparações): PBN 0,98, RF-MSP 0,98,
+SS-k-means 0,12 (sem Holm 0,041). auto > PBN em 7 bases, PBN > auto em 4.
+ACC New: PBN 0,324, auto 0,303, RF-MSP 0,244. ACC Old: RF-MSP 0,682, auto
+0,637, PBN 0,527. Tempo por sessão: auto 0,8 s, RF-MSP 1,7 s, PBN 5,1 s (Mac).
+O PBN perde muito em letter (0,38 contra 0,68), optdigits, pendigits e isolet.
