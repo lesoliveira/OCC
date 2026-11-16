@@ -97,7 +97,7 @@ Open set recognition rejects samples of unknown classes \citep{scheirer2013osr};
 
 Let $\Cold$ be the set of known classes and $\Cnew$ the set of novel classes, with $\Cold \cap \Cnew = \emptyset$. Samples are vectors $x \in \mathbb{R}^d$ in a fixed representation.
 
-\paragraph{Transductive GCD (C2).} We receive $\DL = \{(x_i, y_i)\}$ with $y_i \in \Cold$ and $\DU = \{x_j\}$ whose true labels lie in $\Cold \cup \Cnew$. The task is to predict a label for every $x_j \in \DU$; predicted novel labels are arbitrary identifiers. The number of novel classes $|\Cnew|$ is either given (``$K$ known'') or must be estimated (``$K$ estimated''), the realistic case and our main setting.
+\paragraph{Transductive GCD (C2).} We receive $\DL = \{(x_i, y_i)\}$ with $y_i \in \Cold$ and $\DU = \{x_j\}$ whose true labels lie in $\Cold \cup \Cnew$. The task is to predict a label for every $x_j \in \DU$; predicted novel labels are arbitrary identifiers. The setting is transductive: $\DU$ is available during training, and the predictions on $\DU$ are the ones evaluated, with no separate test set. The number of novel classes $|\Cnew|$ is either given (``$K$ known'') or must be estimated (``$K$ estimated''), the realistic case and our main setting.
 
 \paragraph{Incremental GCD (C4).} A labeled session $S_0$ with samples of $\Cold$ is followed by $T$ unlabeled sessions $U_1, \dots, U_T$. Each session contains samples of the known classes, samples of novel classes that appear for the first time and further samples of novel classes that appeared in earlier sessions. After each session the model must label the session, and the classes it discovered must be recognized, not rediscovered, in later sessions. No labels are available after $S_0$.
 
