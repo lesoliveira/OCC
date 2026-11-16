@@ -86,7 +86,7 @@ def table_datasets():
     lines = []
     for b, r in T.sort_values(["detect", "auc"], ascending=[False, False]).iterrows():
         lines.append(f"{NAME[b]} & {r.src} & {r.n:,} & {r.d} & {r.known} & {r.novel} & "
-                     f"{r.minc:,}--{r.maxc:,} & {r.auc:.3f} & {r.rf:.3f} & {r.knn:.3f} \\\\")
+                     f"{r.minc:,} & {r.maxc:,} & {r.auc:.3f} & {r.rf:.3f} & {r.knn:.3f} \\\\")
     i = int(T.detect.sum())
     body = "\n".join(lines[:i]) + "\n\\midrule\n" + "\n".join(lines[i:])
     save("datasets.tex", body.replace(",", "{,}") + "\n")
