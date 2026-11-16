@@ -5,3 +5,11 @@ __pycache__/
 .DS_Store
 data_img/*/*.npy
 raw_img/
+paper/*.aux
+paper/*.log
+paper/*.blg
+paper/*.bbl
+paper/*.out
+paper/*.fls
+paper/*.fdb_latexmk
+paper/build.log
