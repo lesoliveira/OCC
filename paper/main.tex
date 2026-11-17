@@ -162,7 +162,7 @@ If $x$ is exchangeable with the calibration samples of $c$, then $\Pr[p_c(x) \le
 
 A sample $x$ is accepted by class $c$ when $p_c(x) \ge \alpha$. If at least one class accepts it, $x$ receives the class with the largest p-value. Otherwise it is rejected and becomes a candidate novelty. We use $\alpha = 0.1$ in all experiments.
 
-\subsection{Choosing the OCC family without novel labels}\label{sec:selection}
+\subsection{Automatic family selection (auto)}\label{sec:selection}
 
 No family is best on every data set (Sect.~\ref{sec:res-selection}), so we choose it per data set using only $\DL$. For up to five known classes $h$, drawn at random, we hide $h$, split each remaining class into 70\% for training and 30\% for testing, fit the calibrated decomposition of each candidate family on the training part and measure the area under the ROC curve (AUROC) of the novelty score $1-\max_c p_c(x)$ in separating the hidden class from the test samples of the remaining classes. The family with the largest mean AUROC over the hidden classes is selected and refitted on all of $\DL$. We call this procedure \emph{auto}. The candidates are the Gaussian, $k$NN, MST and dichotomy families and the OC-SVM with $g \in \{0.1, 0.3, 1, 3, 10\}$, nine candidates in all. The procedure needs at least three known classes.
 
