@@ -268,7 +268,7 @@ def table_families():
         c = chosen[b]
         top = max(c, key=c.get)
         items.append(f"{NAME[b]}: {lab(top)} ({c[top]}/5)")
-    save("chosen.tex", "; ".join(items) + ".\n")
+    save("chosen.tex", ", ".join(items) + ".\n")
 
 
 def table_ablation_selection():
