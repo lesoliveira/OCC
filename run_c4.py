@@ -344,6 +344,16 @@ def run(args):
                     spur["s0" if s_ == 0 else ("prev" if s_ < t else "new")] += 1
                     sizes.append(int((yp == p_).sum()))
                 d = np.array([debut[int(c)] for c in yu])
+                # diagnóstico: amostras das classes que estreiam nesta sessão que
+                # foram aceitas por uma classe que o modelo já tinha (absorvidas),
+                # e por que tipo de classe (de S0, descoberta real, espúria)
+                nw = d == t
+                pre = np.array([int(p_) in seen_before for p_ in yp])
+                kind = np.array([("s0" if matcher.map.get(int(p_)) in set(known.tolist()) else
+                                  "spur" if matcher.map.get(int(p_)) == -999 else "disc")
+                                 if pre[i] else "fresh" for i, p_ in enumerate(yp)])
+                absb = {k: float((kind[nw] == k).mean()) if nw.any() else np.nan
+                        for k in ("s0", "disc", "spur")}
                 old_cls = [c for c, s in debut.items() if s < t and s >= 0]
                 r = {"family": fam, "seed": seed, "session": t,
                      "acc_all": hit.mean(),
@@ -357,6 +367,8 @@ def run(args):
                      "spur_from_s0": spur["s0"], "spur_from_prev": spur["prev"],
                      "spur_from_new": spur["new"],
                      "spur_size_mean": float(np.mean(sizes)) if sizes else np.nan,
+                     "new_abs_s0": absb["s0"], "new_abs_disc": absb["disc"],
+                     "new_abs_spur": absb["spur"],
                      "t_session_s": dt, "t_start_s": t_start,
                      "chosen": getattr(st, "chosen", None)}
                 rows.append(r)
