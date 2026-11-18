@@ -1,0 +1,11 @@
+seed=4 auto-auroc  S1 all=0.766 old=0.969 new=0.656 s0=0.969 classes=15/15 t=3.7s
+seed=4 auto-auroc  S2 all=0.427 old=0.848 new=0.167 s0=0.892 classes=17/17 t=5.8s
+seed=4 auto-auroc  S3 all=0.340 old=0.822 new=0.000 s0=0.933 classes=17/19 t=3.3s
+seed=4 auto-auroc  S4 all=0.434 old=0.705 new=0.000 s0=0.913 classes=17/20 t=4.1s
+seed=4 auto-auroc  S5 all=0.410 old=0.652 new=0.000 s0=0.918 classes=17/21 t=3.4s
+seed=4 auto-auroc  S6 all=0.393 old=0.608 new=0.000 s0=0.908 classes=17/22 t=3.5s
+seed=4 auto-auroc  S7 all=0.453 old=0.540 new=0.278 s0=0.892 classes=20/23 t=7.6s
+seed=4 auto-auroc  S8 all=0.368 old=0.534 new=0.000 s0=0.887 classes=20/24 t=3.8s
+seed=4 auto-auroc  S9 all=0.341 old=0.475 new=0.000 s0=0.887 classes=20/25 t=3.9s
+seed=4 auto-auroc  S10 all=0.231 old=0.351 new=0.000 s0=0.877 classes=20/26 t=5.3s
+Resultados salvos em results_c4_fix/isolet_T10_tau_s4.csv
