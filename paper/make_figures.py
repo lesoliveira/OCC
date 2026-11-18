@@ -50,7 +50,7 @@ def fig_stream():
              "pbn": o[o.family == "pbn"]}
         for k in per:
             per[k].append(D[k].groupby("session")[["acc_all", "t_session_s"]].mean())
-    fig, ax = plt.subplots(1, 2, figsize=(6.6, 2.3))
+    fig, ax = plt.subplots(1, 2, figsize=(5.15, 2.1))
     for k, lab, col, mk in METHODS:
         m = pd.concat(per[k]).groupby(level=0).mean()
         s = m.index.values
@@ -63,8 +63,12 @@ def fig_stream():
                        textcoords="offset points", va="center", fontsize=7, color=INK)
     ax[0].set_ylabel("ACC All")
     ax[0].set_ylim(0, 0.6)
-    ax[1].set_ylabel("Time per session (s)")
+    ax[1].set_ylabel("Seconds (log scale)")
     ax[1].set_yscale("log")
+    ax[1].set_yticks([0.3, 1, 3, 10, 30])
+    ax[1].set_yticklabels(["0.3", "1", "3", "10", "30"])
+    ax[1].minorticks_off()
+    ax[1].set_ylim(0.25, 30)
     for a, t in zip(ax, ["(a) Accuracy", "(b) Time per session"]):
         a.set_xlabel("Session")
         a.set_xticks(range(1, 11))
@@ -72,8 +76,9 @@ def fig_stream():
         a.grid(axis="y", color=GRID, lw=0.6)
         a.set_axisbelow(True)
         a.set_title(t, loc="left", color=INK)
-    ax[0].legend(frameon=False, loc="lower left", ncol=3)
-    fig.tight_layout()
+    fig.legend(*ax[0].get_legend_handles_labels(), loc="lower center", ncol=3,
+               frameon=False, bbox_to_anchor=(0.5, 1.0))
+    fig.tight_layout(w_pad=2.0)
     fig.savefig(os.path.join(OUT, "fig_stream.pdf"), bbox_inches="tight")
     fig.savefig(os.path.join(OUT, "fig_stream.png"), dpi=200, bbox_inches="tight")
 
@@ -113,8 +118,8 @@ def fig_tsne(base, seed, name):
     order = kn + nv
     col = {c: CLASS_COLS[i] for i, c in enumerate(order)}
     T = len(sess)
-    fig, ax = plt.subplots(1, T + 1, figsize=(7.0, 2.2))
-    kw = dict(s=1.6, linewidths=0, rasterized=True)
+    fig, ax = plt.subplots(1, T + 1, figsize=(5.15, 1.75))
+    kw = dict(s=0.9, linewidths=0, rasterized=True)
     for c in order:
         m = y == c
         ax[0].scatter(Z[m, 0], Z[m, 1], color=col[c], **kw)
@@ -130,19 +135,20 @@ def fig_tsne(base, seed, name):
             m = assigned == c
             a.scatter(Z[m, 0], Z[m, 1], color=col[c], **kw)
         m = assigned == -999
-        a.scatter(Z[m, 0], Z[m, 1], color=SPUR, s=2.0, linewidths=0, rasterized=True)
+        a.scatter(Z[m, 0], Z[m, 1], color=SPUR, s=1.2, linewidths=0, rasterized=True)
         a.set_title(f"({chr(98 + t)}) After $U_{t + 1}$", loc="left")
     for a in ax:
         a.set_xticks([]), a.set_yticks([])
         for sp in a.spines.values():
             sp.set_visible(False)
-    dot = lambda c, l: plt.Line2D([], [], ls="", marker="o", ms=4, color=c, label=l)
+    dot = lambda c, l: plt.Line2D([], [], ls="", marker="o", ms=3.5, color=c, label=l)
     h = [dot(col[c], f"Class {c} (known)") for c in kn]
     h += [dot(col[c], f"Class {c} ($U_{debut[c]}$)") for c in nv]
     h += [dot(SPUR, "Spurious class"), dot("#d6d5d0", "Not yet seen")]
-    nc = 4 if len(h) <= 8 else 6
-    fig.legend(handles=h, loc="lower center", ncol=nc, frameon=False,
-               bbox_to_anchor=(0.5, -0.12 if len(h) <= 8 else -0.16))
+    nc = 4
+    rows = -(-len(h) // nc)
+    fig.legend(handles=h, loc="upper center", ncol=nc, frameon=False,
+               bbox_to_anchor=(0.5, 0.02), columnspacing=1.2, handletextpad=0.2)
     fig.tight_layout()
     fig.savefig(os.path.join(OUT, f"{name}.pdf"), bbox_inches="tight", dpi=300)
     fig.savefig(os.path.join(OUT, f"{name}.png"), dpi=200, bbox_inches="tight")
