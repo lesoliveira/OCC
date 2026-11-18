@@ -3,9 +3,9 @@
   fig_stream.pdf : T = 10 sessões, média das 6 bases por sessão: ACC All e tempo
                    por sessão (results_c4_long_tau para o nosso, results_c4_long
                    para RF-MSP e PBN).
-  fig_har.pdf    : t-SNE da HAR (T = 3, semente 0) com a classe atribuída a cada
-                   amostra ao fim de cada sessão (results_fig/har_c4_seed0.pkl,
-                   gerado por run_c4.py --dump).
+  fig_har.pdf, fig_pendigits.pdf : t-SNE (T = 3) com a classe atribuída a
+                   cada amostra ao fim de cada sessão (results_fig/<base>_c4_seed<s>.pkl,
+                   gerado por run_c4.py --dump). HAR semente 0, pendigits semente 4.
 
 Uso: python3 paper/make_figures.py
 """
@@ -78,70 +78,77 @@ def fig_stream():
     fig.savefig(os.path.join(OUT, "fig_stream.png"), dpi=200, bbox_inches="tight")
 
 
-def fig_har():
+KNOWN_GREYS = ["#3d3c3a", "#5f5e5a", "#807f7a", "#a09f99", "#bdbcb5"]
+NOVEL_COLS = C[:5]
+SPUR = "#e34948"
+UNSEEN = "#eeede8"
+
+
+def fig_tsne(base, seed, name):
+    """t-SNE com a classe atribuída a cada amostra ao fim de cada sessão.
+
+    Classes conhecidas em tons de cinza, classes novas em cores (ordem de
+    estreia), classes espúrias em vermelho, amostras ainda não vistas em cinza
+    claro. O t-SNE é calculado uma vez, nos dados padronizados com S0.
+    """
     from sklearn.decomposition import PCA
     from sklearn.manifold import TSNE
     from run_c4 import load, scaler_s0
-    X, y, known, _ = load(os.path.join(ROOT, "data", "har"))
-    with open(os.path.join(ROOT, "results_fig", "har_c4_seed0.pkl"), "rb") as f:
-        D = pickle.load(f)[("auto-auroc", 0)]
+    X, y, known, _ = load(os.path.join(ROOT, "data", base))
+    with open(os.path.join(ROOT, "results_fig", f"{base}_c4_seed{seed}.pkl"), "rb") as f:
+        D = pickle.load(f)[("auto-auroc", seed)]
     idx_l, sess, pred, debut = D["idx_l"], D["sess"], D["pred"], D["debut"]
     mu, sd = scaler_s0(X[idx_l])
     Xs = (X - mu) / sd
-    cache = os.path.join(ROOT, "results_fig", "har_tsne_seed0.npy")
+    cache = os.path.join(ROOT, "results_fig", f"{base}_tsne_seed{seed}.npy")
     if os.path.exists(cache):
         Z = np.load(cache)
     else:
-        Z = TSNE(2, random_state=0, init="pca", perplexity=40).fit_transform(
-            PCA(50, random_state=0).fit_transform(Xs))
+        Xp = PCA(50, random_state=0).fit_transform(Xs) if Xs.shape[1] > 50 else Xs
+        Z = TSNE(2, random_state=0, init="pca", perplexity=40).fit_transform(Xp)
         np.save(cache, Z)
-    # cor por classe verdadeira: conhecidas primeiro, depois as novas por estreia
-    order = sorted(np.unique(y), key=lambda c: (debut[int(c)], c))
-    col = {int(c): C[i] for i, c in enumerate(order)}
+    kn = sorted(int(c) for c in np.unique(y) if debut[int(c)] == 0)
+    nv = sorted((int(c) for c in np.unique(y) if debut[int(c)] > 0),
+                key=lambda c: (debut[c], c))
+    col = {c: KNOWN_GREYS[i % len(KNOWN_GREYS)] for i, c in enumerate(kn)}
+    col.update({c: NOVEL_COLS[i] for i, c in enumerate(nv)})
+    order = kn + nv
     T = len(sess)
-    lab = {int(c): (f"Class {c} (known)" if debut[int(c)] == 0
-                    else f"Class {c} (debuts in $U_{debut[int(c)]}$)") for c in order}
-
     fig, ax = plt.subplots(1, T + 1, figsize=(7.0, 2.2))
-    kw = dict(s=2.0, linewidths=0, rasterized=True)
-    # (a) verdade
+    kw = dict(s=1.6, linewidths=0, rasterized=True)
     for c in order:
         m = y == c
-        ax[0].scatter(Z[m, 0], Z[m, 1], color=col[int(c)], label=lab[int(c)], **kw)
+        ax[0].scatter(Z[m, 0], Z[m, 1], color=col[c], **kw)
     ax[0].set_title("(a) Ground truth", loc="left")
-    # (b..) atribuição ao fim de cada sessão; amostras ainda não vistas em cinza
     assigned = np.full(len(y), -1)      # -1 = ainda não chegou
     assigned[idx_l] = y[idx_l]          # S0: rotulado
     for t in range(T):
         assigned[sess[t]] = pred[t]     # não muda depois (sem reetiquetar)
         a = ax[t + 1]
-        unseen = assigned == -1
-        a.scatter(Z[unseen, 0], Z[unseen, 1], color="#ecebe7", **kw)
+        m = assigned == -1
+        a.scatter(Z[m, 0], Z[m, 1], color=UNSEEN, **kw)
         for c in order:
             m = assigned == c
-            a.scatter(Z[m, 0], Z[m, 1], color=col[int(c)], **kw)
-        spur = assigned == -999
-        a.scatter(Z[spur, 0], Z[spur, 1], color=INK, s=2.0, linewidths=0,
-                  rasterized=True, label="Spurious class" if t == 0 else None)
-        n_cls = len(set(D["map"]) & set(np.unique(np.concatenate(pred[:t + 1])).tolist())
-                    | set(int(c) for c in known))
+            a.scatter(Z[m, 0], Z[m, 1], color=col[c], **kw)
+        m = assigned == -999
+        a.scatter(Z[m, 0], Z[m, 1], color=SPUR, s=2.2, linewidths=0, rasterized=True)
         a.set_title(f"({chr(98 + t)}) After $U_{t + 1}$", loc="left")
     for a in ax:
         a.set_xticks([]), a.set_yticks([])
         for sp in a.spines.values():
             sp.set_visible(False)
-    h = [plt.Line2D([], [], ls="", marker="o", ms=4, color=col[int(c)], label=lab[int(c)])
-         for c in order]
-    h.append(plt.Line2D([], [], ls="", marker="o", ms=4, color=INK, label="Spurious class"))
-    h.append(plt.Line2D([], [], ls="", marker="o", ms=4, color="#d6d5d0",
-                        label="Not yet seen"))
+    dot = lambda c, l: plt.Line2D([], [], ls="", marker="o", ms=4, color=c, label=l)
+    h = [dot(KNOWN_GREYS[1], f"Known classes ({len(kn)})")]
+    h += [dot(col[c], f"Class {c} (debuts in $U_{debut[c]}$)") for c in nv]
+    h += [dot(SPUR, "Spurious class"), dot("#d6d5d0", "Not yet seen")]
     fig.legend(handles=h, loc="lower center", ncol=4, frameon=False,
-               bbox_to_anchor=(0.5, -0.12))
+               bbox_to_anchor=(0.5, -0.14))
     fig.tight_layout()
-    fig.savefig(os.path.join(OUT, "fig_har.pdf"), bbox_inches="tight", dpi=300)
-    fig.savefig(os.path.join(OUT, "fig_har.png"), dpi=200, bbox_inches="tight")
+    fig.savefig(os.path.join(OUT, f"{name}.pdf"), bbox_inches="tight", dpi=300)
+    fig.savefig(os.path.join(OUT, f"{name}.png"), dpi=200, bbox_inches="tight")
 
 
 if __name__ == "__main__":
     fig_stream()
-    fig_har()
+    fig_tsne("har", 0, "fig_har")
+    fig_tsne("pendigits", 4, "fig_pendigits")
