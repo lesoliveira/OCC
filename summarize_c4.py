@@ -85,7 +85,7 @@ def main():
               md(sp), ""]
     cl = r.groupby(["family", "base"]).classes.agg(lambda v: ", ".join(v)).unstack()
     L += ["## Classes no modelo ao fim / classes verdadeiras (por semente)\n", md(cl), ""]
-    if ref in set(r.family):
+    if ref in set(r.family) and r.family.nunique() > 1:
         p = r.pivot_table(index=["base", "seed"], columns="family", values="acc_all_mean")
         rows = []
         for f in p.columns:
