@@ -21,7 +21,8 @@ class OCCDiscovery:
                  cal_size=0.2, k_max_factor=2, min_new_size=5,
                  dic_kwargs=None, random_state=0, cal_mode="cv",
                  assign="kmeans", k_est="silhouette", frag_c=2.0, priority=False,
-                 family_map=None):
+                 family_map=None, decision="pvalue"):
+        self.decision = decision  # 'pvalue' | 'post' | 'hybrid' (ClassWiseOCC.predict)
         self.family_map = family_map
         self.priority = priority
         self.k_est = k_est
@@ -42,6 +43,7 @@ class OCCDiscovery:
                                    self.dic_kwargs, self.random_state,
                                    cal_mode=self.cal_mode,
                                    family_map=self.family_map).fit(X_l, y_l)
+        self.model_.decision_ = self.decision
         self.n_old_ = len(self.model_.classes_)
         self.X_l_, self.y_l_ = np.asarray(X_l, float), np.asarray(y_l)
         # médias por classe (usadas na reatribuição do ruído); atualizadas

@@ -45,7 +45,8 @@ def load(path):
 
 def run_one(family, X_l, y_l, X_u, y_u, old_classes, scenario, alpha, k_known,
             occ_kwargs, seed, cal_mode="cv", k_est="silhouette", frag_c=2.0,
-            auto_families=("gauss", "knn", "mst", "dic"), auto_criterion="auroc"):
+            auto_families=("gauss", "knn", "mst", "dic"), auto_criterion="auroc",
+            decision="pvalue"):
     """family: nome da família, uma variante ('svm@3'), 'svm-cv' (gamma do
     SVM escolhido em D_L), 'auto' (família escolhida em D_L pelo critério
     auto_criterion), 'auto-auroc' (o mesmo, sempre com o critério AUROC,
@@ -101,7 +102,7 @@ def run_one(family, X_l, y_l, X_u, y_u, old_classes, scenario, alpha, k_known,
         m = OCCDiscovery(family, occ_kwargs.get(family), alpha=alpha,
                          random_state=seed, cal_mode=cal_mode,
                          assign=assign, k_est=k_est, frag_c=frag_c,
-                         family_map=family_map).fit(X_l, y_l)
+                         family_map=family_map, decision=decision).fit(X_l, y_l)
         t_fit = time.perf_counter() - t0
         y_hat, res = m.discover(X_u, k_new=k_known, return_info=True)
         novelty = m.novelty_score(X_u)
@@ -181,6 +182,10 @@ def main():
                          "treinada em D_L")
     ap.add_argument("--no-preproc", action="store_true",
                     help="ignora data/<base>/preproc.json")
+    ap.add_argument("--decision", choices=["pvalue", "post", "hybrid"], default="pvalue",
+                    help="regra de decisão dos OCCs: p-valor conforme (padrão), "
+                         "posteriori via KDE do escore, ou híbrida (p-valor para "
+                         "rejeitar, posteriori para escolher a classe)")
     ap.add_argument("--out", default=None, help="CSV de resultados")
     args = ap.parse_args()
 
@@ -247,7 +252,8 @@ def main():
         for fam in args.families:
             r = run_one(fam, X_l, y_l, X_u, y_u, old, args.scenario, args.alpha,
                         k_new, occ_kwargs, seed, args.cal_mode, args.k_est,
-                        args.frag_c, tuple(args.auto_families), args.auto_criterion)
+                        args.frag_c, tuple(args.auto_families), args.auto_criterion,
+                        args.decision)
             r.update({"family": fam, "seed": seed, "k_mode": k_mode})
             rows.append(r)
             show = (f"acc={r['acc']:.3f}" if args.scenario == "c1" else

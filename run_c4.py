@@ -141,7 +141,9 @@ def scaler_s0(X_l):
 # ------------------------------------------------------------------ métodos
 class OCCStream:
     def __init__(self, family, alpha, k_est, seed, auto_families, criterion, inc_min="tau",
-                 merge=True, priority=True, tau_s0=False, alpha_disc=None):
+                 merge=True, priority=True, tau_s0=False, alpha_disc=None,
+                 decision="pvalue"):
+        self.decision = decision
         self.inc_min, self.merge, self.priority = inc_min, merge, priority
         self.tau_s0, self.alpha_disc = tau_s0, alpha_disc
         self.family, self.alpha, self.k_est, self.seed = family, alpha, k_est, seed
@@ -159,7 +161,8 @@ class OCCStream:
         base, kws = parse_spec(fam)
         self.m = OCCDiscovery(base, kws, alpha=self.alpha, random_state=self.seed,
                               cal_mode="nested", k_est=self.k_est,
-                              priority=self.priority).fit(X_l, y_l)
+                              priority=self.priority,
+                              decision=self.decision).fit(X_l, y_l)
         if self.tau_s0:
             from occ.fragments import fragment_size
             self.m.tau_fixed_ = fragment_size([(y_l == c).sum() for c in np.unique(y_l)],
@@ -314,7 +317,8 @@ def run(args):
                 st = OCCStream(fam, args.alpha, args.k_est, seed,
                                args.auto_families, args.auto_criterion, args.inc_min,
                                0 if args.no_merge else args.merge_ratio,
-                               not args.no_priority, args.tau_s0, args.alpha_disc)
+                               not args.no_priority, args.tau_s0, args.alpha_disc,
+                               args.decision)
             t0 = time.perf_counter()
             st.start(X_l, y_l)
             t_start = time.perf_counter() - t0
@@ -424,6 +428,9 @@ def main():
                     help="OCC: tau calculado uma vez em S0, em vez de a cada sessão")
     ap.add_argument("--alpha-disc", type=float, default=None,
                     help="OCC: alpha das classes descobertas (mais estrito que --alpha)")
+    ap.add_argument("--decision", choices=["pvalue", "post", "hybrid"], default="pvalue",
+                    help="OCC: p-valor (padrão), posteriori via KDE do escore, ou "
+                         "híbrida (p-valor rejeita, posteriori escolhe a classe)")
     ap.add_argument("--no-priority", action="store_true",
                     help="OCC: desliga a prioridade às classes mais antigas (entre "
                          "as que aceitam a amostra, passa a vencer a de maior "
