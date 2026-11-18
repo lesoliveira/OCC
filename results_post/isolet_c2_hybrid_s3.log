@@ -1,0 +1,8 @@
+seed=3 auto-auroc  all=0.582 old=0.452 new=0.648 auroc=0.866 k_new=4 t=952.4s
+
+Média por família:
+            acc_all  acc_old  acc_new  auroc  fpr95  old_false_reject  k_new  t_total_s
+family                                                                                 
+auto-auroc    0.582    0.452    0.648  0.866  0.498              0.01    4.0    952.442
+
+Resultados salvos em results_post/isolet_c2_hybrid_s3.csv

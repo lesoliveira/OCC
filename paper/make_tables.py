@@ -7,8 +7,11 @@ Fontes (ver EXPERIMENTOS.md):
   C2: results_v7/a0.1 (OCCs, RF-MSP, LR-MSP; k-means e SS-k-means com K
       conhecido), results_kmfix (k-means e SS-k-means com K estimado,
       mínimo de K corrigido), results_pbn/*_c2_pbn.csv (PBN).
-  C4: results_c4_v2 (auto, RF-MSP), results_kmfix_c4 (SS-k-means),
+  C4: results_c4_tau (auto, tau de S0 e alpha 0,3 das classes descobertas),
+      results_c4_v2 (RF-MSP), results_kmfix_c4 (SS-k-means),
       results_pbn/*_c4_pbn.csv (PBN).
+  C4 com T=10: results_c4_long_tau (auto), results_c4_long (RF-MSP, PBN).
+  Regra de decisão (p-valor x posteriori): results_post.
   Ablações: results_pc (seleção por classe), results_ksil15 (estimador
       de K alternativo), results_diag (teto supervisionado).
   Apêndice: results_pbn/*_c1_pbn.csv (reprodução do PBN).
@@ -188,7 +191,8 @@ def table_c4():
     S = {}
     for b in BASES:
         v2 = pd.read_csv(R("results_c4_v2", f"{b}_c4.csv"))
-        S[b] = {"auto": c4_stats(v2[v2.family == "auto-auroc"]),
+        tau = pd.read_csv(R("results_c4_tau", f"{b}_c4.csv"))
+        S[b] = {"auto": c4_stats(tau[tau.family == "auto-auroc"]),
                 "rf_msp": c4_stats(v2[v2.family == "rf_msp"]),
                 "sskmeans": c4_stats(pd.read_csv(R("results_kmfix_c4", f"{b}_c4.csv"))),
                 "pbn": c4_stats(pd.read_csv(R("results_pbn", f"{b}_c4_pbn.csv")))}
@@ -223,6 +227,73 @@ def table_c4():
                      + f" & {stores[k]} & {retrain[k]}" + r" \\")
     save("c4_summary.tex", "\n".join(lines) + "\n")
     return T
+
+
+LONG = ["covertype", "helena", "isolet", "letter", "pendigits", "volkert"]
+
+
+def table_c4_long():
+    """T = 10 sessões: ACC All e tempo da primeira e da última sessão."""
+    lines, NUM["c4_long"] = [], {}
+    keys = ["auto", "rf_msp", "pbn"]
+    acc = {k: [] for k in keys}
+    t1 = {k: [] for k in keys}
+    tT = {k: [] for k in keys}
+    for b in LONG:
+        o = pd.read_csv(R("results_c4_long", f"{b}_c4.csv"))
+        n = pd.read_csv(R("results_c4_long_tau", f"{b}_c4.csv"))
+        D = {"auto": n[n.family == "auto-auroc"], "rf_msp": o[o.family == "rf_msp"],
+             "pbn": o[o.family == "pbn"]}
+        row = {}
+        for k in keys:
+            d = D[k]
+            T = d.session.max()
+            row[k] = dict(all=c4_stats(d)["all"], last=d[d.session == T].acc_all.mean(),
+                          new=c4_stats(d)["new"], forget=c4_stats(d)["forget"],
+                          t1=d[d.session == 1].t_session_s.mean(),
+                          tT=d[d.session == T].t_session_s.mean(),
+                          t=d.t_session_s.mean(), tmax=d.t_session_s.max())
+            acc[k].append(row[k]["all"]); t1[k].append(row[k]["t1"]); tT[k].append(row[k]["tT"])
+        row["auto"]["t_select"] = n.t_start_s.dropna().mean()
+        NUM["c4_long"][b] = row
+        best = max(row[k]["all"] for k in keys)
+        cells = [(r"\textbf{%s}" % f3(row[k]["all"])) if row[k]["all"] >= best - 1e-9
+                 else f3(row[k]["all"]) for k in keys]
+        tc = [f"{row[k]['t1']:.2f} $\\to$ {row[k]['tT']:.2f}" for k in keys]
+        lines.append(f"{NAME[b]} & " + " & ".join(cells) + " & " + " & ".join(tc) + r" \\")
+    lines.append(r"\midrule")
+    lines.append("Mean & " + " & ".join(f3(np.mean(acc[k])) for k in keys) + " & "
+                 + " & ".join(f"{np.mean(t1[k]):.2f} $\\to$ {np.mean(tT[k]):.2f}" for k in keys)
+                 + r" \\")
+    NUM["c4_long_mean"] = {k: {q: float(np.mean([NUM["c4_long"][b][k][q] for b in LONG]))
+                               for q in ["all", "last", "new", "forget", "t1", "tT", "t", "tmax"]}
+                           for k in keys}
+    save("c4_long.tex", "\n".join(lines) + "\n")
+
+
+DEC = [("pvalue", "P-value (proposed)"), ("post", "Posterior"),
+       ("hybrid", "P-value to reject, posterior to choose")]
+DEC_BASES = ["pendigits", "letter", "isolet"]
+
+
+def table_decision():
+    """Regra de decisão: p-valor conforme x posteriori (KDE do escore) x híbrida."""
+    lines, NUM["decision"] = [], {}
+    for k, lab in DEC:
+        c2 = [pd.read_csv(R("results_post", f"{b}_c2_{k}.csv")) for b in DEC_BASES]
+        c4 = [pd.read_csv(R("results_post", f"c4_{k}", f"{b}_c4.csv")) for b in DEC_BASES]
+        m = dict(c2_all=np.mean([d.acc_all.mean() for d in c2]),
+                 c2_auroc=np.mean([d.auroc.mean() for d in c2]),
+                 c4_all=np.mean([c4_stats(d)["all"] for d in c4]),
+                 c4_forget=np.mean([c4_stats(d)["forget"] for d in c4]),
+                 per_base={b: dict(c2_all=c2[i].acc_all.mean(), c2_auroc=c2[i].auroc.mean(),
+                                   c4_all=c4_stats(c4[i])["all"],
+                                   c4_forget=c4_stats(c4[i])["forget"])
+                           for i, b in enumerate(DEC_BASES)})
+        NUM["decision"][k] = m
+        lines.append(f"{lab} & {f3(m['c2_all'])} & {f3(m['c2_auroc'])} & "
+                     f"{f3(m['c4_all'])} & {f3(m['c4_forget'])}" + r" \\")
+    save("decision.tex", "\n".join(lines) + "\n")
 
 
 # ------------------------------------------------------------------ ablações
@@ -342,6 +413,8 @@ if __name__ == "__main__":
     table_c2("kest")
     table_c2("kknown")
     table_c4()
+    table_c4_long()
+    table_decision()
     table_families()
     table_ablation_selection()
     table_pbn_repro()

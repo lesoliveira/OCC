@@ -393,3 +393,22 @@ SS-k-means 0,12 (sem Holm 0,041). auto > PBN em 7 bases, PBN > auto em 4.
 ACC New: PBN 0,324, auto 0,303, RF-MSP 0,244. ACC Old: RF-MSP 0,682, auto
 0,637, PBN 0,527. Tempo por sessão: auto 0,8 s, RF-MSP 1,7 s, PBN 5,1 s (Mac).
 O PBN perde muito em letter (0,38 contra 0,68), optdigits, pendigits e isolet.
+
+## C4 com tau de S0 e alpha 0,3 das classes descobertas: `results_c4_tau/`, `results_c4_long_tau/`
+
+`--tau-s0 --alpha-disc 0.3` (rodado no Mac). tau calculado uma vez com os
+tamanhos de S0 e alpha_d = 0,3 para as classes descobertas. Diagnóstico em
+`results_c4_long_diag/` e grade de correções em `results_c4_fix/`.
+
+- T=3, 15 bases: auto 0,492 (antes 0,474), RF-MSP 0,471, PBN 0,427. Wilcoxon
+  contra a versão anterior p = 0,35.
+- T=10, 6 bases: auto 0,373 (antes 0,323), RF-MSP 0,403, PBN 0,276. Tempo por
+  sessão (1ª -> última): auto 0,38 -> 0,62 s, RF 2,28 -> 3,52 s, PBN 3,98 -> 17,3 s.
+
+## Regra de decisão, p-valor x posteriori: `results_post/`
+
+`--decision {pvalue,post,hybrid}` em run_gcd.py e run_c4.py. Posteriori por KDE
+do escore de cada classe, normalizada entre as classes. Pendigits, letter e
+isolet. Transdutivo: 0,682 / 0,483 / 0,677 (AUROC 0,918 / 0,592 / 0,918).
+Incremental T=3 (Mac, `results_post/c4_*`): 0,687 / 0,440 / 0,682, esquecimento
+0,016 / 0,188 / 0,016. A normalização esconde a novidade.
