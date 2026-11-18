@@ -1,0 +1,12 @@
+seed=0 auto-auroc  all=0.529 old=0.556 new=0.516 auroc=0.511 k_new=2 t=62.0s
+seed=1 auto-auroc  all=0.554 old=0.790 new=0.434 auroc=0.525 k_new=2 t=60.3s
+seed=2 auto-auroc  all=0.458 old=0.703 new=0.333 auroc=0.405 k_new=3 t=66.7s
+seed=3 auto-auroc  all=0.567 old=0.561 new=0.569 auroc=0.522 k_new=2 t=55.0s
+seed=4 auto-auroc  all=0.455 old=0.714 new=0.324 auroc=0.410 k_new=2 t=57.0s
+
+Média por família:
+            acc_all  acc_old  acc_new  auroc  fpr95  old_false_reject  k_new  t_total_s
+family                                                                                 
+auto-auroc    0.513    0.665    0.435  0.474  0.814             0.051    2.2     60.202
+
+Resultados salvos em results_post/pendigits_c2_post.csv

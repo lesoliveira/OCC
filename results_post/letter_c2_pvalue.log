@@ -1,0 +1,12 @@
+seed=0 auto-auroc  all=0.623 old=0.850 new=0.320 auroc=0.915 k_new=4 t=111.1s
+seed=1 auto-auroc  all=0.629 old=0.909 new=0.256 auroc=0.916 k_new=4 t=118.0s
+seed=2 auto-auroc  all=0.634 old=0.856 new=0.339 auroc=0.918 k_new=4 t=93.6s
+seed=3 auto-auroc  all=0.658 old=0.916 new=0.314 auroc=0.916 k_new=5 t=102.7s
+seed=4 auto-auroc  all=0.643 old=0.905 new=0.292 auroc=0.918 k_new=5 t=96.1s
+
+Média por família:
+            acc_all  acc_old  acc_new  auroc  fpr95  old_false_reject  k_new  t_total_s
+family                                                                                 
+auto-auroc    0.637    0.887    0.304  0.917  0.431             0.002    4.4     104.27
+
+Resultados salvos em results_post/letter_c2_pvalue.csv
