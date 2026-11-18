@@ -103,6 +103,8 @@ class OCCDiscovery:
             P = self.model_.pvalues(X_u[rej])
             acc = [(y == c).sum() for c in C]
             tau = fragment_size(acc, self.alpha, self.frag_c, self.min_new_size)
+            if getattr(self, "tau_fixed_", None):  # C4: tau calculado uma vez em S0
+                tau = self.tau_fixed_
             lab, k_new = corrected_discovery(
                 X_u[rej], C[P.argmax(axis=1)], int(C.max()) + 1, tau, self.k_est,
                 self.k_max_factor * self.n_old_, self.random_state,

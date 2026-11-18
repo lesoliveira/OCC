@@ -194,7 +194,11 @@ class ClassWiseOCC:
             P = self.pvalues(X)
             if priority:
                 tiers = np.array([self.tier_.get(c, 0) for c in self.classes_], float)
-                ok = P >= alpha
+                # alpha_disc_ (opcional): limiar mais estrito para as classes
+                # descobertas (tier > 0), que foram ajustadas em clusters
+                a_disc = getattr(self, "alpha_disc_", None)
+                a_vec = np.where(tiers > 0, a_disc, alpha) if a_disc else alpha
+                ok = P >= a_vec
                 # chave: idade primeiro (menor é melhor), p-valor depois
                 key = np.where(ok, -tiers[None, :] * 10.0 + P, -np.inf)
                 best = key.argmax(axis=1)
