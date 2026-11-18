@@ -78,18 +78,18 @@ def fig_stream():
     fig.savefig(os.path.join(OUT, "fig_stream.png"), dpi=200, bbox_inches="tight")
 
 
-KNOWN_GREYS = ["#3d3c3a", "#5f5e5a", "#807f7a", "#a09f99", "#bdbcb5"]
-NOVEL_COLS = C[:5]
-SPUR = "#e34948"
-UNSEEN = "#eeede8"
+# uma cor por classe (conhecidas primeiro, novas na ordem de estreia): as 8
+# cores da paleta de referência e mais duas para bases com 10 classes
+CLASS_COLS = C + ["#008300", "#e34948", "#8c564b", "#7f7f7f"]
+SPUR = INK
+UNSEEN = "#ecebe7"
 
 
 def fig_tsne(base, seed, name):
     """t-SNE com a classe atribuída a cada amostra ao fim de cada sessão.
 
-    Classes conhecidas em tons de cinza, classes novas em cores (ordem de
-    estreia), classes espúrias em vermelho, amostras ainda não vistas em cinza
-    claro. O t-SNE é calculado uma vez, nos dados padronizados com S0.
+    Uma cor por classe (conhecidas primeiro, novas na ordem de estreia),
+    classes espúrias em preto, amostras ainda não vistas em cinza claro. O t-SNE é calculado uma vez, nos dados padronizados com S0.
     """
     from sklearn.decomposition import PCA
     from sklearn.manifold import TSNE
@@ -110,9 +110,8 @@ def fig_tsne(base, seed, name):
     kn = sorted(int(c) for c in np.unique(y) if debut[int(c)] == 0)
     nv = sorted((int(c) for c in np.unique(y) if debut[int(c)] > 0),
                 key=lambda c: (debut[c], c))
-    col = {c: KNOWN_GREYS[i % len(KNOWN_GREYS)] for i, c in enumerate(kn)}
-    col.update({c: NOVEL_COLS[i] for i, c in enumerate(nv)})
     order = kn + nv
+    col = {c: CLASS_COLS[i] for i, c in enumerate(order)}
     T = len(sess)
     fig, ax = plt.subplots(1, T + 1, figsize=(7.0, 2.2))
     kw = dict(s=1.6, linewidths=0, rasterized=True)
@@ -131,18 +130,19 @@ def fig_tsne(base, seed, name):
             m = assigned == c
             a.scatter(Z[m, 0], Z[m, 1], color=col[c], **kw)
         m = assigned == -999
-        a.scatter(Z[m, 0], Z[m, 1], color=SPUR, s=2.2, linewidths=0, rasterized=True)
+        a.scatter(Z[m, 0], Z[m, 1], color=SPUR, s=2.0, linewidths=0, rasterized=True)
         a.set_title(f"({chr(98 + t)}) After $U_{t + 1}$", loc="left")
     for a in ax:
         a.set_xticks([]), a.set_yticks([])
         for sp in a.spines.values():
             sp.set_visible(False)
     dot = lambda c, l: plt.Line2D([], [], ls="", marker="o", ms=4, color=c, label=l)
-    h = [dot(KNOWN_GREYS[1], f"Known classes ({len(kn)})")]
-    h += [dot(col[c], f"Class {c} (debuts in $U_{debut[c]}$)") for c in nv]
+    h = [dot(col[c], f"Class {c} (known)") for c in kn]
+    h += [dot(col[c], f"Class {c} ($U_{debut[c]}$)") for c in nv]
     h += [dot(SPUR, "Spurious class"), dot("#d6d5d0", "Not yet seen")]
-    fig.legend(handles=h, loc="lower center", ncol=4, frameon=False,
-               bbox_to_anchor=(0.5, -0.14))
+    nc = 4 if len(h) <= 8 else 6
+    fig.legend(handles=h, loc="lower center", ncol=nc, frameon=False,
+               bbox_to_anchor=(0.5, -0.12 if len(h) <= 8 else -0.16))
     fig.tight_layout()
     fig.savefig(os.path.join(OUT, f"{name}.pdf"), bbox_inches="tight", dpi=300)
     fig.savefig(os.path.join(OUT, f"{name}.png"), dpi=200, bbox_inches="tight")
