@@ -299,6 +299,13 @@ The close accuracy hides different behaviour (Table~\ref{tab:c4summary}). RF-MSP
 \paragraph{Longer streams.} Three sessions are a short stream. Table~\ref{tab:c4long} repeats the experiment with ten sessions on six data sets. Over this stream RF-MSP has the highest mean accuracy (0.403, against 0.373 of our method and 0.276 of PBN). Our method is ahead of RF-MSP on Covertype, Letter and Pendigits and behind on Helena, Isolet and Volkert. In Helena and Volkert novelty is hard to detect for every method (Sect.~\ref{sec:detectability}). Its accuracy does not decay along the stream: ACC All in the last session (0.370) is close to the mean over sessions, and forgetting is 0.008. PBN loses most of the old classes (forgetting 0.294, ACC All 0.194 in the last session). The two changes of Sect.~\ref{sec:c4method} matter here. Without them, the mean accuracy of our method over the ten sessions was 0.323 and fell to 0.307 in the last one, because spurious classes formed from fragments of known classes captured the novel classes of later sessions.
 
 What grows along the stream is the cost of the methods that store data. From the first to the last session, the time per session of RF-MSP grows from 2.28 to 3.52 s on average and that of PBN from 3.98 to 17.3 s, reaching 65 s in Helena. The time of our method stays below one second on average (0.38 to 0.62 s), and its slowest session took 3.1 s. It grows a little because every sample is scored by every OCC, so the cost depends on the number of classes, but it does not depend on the amount of data seen.
+Figure~\ref{fig:stream} shows both quantities session by session.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_stream.pdf}
+\caption{Incremental GCD with ten unlabeled sessions, mean of the six data sets of Table~\ref{tab:c4long} and five seeds. (a) ACC All in each session. (b) Time per session, log scale, same laptop CPU for all methods.}\label{fig:stream}
+\end{figure}
 
 \begin{table}[t]
 \caption{Incremental GCD with ten unlabeled sessions: ACC All averaged over sessions and time per session in seconds, first $\to$ last session (mean of five seeds, same laptop CPU for all methods, excluding the initial fit on $S_0$). Best accuracy per row in bold.}\label{tab:c4long}

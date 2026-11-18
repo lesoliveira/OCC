@@ -287,6 +287,7 @@ class Matcher:
 def run(args):
     X, y, known, l2 = load(args.data, args.no_preproc)
     rows = []
+    dump = {}  # --dump: rótulos previstos por sessão (para figuras)
     for seed in args.seeds:
         idx_l, sess, debut = sessions_split(y, known, args.sessions, seed)
         if l2:
@@ -383,11 +384,22 @@ def run(args):
                      "t_session_s": dt, "t_start_s": t_start,
                      "chosen": getattr(st, "chosen", None)}
                 rows.append(r)
+                if args.dump:
+                    D = dump.setdefault((fam, seed), {"idx_l": idx_l, "sess": [], "pred": [],
+                                                      "debut": debut})
+                    D["sess"].append(idx)
+                    D["pred"].append(np.array([matcher.map.get(int(p_), -999) for p_ in yp]))
+                    D["map"] = dict(matcher.map)
                 print(f"seed={seed} {fam:11s} S{t} all={r['acc_all']:.3f} "
                       f"old={r['acc_old']:.3f} new={r['acc_new']:.3f} s0={r['acc_s0']:.3f} "
                       f"classes={r['n_model_classes']}/{r['n_true_classes']} t={dt:.1f}s",
                       flush=True)
     df = pd.DataFrame(rows)
+    if args.dump:
+        import pickle
+        os.makedirs(os.path.dirname(args.dump) or ".", exist_ok=True)
+        with open(args.dump, "wb") as f:
+            pickle.dump(dump, f)
     if args.out:
         os.makedirs(os.path.dirname(args.out) or ".", exist_ok=True)
         df.to_csv(args.out, index=False)
@@ -439,6 +451,9 @@ def main():
                     help="reduz para N dimensões com PCA ajustada só em S0 (0 = não "
                          "reduz); usado nas características de imagem")
     ap.add_argument("--no-preproc", action="store_true")
+    ap.add_argument("--dump", default=None,
+                    help="pickle com a classe verdadeira casada de cada amostra por "
+                         "sessão (-999 = classe espúria), para figuras")
     ap.add_argument("--out", default=None)
     run(ap.parse_args())
 
