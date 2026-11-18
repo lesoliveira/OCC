@@ -1,0 +1,3 @@
+seed=0 auto-auroc  all=0.522 old=0.653 new=0.457 auroc=0.834 k_new=4 t=786.4s
+seed=1 auto-auroc  all=0.495 old=0.374 new=0.556 auroc=0.875 k_new=2 t=492.5s
+seed=2 auto-auroc  all=0.558 old=0.375 new=0.650 auroc=0.880 k_new=3 t=508.0s
