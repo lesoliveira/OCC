@@ -62,6 +62,8 @@ def wilcoxon_vs(df, metric, ref):
         rows.append({"método": fam, f"Δ média vs {ref}": round(d.mean(), 3),
                      "p (Wilcoxon)": round(stat, 4) if stat == stat else "—",
                      "pares": len(d)})
+    if not rows:  # só a família de referência: nada a comparar
+        return pd.DataFrame({"método": [], f"Δ média vs {ref}": []})
     return pd.DataFrame(rows).sort_values(f"Δ média vs {ref}", ascending=False)
 
 
@@ -159,10 +161,11 @@ def main():
         lines += friedman_block(M, "auto-auroc" if "auto-auroc" in M else "auto", title)
         is_occ = dk.family.str.split("+").str[0].isin(OCC)
         occ_means = dk[is_occ].groupby("family")["acc_all"].mean()
-        best = occ_means.idxmax()
-        lines.append(f"## Wilcoxon pareado em acc_all contra o melhor OCC ({best}) — {title}\n")
-        lines.append(md(wilcoxon_vs(dk, "acc_all", best), index=False))
-        lines.append("")
+        if len(occ_means) and dk.family.nunique() > 1:
+            best = occ_means.idxmax()
+            lines.append(f"## Wilcoxon pareado em acc_all contra o melhor OCC ({best}) — {title}\n")
+            lines.append(md(wilcoxon_vs(dk, "acc_all", best), index=False))
+            lines.append("")
     text = "\n".join(lines)
     print(text)
     with open(os.path.join(folder, "summary.md"), "w") as f:
