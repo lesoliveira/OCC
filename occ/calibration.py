@@ -77,7 +77,6 @@ class ClassWiseOCC:
                 return self._fit_dic_nested(X, y)
         for c in np.unique(y):
             self.add_class(c, X[y == c])
-        self._fit_posterior_threshold(X, y)
         return self
 
     def _fit_dic_nested(self, X, y):
@@ -119,7 +118,6 @@ class ClassWiseOCC:
             raw[pos] = np.concatenate(cal[c])
             self.cal_raw_[c] = raw
             self.tier_.setdefault(c, 0)
-        self._fit_posterior_threshold(X, y)
         return self
 
     def add_class(self, label, Xc):

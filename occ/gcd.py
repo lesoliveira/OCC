@@ -44,6 +44,8 @@ class OCCDiscovery:
                                    cal_mode=self.cal_mode,
                                    family_map=self.family_map).fit(X_l, y_l)
         self.model_.decision_ = self.decision
+        if self.decision == "post":  # limiar global da posteriori, só em D_L
+            self.model_._fit_posterior_threshold(np.asarray(X_l, float), np.asarray(y_l))
         self.n_old_ = len(self.model_.classes_)
         self.X_l_, self.y_l_ = np.asarray(X_l, float), np.asarray(y_l)
         # médias por classe (usadas na reatribuição do ruído); atualizadas
