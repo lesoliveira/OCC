@@ -179,7 +179,7 @@ Conformal calibration lets us predict their size. If $n_c$ samples of $\DU$ were
 \tau = \max\Big(5,\; \beta \cdot \operatorname{median}_{c \in \Cold} \frac{\alpha}{1-\alpha}\, n_c \Big),
 \label{eq:tau}
 \end{equation}
-with $\beta = 2$, and cluster $R$ with HDBSCAN \citep{campello2013hdbscan} using minimum cluster size $\tau$ and leaf cluster selection, which prefers fine clusters and avoids merging neighbouring novel classes. The number of clusters found is the estimate of $|\Cnew|$. Samples labeled as noise by HDBSCAN are assigned to the nearest centroid among the means of the known classes in $\DL$ and the means of the new clusters, so that a sample of a known class rejected by mistake can return to its class. If $R$ has fewer than $2\tau$ samples, no class is created. If HDBSCAN finds no cluster, we fall back to $k$-means with the number of clusters chosen by the silhouette \citep{rousseeuw1987silhouette}, discarding clusters smaller than $\tau$. When $|\Cnew|$ is known, $R$ is clustered with $k$-means into $|\Cnew|$ clusters.
+with $\beta = 2$ (Sect.~\ref{sec:ablation} studies the sensitivity to $\beta$ and $\alpha$), and cluster $R$ with HDBSCAN \citep{campello2013hdbscan} using minimum cluster size $\tau$ and leaf cluster selection, which prefers fine clusters and avoids merging neighbouring novel classes. The number of clusters found is the estimate of $|\Cnew|$. Samples labeled as noise by HDBSCAN are assigned to the nearest centroid among the means of the known classes in $\DL$ and the means of the new clusters, so that a sample of a known class rejected by mistake can return to its class. If $R$ has fewer than $2\tau$ samples, no class is created. If HDBSCAN finds no cluster, we fall back to $k$-means with the number of clusters chosen by the silhouette \citep{rousseeuw1987silhouette}, discarding clusters smaller than $\tau$. When $|\Cnew|$ is known, $R$ is clustered with $k$-means into $|\Cnew|$ clusters.
 
 \subsection{Incremental discovery}\label{sec:incremental}\label{sec:c4method}
 
@@ -354,7 +354,23 @@ Method & ACC All & Mean rank & Mean loss & Max loss & $\le 0.02$ & $p$ \\
 \end{tabular}
 \end{table}
 
-\subsection{Variants that did not help}\label{sec:ablation}
+\subsection{Sensitivity and variants}\label{sec:ablation}
+
+\paragraph{Sensitivity of the fragment threshold.} The threshold $\tau$ of Eq.~\eqref{eq:tau} decides when a group of rejected samples becomes a class, and depends on two parameters, the factor $\beta$ and the level $\alpha$. Table~\ref{tab:tau} varies each of them in transductive GCD with the number of novel classes estimated, keeping the other at its default. The floor of 5 samples never binds in our data sets, where $\tau$ ranges from 13 (CNAE-9) to 578 (Volkert) samples on average. The factor $\beta$ trades fragmentation for merging. With $\beta = 1$ the method creates more classes than there are and overestimates $|\Cnew|$ by 1.5 on average, with $\beta = 4$ it merges or misses small classes and underestimates it by 2.5. Accuracy changes little between $\beta = 1$ and $\beta = 2$ (0.554 to 0.546), because an extra fragment costs little in Hungarian accuracy, and decreases for larger values. The default $\beta = 2$ gives the smallest error in the number of novel classes. The sensitivity varies across data sets: Optdigits prefers $\beta = 1$ (0.835 against 0.746), Isolet drops for $\beta \ge 3$, and Covertype, Satimage and Vowel improve with larger values. The level $\alpha = 0.1$ is better than both alternatives. With $\alpha = 0.2$ too many known samples are rejected by mistake (Isolet drops to 0.398), and with $\alpha = 0.05$ too few novel samples are rejected (Mfeat drops to 0.702). No difference to the default is significant. The family chosen by the selection and the AUROC of rejection do not depend on these parameters.
+
+\begin{table}[t]
+\caption{Sensitivity to the parameters of Eq.~\eqref{eq:tau} in transductive GCD with the number of novel classes estimated (five seeds). $\beta$ is varied with $\alpha = 0.1$, and $\alpha$ with $\beta = 2$. ACC All over the 15 data sets and over the 11 where novelty is detectable (Sect.~\ref{sec:detectability}). Error and bias of the estimated number of novel classes, $\hat{k} - |\Cnew|$, over the same 11 data sets. W/L and $p$: data sets where the configuration wins/loses against the default and Wilcoxon signed-rank test.}\label{tab:tau}
+\centering\footnotesize
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+ & \multicolumn{2}{c}{ACC All} & \multicolumn{2}{c}{Number of novel classes} & & \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+Configuration & 15 data sets & 11 detectable & $|$error$|$ & bias & W/L & $p$ \\
+\midrule
+\input{tables/tau.tex}
+\end{tabular}
+\end{table}
+
 
 Table~\ref{tab:ablation} reports two variants. Choosing the family separately for each known class, with the same simulation, did not improve the results (0.544 against 0.546) and lowered the AUROC of rejection (0.822 against 0.843). With few known classes, each class is judged against very few hidden classes and its choice becomes noisy. Replacing HDBSCAN by $k$-means with the number of clusters chosen by the silhouette and clusters smaller than $\tau$ discarded lowered the accuracy (0.521). The silhouette tends to choose two clusters and underestimated the number of novel classes in Mfeat and Isolet, with losses of 0.30 and 0.14. Choosing between the two estimators for each data set with the simulation was not reliable either, for the same reason that made the simulation a poor criterion for the family (Sect.~\ref{sec:selection}).
 

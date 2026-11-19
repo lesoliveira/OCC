@@ -12,6 +12,8 @@ Fontes (ver EXPERIMENTOS.md):
       results_pbn/*_c4_pbn.csv (PBN).
   C4 com T=10: results_c4_long_tau (auto), results_c4_long (RF-MSP, PBN).
   Regra de decisão (p-valor x posteriori): results_post.
+  Sensibilidade de tau (beta, alpha): results_beta*/a0.1, results_alpha/a*,
+      com results_v7/a0.1 como referência (beta = 2, alpha = 0,1).
   Ablações: results_pc (seleção por classe), results_ksil15 (estimador
       de K alternativo), results_diag (teto supervisionado).
   Apêndice: results_pbn/*_c1_pbn.csv (reprodução do PBN).
@@ -296,6 +298,48 @@ def table_decision():
     save("decision.tex", "\n".join(lines) + "\n")
 
 
+HARD = {"census", "helena", "krvsk", "volkert"}  # novidade não detectável
+TAU_CFG = [(r"$\beta = 1$", "results_beta1/a0.1"), (r"$\beta = 1.5$", "results_beta1.5/a0.1"),
+           (r"$\beta = 2$ (proposed)", "results_v7/a0.1"), (r"$\beta = 3$", "results_beta3/a0.1"),
+           (r"$\beta = 4$", "results_beta4/a0.1"), (r"$\alpha = 0.05$", "results_alpha/a0.05"),
+           (r"$\alpha = 0.2$", "results_alpha/a0.2")]
+
+
+def table_tau():
+    """Sensibilidade a beta e alpha (Eq. tau), transdutivo com K estimado, auto."""
+    from scipy.stats import wilcoxon
+    def load(folder):
+        out = []
+        for b in BASES:
+            d = pd.read_csv(R(folder, f"{b}_c2_kest.csv"))
+            d = d[d.family.str.startswith("auto")].copy()
+            d["base"] = b
+            out.append(d)
+        return pd.concat(out)
+    D = {lab: load(f) for lab, f in TAU_CFG}
+    ref = D[TAU_CFG[2][0]].groupby("base").acc_all.mean()
+    lines, NUM["tau"] = [], {}
+    for i, (lab, f) in enumerate(TAU_CFG):
+        d = D[lab]
+        m = d.groupby("base").acc_all.mean()
+        det = d[~d.base.isin(HARD)]
+        e = det.k_new - det.k_true_new
+        r = dict(all=m.mean(), det=det.groupby("base").acc_all.mean().mean(),
+                 kerr=e.abs().groupby(det.base).mean().mean(),
+                 kbias=e.groupby(det.base).mean().mean(),
+                 wins=int((m > ref + 1e-3).sum()), losses=int((m < ref - 1e-3).sum()),
+                 p=float(wilcoxon(m - ref).pvalue) if i != 2 else None,
+                 per_base=m.to_dict())
+        NUM["tau"][f] = r
+        if i == 5:
+            lines.append(r"\midrule")
+        wl = "--" if i == 2 else f"{r['wins']}/{r['losses']}"
+        pv = "--" if i == 2 else f"{r['p']:.2f}"
+        lines.append(f"{lab} & {f3(r['all'])} & {f3(r['det'])} & {r['kerr']:.2f} & "
+                     f"${r['kbias']:+.2f}$ & {wl} & {pv}" + r" \\")
+    save("tau.tex", "\n".join(lines) + "\n")
+
+
 # ------------------------------------------------------------------ ablações
 FAMS = [("gauss", "Gaussian"), ("knn", "$k$NN"), ("mst", "MST"), ("dic", "Dichotomy"),
         ("svm", r"OC-SVM ($\gamma$ default)"), ("svm-cv", r"OC-SVM ($\gamma$ by LOCO)")]
@@ -415,6 +459,7 @@ if __name__ == "__main__":
     table_c4()
     table_c4_long()
     table_decision()
+    table_tau()
     table_families()
     table_ablation_selection()
     table_pbn_repro()

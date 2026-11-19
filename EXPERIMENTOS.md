@@ -412,3 +412,12 @@ do escore de cada classe, normalizada entre as classes. Pendigits, letter e
 isolet. Transdutivo: 0,682 / 0,483 / 0,677 (AUROC 0,918 / 0,592 / 0,918).
 Incremental T=3 (Mac, `results_post/c4_*`): 0,687 / 0,440 / 0,682, esquecimento
 0,016 / 0,188 / 0,016. A normalização esconde a novidade.
+
+## Sensibilidade de tau (beta, alpha): `results_beta*/`, `results_alpha/`
+
+Transdutivo, K estimado, auto-auroc, 15 bases (Mac). beta = frag_c em {1, 1,5,
+3, 4} com alpha = 0,1; alpha em {0,05, 0,2} com beta = 2. Referência:
+results_v7 (beta = 2, alpha = 0,1). ACC All: 0,554 / 0,551 / 0,546 / 0,536 /
+0,531, alpha 0,05: 0,529, alpha 0,2: 0,522. Nenhuma diferença significativa.
+beta = 2 tem o menor erro em K nas 11 bases detectáveis (2,40). Tabela 8 do
+artigo.

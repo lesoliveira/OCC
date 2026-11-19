@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.10.30)  18 NOV 2026 15:49
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.10.30)  19 NOV 2026 09:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1102,7 +1102,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has
                                                   \__shipout_drop_firstpage_...
 l.278 \end{table}
                  ] (./tables/c4.tex)
-<figures/fig_pendigits.pdf, id=471, 369.29971pt x 170.49698pt>
+<figures/fig_pendigits.pdf, id=476, 369.29971pt x 170.49698pt>
 File: figures/fig_pendigits.pdf Graphic file (type pdf)
 <use figures/fig_pendigits.pdf>
 Package pdftex.def Info: figures/fig_pendigits.pdf  used on input line 303.
@@ -1137,7 +1137,7 @@ s been already used, duplicate ignored
                                                   \__shipout_drop_firstpage_...
 l.308 
        <./figures/fig_pendigits.pdf>]
-<figures/fig_stream.pdf, id=526, 371.59764pt x 173.70897pt>
+<figures/fig_stream.pdf, id=531, 371.59764pt x 173.70897pt>
 File: figures/fig_stream.pdf Graphic file (type pdf)
 <use figures/fig_stream.pdf>
 Package pdftex.def Info: figures/fig_stream.pdf  used on input line 314.
@@ -1153,6 +1153,11 @@ s been already used, duplicate ignored
                                                   \__shipout_drop_firstpage_...
 l.345 
        <./figures/fig_stream.pdf>] (./tables/families.tex)
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 359.
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [16
@@ -1160,21 +1165,14 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.5}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.361 \paragraph
-                {P-values or posterior probabilities.} A natural alternative...
-
+l.360 
+      
 pdfTeX warning (ext4): destination with the same identifier (name{table.6}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.361 \paragraph
-                {P-values or posterior probabilities.} A natural alternative...
-]
-
-Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 361.
-
-(./tables/decision.tex) (./tables/ablation.tex)
+l.360 
+      ] (./tables/tau.tex)
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [17
@@ -1182,23 +1180,16 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.7}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.390 
-      
+l.377 \paragraph
+                {P-values or posterior probabilities.} A natural alternative...
+
 pdfTeX warning (ext4): destination with the same identifier (name{table.8}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.390 
-      ]
-
-Package hyperref Warning: Difference (3) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 398.
-
-
-Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 400.
-
-
+l.377 \paragraph
+                {P-values or posterior probabilities.} A natural alternative...
+] (./tables/decision.tex) (./tables/ablation.tex)
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [18
@@ -1206,57 +1197,82 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.9}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.401 
-      ]
+l.407 T
+       o find out whether this is a failure of the representation or a prope...
+
+pdfTeX warning (ext4): destination with the same identifier (name{table.10}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.407 T
+       o find out whether this is a failure of the representation or a prope...
+]
+
+Package hyperref Warning: Difference (3) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 414.
+
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 416.
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [19]
-
-Package hyperref Warning: Difference (4) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 421.
-
-
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [20]
+
+Package hyperref Warning: Difference (4) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 437.
+
+
 pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.441 \caption
+l.457 \caption
               {PBN in its own NCD protocol: accuracy (\%) on the novel class...
 (./tables/pbn_repro.tex)
 pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.450 \end{tabular}
+l.466 \end{tabular}
                    
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
 pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.456 \caption
+l.472 \caption
               {NCD, number of novel classes known: transductive accuracy on ...
 (./tables/c1.tex)
 pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.463 \end{tabular}
+l.479 \end{tabular}
                    
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
 pdfTeX warning (ext4): destination with the same identifier (name{table.3}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.469 \caption
+l.485 \caption
               {Transductive GCD, number of novel classes known: ACC All per ...
 (./tables/c2_kknown.tex)
 pdfTeX warning (ext4): destination with the same identifier (name{table.3}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.476 \end{tabular}
+l.492 \end{tabular}
                    
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -1270,23 +1286,26 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
  [22]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [23])
+ [23]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [24]
+ [24])
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [25]
 (./main.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: B99A762655166D09DA22B90B1836B3F4;6948.
+(rerunfilecheck)             Checksum: 4B3A7092DBCC39164FA8C863C77DA8F7;7190.
  ) 
 Here is how much of TeX's memory you used:
- 24111 strings out of 476106
- 439079 string characters out of 5793932
- 1945975 words of memory out of 5000000
- 45487 multiletter control sequences out of 15000+600000
+ 24121 strings out of 476106
+ 439224 string characters out of 5793932
+ 1946975 words of memory out of 5000000
+ 45492 multiletter control sequences out of 15000+600000
  689038 words of font info for 140 fonts, out of 8000000 for 9000
  69 hyphenation exceptions out of 8191
  90i,13n,93p,1794b,750s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1307,10 +1326,10 @@ type1/public/lm/lmri10.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb><
 /usr/share/texmf/fonts/type1/public/lm/lmsy7.pfb></usr/share/texmf/fonts/type1/
 public/lm/lmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
 symbols/msbm10.pfb>
-Output written on main.pdf (24 pages, 736733 bytes).
+Output written on main.pdf (25 pages, 745631 bytes).
 PDF statistics:
- 774 PDF objects out of 1000 (max. 8388607)
- 659 compressed objects within 7 object streams
- 123 named destinations out of 1000 (max. 500000)
- 367 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 792 PDF objects out of 1000 (max. 8388607)
+ 676 compressed objects within 7 object streams
+ 126 named destinations out of 1000 (max. 500000)
+ 375 words of extra memory for PDF output out of 10000 (max. 10000000)
 
