@@ -2,16 +2,22 @@
 
 - SSKMeans: k-means semi-supervisionado do GCD (Vaze et al., CVPR 2022).
   Usa D_L, mas não tem rejeição explícita.
-- ClosedMSP: classificador fechado + rejeição pela probabilidade máxima
-  (MSP) + k-means dos rejeitados. O limiar é escolhido em probabilidades
-  de validação cruzada em D_L, para rejeitar uma fração alpha das antigas,
-  com a mesma semântica de alpha dos OCCs.
+- ClosedMSP: classificador fechado + rejeição + agrupamento dos rejeitados.
+  O limiar é escolhido em escores de validação cruzada em D_L, para rejeitar
+  uma fração alpha das antigas, com a mesma semântica de alpha dos OCCs.
+  Rejeitores (score):
+    'msp'     probabilidade máxima do classificador fechado (RF, LR ou HGB)
+    'ova'     um contra todos: um classificador binário (HGB) por classe, sem
+              normalizar entre as classes, rejeita se o maior P(c | x) for baixo
+    'iforest' Isolation Forest global em D_L como rejeitor, RF classifica as
+              amostras aceitas
 """
 import numpy as np
 from sklearn.cluster import KMeans
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import (HistGradientBoostingClassifier, IsolationForest,
+                              RandomForestClassifier)
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import cross_val_predict
+from sklearn.model_selection import StratifiedKFold, cross_val_predict
 
 from .kest import estimate_k
 
@@ -96,7 +102,9 @@ def cluster_rejected(Xr, k_new, assign, X_l, y_l, base, k_max, random_state=0):
 
 class ClosedMSP:
     def __init__(self, clf="rf", alpha=0.05, k_max_factor=2, n_folds=5,
-                 random_state=0, assign="kmeans", k_est="silhouette", frag_c=2.0):
+                 random_state=0, assign="kmeans", k_est="silhouette", frag_c=2.0,
+                 score="msp"):
+        self.score = score
         self.assign = assign
         self.k_est = k_est
         self.frag_c = frag_c
@@ -110,10 +118,60 @@ class ClosedMSP:
         if self.clf == "rf":
             return RandomForestClassifier(n_estimators=300, n_jobs=-1,
                                           random_state=self.random_state)
+        if self.clf == "hgb":
+            return HistGradientBoostingClassifier(random_state=self.random_state)
         return LogisticRegression(max_iter=2000, C=1.0)
+
+    # ---------------------------------------------------- rejeitores alternativos
+    def _fit_ova(self, X, y):
+        """Um HGB binário por classe (c contra as demais)."""
+        return {c: HistGradientBoostingClassifier(random_state=self.random_state)
+                .fit(X, (y == c).astype(int)) for c in np.unique(y)}
+
+    @staticmethod
+    def _ova_scores(models, classes, X):
+        return np.column_stack([models[c].predict_proba(X)[:, 1] for c in classes])
+
+    def _cv_conf(self, X, y, k):
+        """Confiança fora da amostra em D_L (maior = mais conhecida)."""
+        conf = np.empty(len(y))
+        cv = StratifiedKFold(k, shuffle=True, random_state=self.random_state)
+        for tr, te in cv.split(X, y):
+            if self.score == "ova":
+                M = self._fit_ova(X[tr], y[tr])
+                conf[te] = self._ova_scores(M, np.unique(y[tr]), X[te]).max(axis=1)
+            else:  # iforest
+                f = IsolationForest(n_estimators=300, random_state=self.random_state,
+                                    n_jobs=-1).fit(X[tr])
+                conf[te] = f.score_samples(X[te])
+        return conf
+
+    def _conf_pred(self, X):
+        """(confiança, classe prevista) para X."""
+        if self.score == "ova":
+            S = self._ova_scores(self.ova_, self.classes_, X)
+            return S.max(axis=1), self.classes_[S.argmax(axis=1)]
+        P = self.model_.predict_proba(X)
+        y = self.classes_[P.argmax(axis=1)]
+        if self.score == "iforest":
+            return self.iforest_.score_samples(X), y
+        return P.max(axis=1), y
 
     def fit(self, X_l, y_l):
         X_l, y_l = np.asarray(X_l, float), np.asarray(y_l)
+        if self.score in ("ova", "iforest"):
+            k = min(self.n_folds, np.bincount(np.unique(y_l, return_inverse=True)[1]).min())
+            self.classes_ = np.unique(y_l)
+            if self.score == "ova":
+                self.ova_ = self._fit_ova(X_l, y_l)
+            else:
+                self.model_ = self._make().fit(X_l, y_l)
+                self.classes_ = self.model_.classes_
+                self.iforest_ = IsolationForest(n_estimators=300, n_jobs=-1,
+                                                random_state=self.random_state).fit(X_l)
+            self.thr_ = np.quantile(self._cv_conf(X_l, y_l, max(k, 2)), self.alpha)
+            self.X_l_, self.y_l_ = X_l, y_l
+            return self
         # MSP de validação cruzada em D_L: escores "honestos" das antigas
         k = min(self.n_folds, np.bincount(np.unique(y_l, return_inverse=True)[1]).min())
         self.model_ = self._make().fit(X_l, y_l)
@@ -127,13 +185,14 @@ class ClosedMSP:
         return self
 
     def novelty_score(self, X):
-        return 1.0 - self.model_.predict_proba(np.asarray(X, float)).max(axis=1)
+        conf, _ = self._conf_pred(np.asarray(X, float))
+        return -conf if self.score == "iforest" else 1.0 - conf
 
     def discover(self, X_u, k_new=None, return_info=False):
         X_u = np.asarray(X_u, float)
-        P = self.model_.predict_proba(X_u)
-        y = self.classes_[P.argmax(axis=1)].copy()
-        rej = P.max(axis=1) < self.thr_
+        conf, y = self._conf_pred(X_u)
+        y = y.copy()
+        rej = conf < self.thr_
         info = {"n_rejected": int(rej.sum()), "k_new": 0}
         corr = (k_new is None and self.assign == "kmeans"
                 and self.k_est in ("sil-size", "hdbscan", "hdbscan-leaf"))

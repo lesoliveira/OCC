@@ -43,6 +43,11 @@ def load(path):
     return pd.read_csv(path, header=None).values
 
 
+# rejeitores fechados: família -> (classificador, rejeitor)
+CLOSED = {"rf_msp": ("rf", "msp"), "lr_msp": ("lr", "msp"), "hgb_msp": ("hgb", "msp"),
+          "ova_hgb": ("hgb", "ova"), "if_rf": ("rf", "iforest")}
+
+
 def run_one(family, X_l, y_l, X_u, y_u, old_classes, scenario, alpha, k_known,
             occ_kwargs, seed, cal_mode="cv", k_est="silhouette", frag_c=2.0,
             auto_families=("gauss", "knn", "mst", "dic"), auto_criterion="auroc",
@@ -93,9 +98,10 @@ def run_one(family, X_l, y_l, X_u, y_u, old_classes, scenario, alpha, k_known,
         m = SSKMeans(random_state=seed)
         y_hat = m.fit_predict(X_l, y_l, X_u, k_new=k_known)
         res = {"n_rejected": np.nan, "k_new": m.k_new_}
-    elif family in ("rf_msp", "lr_msp"):  # classificador fechado + MSP
-        m = ClosedMSP(family[:2], alpha=alpha, random_state=seed,
-                      assign=assign, k_est=k_est, frag_c=frag_c).fit(X_l, y_l)
+    elif family in CLOSED:  # classificador fechado + rejeitor (occ/baselines.py)
+        clf, score = CLOSED[family]
+        m = ClosedMSP(clf, alpha=alpha, random_state=seed, assign=assign,
+                      k_est=k_est, frag_c=frag_c, score=score).fit(X_l, y_l)
         y_hat, res = m.discover(X_u, k_new=k_known, return_info=True)
         novelty = m.novelty_score(X_u)
     else:
