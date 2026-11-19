@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.10.30)  19 NOV 2026 09:55
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.10.30)  19 NOV 2026 10:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1087,12 +1087,13 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.231 
-      ]
+l.230 I
+       n incremental GCD the session $S_0$ holds half of the samples of each...
+]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [11]
-(./tables/c2_kest.tex) (./tables/c2_kest_summary.tex)
+(./tables/c2_kest.tex)
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [12
@@ -1100,14 +1101,8 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.278 \end{table}
-                 ] (./tables/c4.tex)
-<figures/fig_pendigits.pdf, id=476, 369.29971pt x 170.49698pt>
-File: figures/fig_pendigits.pdf Graphic file (type pdf)
-<use figures/fig_pendigits.pdf>
-Package pdftex.def Info: figures/fig_pendigits.pdf  used on input line 303.
-(pdftex.def)             Requested size: 372.0pt x 171.7505pt.
-
+l.268 
+      ] (./tables/c2_kest_summary.tex) (./tables/c4.tex)
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [13
@@ -1115,8 +1110,14 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.3}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.305 \end{figure}
-                  ]
+l.300 
+      ]
+<figures/fig_pendigits.pdf, id=488, 369.29971pt x 170.49698pt>
+File: figures/fig_pendigits.pdf Graphic file (type pdf)
+<use figures/fig_pendigits.pdf>
+Package pdftex.def Info: figures/fig_pendigits.pdf  used on input line 303.
+(pdftex.def)             Requested size: 372.0pt x 171.7505pt.
+
 
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
 (hyperref)                than one, level fixed on input line 307.
@@ -1137,7 +1138,7 @@ s been already used, duplicate ignored
                                                   \__shipout_drop_firstpage_...
 l.308 
        <./figures/fig_pendigits.pdf>]
-<figures/fig_stream.pdf, id=531, 371.59764pt x 173.70897pt>
+<figures/fig_stream.pdf, id=535, 371.59764pt x 173.70897pt>
 File: figures/fig_stream.pdf Graphic file (type pdf)
 <use figures/fig_stream.pdf>
 Package pdftex.def Info: figures/fig_stream.pdf  used on input line 314.
@@ -1224,63 +1225,55 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
  [20]
 
 Package hyperref Warning: Difference (4) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 437.
+(hyperref)                than one, level fixed on input line 439.
 
 
 pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.457 \caption
+l.459 \caption
               {PBN in its own NCD protocol: accuracy (\%) on the novel class...
 (./tables/pbn_repro.tex)
 pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.466 \end{tabular}
+l.468 \end{tabular}
                    
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
+ [21]
 pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.472 \caption
+l.474 \caption
               {NCD, number of novel classes known: transductive accuracy on ...
 (./tables/c1.tex)
 pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.479 \end{tabular}
+l.481 \end{tabular}
                    
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
 pdfTeX warning (ext4): destination with the same identifier (name{table.3}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.485 \caption
+l.487 \caption
               {Transductive GCD, number of novel classes known: ACC All per ...
 (./tables/c2_kknown.tex)
 pdfTeX warning (ext4): destination with the same identifier (name{table.3}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.492 \end{tabular}
+l.494 \end{tabular}
                    
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 (./main.bbl
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [21]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [22]
@@ -1299,13 +1292,13 @@ LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 4B3A7092DBCC39164FA8C863C77DA8F7;7190.
+(rerunfilecheck)             Checksum: BCD38C62BF6AA7B408C1E3FDEA4931CB;7311.
  ) 
 Here is how much of TeX's memory you used:
- 24121 strings out of 476106
- 439224 string characters out of 5793932
+ 24127 strings out of 476106
+ 439337 string characters out of 5793932
  1946975 words of memory out of 5000000
- 45492 multiletter control sequences out of 15000+600000
+ 45496 multiletter control sequences out of 15000+600000
  689038 words of font info for 140 fonts, out of 8000000 for 9000
  69 hyphenation exceptions out of 8191
  90i,13n,93p,1794b,750s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1326,10 +1319,10 @@ type1/public/lm/lmri10.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb><
 /usr/share/texmf/fonts/type1/public/lm/lmsy7.pfb></usr/share/texmf/fonts/type1/
 public/lm/lmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
 symbols/msbm10.pfb>
-Output written on main.pdf (25 pages, 745631 bytes).
+Output written on main.pdf (25 pages, 746965 bytes).
 PDF statistics:
- 792 PDF objects out of 1000 (max. 8388607)
- 676 compressed objects within 7 object streams
- 126 named destinations out of 1000 (max. 500000)
- 375 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 797 PDF objects out of 1000 (max. 8388607)
+ 681 compressed objects within 7 object streams
+ 128 named destinations out of 1000 (max. 500000)
+ 383 words of extra memory for PDF output out of 10000 (max. 10000000)
 

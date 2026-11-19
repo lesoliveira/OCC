@@ -1,4 +1,4 @@
-\begin{thebibliography}{33}
+\begin{thebibliography}{34}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{{#1}}
 \providecommand{\urlprefix}{URL }
@@ -158,6 +158,11 @@ Vaze S, Han K, Vedaldi A, et~al (2022) Generalized category discovery. In:
 \bibitem[{Vovk(2015)}]{vovk2015crossconformal}
 Vovk V (2015) Cross-conformal predictors. Annals of Mathematics and Artificial
   Intelligence 74(1--2):9--28. \doi{10.1007/s10472-013-9368-4}
+
+\bibitem[{Vovk et~al(2003)Vovk, Nouretdinov, and Gammerman}]{vovk2003testing}
+Vovk V, Nouretdinov I, Gammerman A (2003) Testing exchangeability on-line. In:
+  Proceedings of the 20th International Conference on Machine Learning (ICML),
+  pp 768--775
 
 \bibitem[{Vovk et~al(2005)Vovk, Gammerman, and Shafer}]{vovk2005alrw}
 Vovk V, Gammerman A, Shafer G (2005) Algorithmic Learning in a Random World.

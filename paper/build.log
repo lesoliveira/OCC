@@ -250,24 +250,25 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.231 
-      ]
+l.230 I
+       n incremental GCD the session $S_0$ holds half of the samples of each...
+]
 Underfull \vbox (badness 10000) has occurred while \output is active [11]
-(./tables/c2_kest.tex) (./tables/c2_kest_summary.tex)
+(./tables/c2_kest.tex)
 Underfull \vbox (badness 10000) has occurred while \output is active [12
 pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.278 \end{table}
-                 ] (./tables/c4.tex)
+l.268 
+      ] (./tables/c2_kest_summary.tex) (./tables/c4.tex)
 Underfull \vbox (badness 10000) has occurred while \output is active [13
 pdfTeX warning (ext4): destination with the same identifier (name{table.3}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.305 \end{figure}
-                  ]
+l.300 
+      ]
 
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
 (hyperref)                than one, level fixed on input line 307.
@@ -355,61 +356,53 @@ Underfull \vbox (badness 10000) has occurred while \output is active [19]
 Underfull \vbox (badness 10000) has occurred while \output is active [20]
 
 Package hyperref Warning: Difference (4) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 437.
+(hyperref)                than one, level fixed on input line 439.
 
 
 pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.457 \caption
+l.459 \caption
               {PBN in its own NCD protocol: accuracy (\%) on the novel class...
 (./tables/pbn_repro.tex)
 pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.466 \end{tabular}
+l.468 \end{tabular}
                    
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
+Underfull \vbox (badness 10000) has occurred while \output is active [21]
 pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.472 \caption
+l.474 \caption
               {NCD, number of novel classes known: transductive accuracy on ...
 (./tables/c1.tex)
 pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.479 \end{tabular}
+l.481 \end{tabular}
                    
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
 pdfTeX warning (ext4): destination with the same identifier (name{table.3}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.485 \caption
+l.487 \caption
               {Transductive GCD, number of novel classes known: ACC All per ...
 (./tables/c2_kknown.tex)
 pdfTeX warning (ext4): destination with the same identifier (name{table.3}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.492 \end{tabular}
+l.494 \end{tabular}
                    
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 (./main.bbl
-Underfull \vbox (badness 10000) has occurred while \output is active [21]
 Underfull \vbox (badness 10000) has occurred while \output is active [22]
 Underfull \vbox (badness 10000) has occurred while \output is active [23]
 Underfull \vbox (badness 10000) has occurred while \output is active [24])
@@ -432,5 +425,5 @@ r7.pfb></usr/share/texmf/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf/fonts
 usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/
 public/lm/lmsy7.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy8.pfb></usr/sha
 re/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on main.pdf (25 pages, 745631 bytes).
+Output written on main.pdf (25 pages, 746965 bytes).
 Transcript written on main.log.
