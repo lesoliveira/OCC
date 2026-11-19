@@ -91,112 +91,119 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Splits}{10}{subsection.5.2}\protected@file@percent }
 \citation{vaze2022gcd}
 \citation{hendrycks2017msp}
+\citation{ke2017lightgbm}
+\citation{liu2008iforest}
 \citation{troisemaine2024pbn}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Baselines}{11}{subsection.5.3}\protected@file@percent }
 \citation{demsar2006}
 \citation{holm1979}
 \citation{pedregosa2011sklearn}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Baselines}{11}{subsection.5.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Transductive GCD, number of novel classes estimated: ACC All per data set (mean of five seeds). Best value per row in bold. W/L: data sets in which our method wins/loses by more than 0.005. $p$: Wilcoxon signed-rank test against our method with Holm's correction. Friedman test: $\chi ^2 = 14.73$, $p = 0.012$.}}{12}{table.2}\protected@file@percent }
-\newlabel{tab:c2}{{2}{12}{Transductive GCD, number of novel classes estimated: ACC All per data set (mean of five seeds). Best value per row in bold. W/L: data sets in which our method wins/loses by more than 0.005. $p$: Wilcoxon signed-rank test against our method with Holm's correction. Friedman test: $\chi ^2 = 14.73$, $p = 0.012$}{table.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Statistics and implementation}{12}{subsection.5.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {6}Results}{12}{section.6}\protected@file@percent }
 \newlabel{sec:results}{{6}{12}{Results}{section.6}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Transductive GCD}{12}{subsection.6.1}\protected@file@percent }
 \newlabel{sec:res-c2}{{6.1}{12}{Transductive GCD}{subsection.6.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Other rejectors.}{12}{section*.12}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Transductive GCD, number of novel classes estimated: ACC All per data set (mean of five seeds). Best value per row in bold. W/L: data sets in which our method wins/loses by more than 0.005. $p$: Wilcoxon signed-rank test against our method with Holm's correction. Friedman test: $\chi ^2 = 14.73$, $p = 0.012$.}}{13}{table.2}\protected@file@percent }
+\newlabel{tab:c2}{{2}{13}{Transductive GCD, number of novel classes estimated: ACC All per data set (mean of five seeds). Best value per row in bold. W/L: data sets in which our method wins/loses by more than 0.005. $p$: Wilcoxon signed-rank test against our method with Holm's correction. Friedman test: $\chi ^2 = 14.73$, $p = 0.012$}{table.2}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Transductive GCD, number of novel classes estimated: means over the 15 data sets. AUROC: novelty detection (known against novel samples of $\mathcal  {D}_U$), only for methods with a rejection score. $|\hat  K - K|$: mean absolute error of the estimated number of novel classes, dominated by Helena (50 novel classes).}}{13}{table.3}\protected@file@percent }
 \newlabel{tab:c2summary}{{3}{13}{Transductive GCD, number of novel classes estimated: means over the 15 data sets. AUROC: novelty detection (known against novel samples of $\DU $), only for methods with a rejection score. $|\hat K - K|$: mean absolute error of the estimated number of novel classes, dominated by Helena (50 novel classes)}{table.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Incremental GCD}{13}{subsection.6.2}\protected@file@percent }
-\newlabel{sec:res-c4}{{6.2}{13}{Incremental GCD}{subsection.6.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Incremental GCD (three unlabeled sessions): ACC All averaged over sessions (mean of five seeds). Conventions as in Table~\ref {tab:c2}. Friedman test: $\chi ^2 = 6.92$, $p = 0.074$.}}{14}{table.4}\protected@file@percent }
-\newlabel{tab:c4}{{4}{14}{Incremental GCD (three unlabeled sessions): ACC All averaged over sessions (mean of five seeds). Conventions as in Table~\ref {tab:c2}. Friedman test: $\chi ^2 = 6.92$, $p = 0.074$}{table.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Incremental GCD on Pendigits with three sessions (seed 4, ACC All 0.85 in the last session). (a) True classes on a t-SNE map of all samples, computed once. (b)--(d) Class assigned by our method to each sample seen so far, after each session. A spurious class is a discovered class that does not match any true class. The legend gives the session in which each novel class debuts.}}{14}{figure.2}\protected@file@percent }
-\newlabel{fig:pendigits}{{2}{14}{Incremental GCD on Pendigits with three sessions (seed 4, ACC All 0.85 in the last session). (a) True classes on a t-SNE map of all samples, computed once. (b)--(d) Class assigned by our method to each sample seen so far, after each session. A spurious class is a discovered class that does not match any true class. The legend gives the session in which each novel class debuts}{figure.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Incremental GCD with ten unlabeled sessions, mean of the six data sets of Table~\ref {tab:c4long} and five seeds. (a) ACC All in each session. (b) Time per session, log scale, same laptop CPU for all methods.}}{15}{figure.3}\protected@file@percent }
-\newlabel{fig:stream}{{3}{15}{Incremental GCD with ten unlabeled sessions, mean of the six data sets of Table~\ref {tab:c4long} and five seeds. (a) ACC All in each session. (b) Time per session, log scale, same laptop CPU for all methods}{figure.3}{}}
-\@writefile{toc}{\contentsline {paragraph}{Longer streams.}{15}{section*.12}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Choice of the OCC family}{15}{subsection.6.3}\protected@file@percent }
-\newlabel{sec:res-selection}{{6.3}{15}{Choice of the OCC family}{subsection.6.3}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Incremental GCD with ten unlabeled sessions: ACC All averaged over sessions and time per session in seconds, first $\to $ last session (mean of five seeds, same laptop CPU for all methods, excluding the initial fit on $S_0$). Best accuracy per row in bold.}}{16}{table.5}\protected@file@percent }
-\newlabel{tab:c4long}{{5}{16}{Incremental GCD with ten unlabeled sessions: ACC All averaged over sessions and time per session in seconds, first $\to $ last session (mean of five seeds, same laptop CPU for all methods, excluding the initial fit on $S_0$). Best accuracy per row in bold}{table.5}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Incremental GCD: means over the 15 data sets. Forgetting: drop of accuracy on the classes of $S_0$ between the first and the last session. Time: seconds per session on the same laptop CPU, excluding the initial fit on $S_0$, which for our method includes the family selection (SS-$k$-means was run on a different machine and its time is omitted). Stores: keeps samples of past sessions. Retrains: retrains the model of known classes at every session.}}{16}{table.6}\protected@file@percent }
-\newlabel{tab:c4summary}{{6}{16}{Incremental GCD: means over the 15 data sets. Forgetting: drop of accuracy on the classes of $S_0$ between the first and the last session. Time: seconds per session on the same laptop CPU, excluding the initial fit on $S_0$, which for our method includes the family selection (SS-$k$-means was run on a different machine and its time is omitted). Stores: keeps samples of past sessions. Retrains: retrains the model of known classes at every session}{table.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Sensitivity and variants}{16}{subsection.6.4}\protected@file@percent }
-\newlabel{sec:ablation}{{6.4}{16}{Sensitivity and variants}{subsection.6.4}{}}
-\@writefile{toc}{\contentsline {paragraph}{Sensitivity of the fragment threshold.}{16}{section*.13}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Transductive GCD, number of novel classes estimated: OCC families used alone against the selection. Oracle: best fixed family per data set in hindsight (Gaussian, $k$NN, MST, dichotomy, OC-SVM with default $\gamma $). Loss: oracle minus method. $\le 0.02$: number of data sets within 0.02 of the oracle. $p$: Wilcoxon test against the selection with Holm's correction.}}{17}{table.7}\protected@file@percent }
-\newlabel{tab:families}{{7}{17}{Transductive GCD, number of novel classes estimated: OCC families used alone against the selection. Oracle: best fixed family per data set in hindsight (Gaussian, $k$NN, MST, dichotomy, OC-SVM with default $\gamma $). Loss: oracle minus method. $\le 0.02$: number of data sets within 0.02 of the oracle. $p$: Wilcoxon test against the selection with Holm's correction}{table.7}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Sensitivity to the parameters of Eq.~\eqref  {eq:tau} in transductive GCD with the number of novel classes estimated (five seeds). $\beta $ is varied with $\alpha = 0.1$, and $\alpha $ with $\beta = 2$. ACC All over the 15 data sets and over the 11 where novelty is detectable (Sect.~\ref {sec:detectability}). Error and bias of the estimated number of novel classes, $\hat  {k} - |\mathcal  {C}_{\mathrm  {new}}|$, over the same 11 data sets. W/L and $p$: data sets where the configuration wins/loses against the default and Wilcoxon signed-rank test.}}{17}{table.8}\protected@file@percent }
-\newlabel{tab:tau}{{8}{17}{Sensitivity to the parameters of Eq.~\eqref {eq:tau} in transductive GCD with the number of novel classes estimated (five seeds). $\beta $ is varied with $\alpha = 0.1$, and $\alpha $ with $\beta = 2$. ACC All over the 15 data sets and over the 11 where novelty is detectable (Sect.~\ref {sec:detectability}). Error and bias of the estimated number of novel classes, $\hat {k} - |\Cnew |$, over the same 11 data sets. W/L and $p$: data sets where the configuration wins/loses against the default and Wilcoxon signed-rank test}{table.8}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Decision rule of the decomposition, means over Pendigits, Letter and Isolet (five seeds each). Transductive: number of novel classes estimated. Incremental: three sessions. The transductive runs were repeated in another environment, and the p-value row differs from Table~\ref {tab:c2} by 0.01 on Isolet.}}{18}{table.9}\protected@file@percent }
-\newlabel{tab:decision}{{9}{18}{Decision rule of the decomposition, means over Pendigits, Letter and Isolet (five seeds each). Transductive: number of novel classes estimated. Incremental: three sessions. The transductive runs were repeated in another environment, and the p-value row differs from Table~\ref {tab:c2} by 0.01 on Isolet}{table.9}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces Transductive GCD, number of novel classes estimated: variants of the method. W/L and $p$ against the proposed configuration (Wilcoxon, no correction).}}{18}{table.10}\protected@file@percent }
-\newlabel{tab:ablation}{{10}{18}{Transductive GCD, number of novel classes estimated: variants of the method. W/L and $p$ against the proposed configuration (Wilcoxon, no correction)}{table.10}{}}
-\@writefile{toc}{\contentsline {paragraph}{P-values or posterior probabilities.}{18}{section*.14}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}When is novelty detectable?}{18}{subsection.6.5}\protected@file@percent }
-\newlabel{sec:detectability}{{6.5}{18}{When is novelty detectable?}{subsection.6.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Discussion and limitations}{19}{section.7}\protected@file@percent }
-\newlabel{sec:discussion}{{7}{19}{Discussion and limitations}{section.7}{}}
-\@writefile{toc}{\contentsline {paragraph}{Statistical power.}{19}{section*.15}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Estimating the number of novel classes.}{19}{section*.16}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Context attributes.}{19}{section*.17}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Transductive GCD, number of novel classes estimated: rejectors compared under the same threshold and discovery step (mean of five seeds). ACC All over the 15 data sets and over the 11 where novelty is detectable (Sect.~\ref {sec:detectability}), AUROC of novelty detection and $|\hat  K - K|$ over the same 11. Rank over the six methods. W/L and $p$ as in Table~\ref {tab:c2}.}}{14}{table.4}\protected@file@percent }
+\newlabel{tab:rejectors}{{4}{14}{Transductive GCD, number of novel classes estimated: rejectors compared under the same threshold and discovery step (mean of five seeds). ACC All over the 15 data sets and over the 11 where novelty is detectable (Sect.~\ref {sec:detectability}), AUROC of novelty detection and $|\hat K - K|$ over the same 11. Rank over the six methods. W/L and $p$ as in Table~\ref {tab:c2}}{table.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Incremental GCD (three unlabeled sessions): ACC All averaged over sessions (mean of five seeds). Conventions as in Table~\ref {tab:c2}. Friedman test: $\chi ^2 = 6.92$, $p = 0.074$.}}{14}{table.5}\protected@file@percent }
+\newlabel{tab:c4}{{5}{14}{Incremental GCD (three unlabeled sessions): ACC All averaged over sessions (mean of five seeds). Conventions as in Table~\ref {tab:c2}. Friedman test: $\chi ^2 = 6.92$, $p = 0.074$}{table.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Incremental GCD}{14}{subsection.6.2}\protected@file@percent }
+\newlabel{sec:res-c4}{{6.2}{14}{Incremental GCD}{subsection.6.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Incremental GCD on Pendigits with three sessions (seed 4, ACC All 0.85 in the last session). (a) True classes on a t-SNE map of all samples, computed once. (b)--(d) Class assigned by our method to each sample seen so far, after each session. A spurious class is a discovered class that does not match any true class. The legend gives the session in which each novel class debuts.}}{15}{figure.2}\protected@file@percent }
+\newlabel{fig:pendigits}{{2}{15}{Incremental GCD on Pendigits with three sessions (seed 4, ACC All 0.85 in the last session). (a) True classes on a t-SNE map of all samples, computed once. (b)--(d) Class assigned by our method to each sample seen so far, after each session. A spurious class is a discovered class that does not match any true class. The legend gives the session in which each novel class debuts}{figure.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Longer streams.}{15}{section*.13}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Incremental GCD with ten unlabeled sessions, mean of the six data sets of Table~\ref {tab:c4long} and five seeds. (a) ACC All in each session. (b) Time per session, log scale, same laptop CPU for all methods.}}{16}{figure.3}\protected@file@percent }
+\newlabel{fig:stream}{{3}{16}{Incremental GCD with ten unlabeled sessions, mean of the six data sets of Table~\ref {tab:c4long} and five seeds. (a) ACC All in each session. (b) Time per session, log scale, same laptop CPU for all methods}{figure.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Incremental GCD with ten unlabeled sessions: ACC All averaged over sessions and time per session in seconds, first $\to $ last session (mean of five seeds, same laptop CPU for all methods, excluding the initial fit on $S_0$). Best accuracy per row in bold.}}{16}{table.6}\protected@file@percent }
+\newlabel{tab:c4long}{{6}{16}{Incremental GCD with ten unlabeled sessions: ACC All averaged over sessions and time per session in seconds, first $\to $ last session (mean of five seeds, same laptop CPU for all methods, excluding the initial fit on $S_0$). Best accuracy per row in bold}{table.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Choice of the OCC family}{16}{subsection.6.3}\protected@file@percent }
+\newlabel{sec:res-selection}{{6.3}{16}{Choice of the OCC family}{subsection.6.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Incremental GCD: means over the 15 data sets. Forgetting: drop of accuracy on the classes of $S_0$ between the first and the last session. Time: seconds per session on the same laptop CPU, excluding the initial fit on $S_0$, which for our method includes the family selection (SS-$k$-means was run on a different machine and its time is omitted). Stores: keeps samples of past sessions. Retrains: retrains the model of known classes at every session.}}{17}{table.7}\protected@file@percent }
+\newlabel{tab:c4summary}{{7}{17}{Incremental GCD: means over the 15 data sets. Forgetting: drop of accuracy on the classes of $S_0$ between the first and the last session. Time: seconds per session on the same laptop CPU, excluding the initial fit on $S_0$, which for our method includes the family selection (SS-$k$-means was run on a different machine and its time is omitted). Stores: keeps samples of past sessions. Retrains: retrains the model of known classes at every session}{table.7}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Transductive GCD, number of novel classes estimated: OCC families used alone against the selection. Oracle: best fixed family per data set in hindsight (Gaussian, $k$NN, MST, dichotomy, OC-SVM with default $\gamma $). Loss: oracle minus method. $\le 0.02$: number of data sets within 0.02 of the oracle. $p$: Wilcoxon test against the selection with Holm's correction.}}{17}{table.8}\protected@file@percent }
+\newlabel{tab:families}{{8}{17}{Transductive GCD, number of novel classes estimated: OCC families used alone against the selection. Oracle: best fixed family per data set in hindsight (Gaussian, $k$NN, MST, dichotomy, OC-SVM with default $\gamma $). Loss: oracle minus method. $\le 0.02$: number of data sets within 0.02 of the oracle. $p$: Wilcoxon test against the selection with Holm's correction}{table.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Sensitivity and variants}{17}{subsection.6.4}\protected@file@percent }
+\newlabel{sec:ablation}{{6.4}{17}{Sensitivity and variants}{subsection.6.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Sensitivity of the fragment threshold.}{17}{section*.14}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Sensitivity to the parameters of Eq.~\eqref  {eq:tau} in transductive GCD with the number of novel classes estimated (five seeds). $\beta $ is varied with $\alpha = 0.1$, and $\alpha $ with $\beta = 2$. ACC All over the 15 data sets and over the 11 where novelty is detectable (Sect.~\ref {sec:detectability}). Error and bias of the estimated number of novel classes, $\hat  {k} - |\mathcal  {C}_{\mathrm  {new}}|$, over the same 11 data sets. W/L and $p$: data sets where the configuration wins/loses against the default and Wilcoxon signed-rank test.}}{18}{table.9}\protected@file@percent }
+\newlabel{tab:tau}{{9}{18}{Sensitivity to the parameters of Eq.~\eqref {eq:tau} in transductive GCD with the number of novel classes estimated (five seeds). $\beta $ is varied with $\alpha = 0.1$, and $\alpha $ with $\beta = 2$. ACC All over the 15 data sets and over the 11 where novelty is detectable (Sect.~\ref {sec:detectability}). Error and bias of the estimated number of novel classes, $\hat {k} - |\Cnew |$, over the same 11 data sets. W/L and $p$: data sets where the configuration wins/loses against the default and Wilcoxon signed-rank test}{table.9}{}}
+\@writefile{toc}{\contentsline {paragraph}{P-values or posterior probabilities.}{18}{section*.15}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces Decision rule of the decomposition, means over Pendigits, Letter and Isolet (five seeds each). Transductive: number of novel classes estimated. Incremental: three sessions. The transductive runs were repeated in another environment, and the p-value row differs from Table~\ref {tab:c2} by 0.01 on Isolet.}}{19}{table.10}\protected@file@percent }
+\newlabel{tab:decision}{{10}{19}{Decision rule of the decomposition, means over Pendigits, Letter and Isolet (five seeds each). Transductive: number of novel classes estimated. Incremental: three sessions. The transductive runs were repeated in another environment, and the p-value row differs from Table~\ref {tab:c2} by 0.01 on Isolet}{table.10}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces Transductive GCD, number of novel classes estimated: variants of the method. W/L and $p$ against the proposed configuration (Wilcoxon, no correction).}}{19}{table.11}\protected@file@percent }
+\newlabel{tab:ablation}{{11}{19}{Transductive GCD, number of novel classes estimated: variants of the method. W/L and $p$ against the proposed configuration (Wilcoxon, no correction)}{table.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}When is novelty detectable?}{19}{subsection.6.5}\protected@file@percent }
+\newlabel{sec:detectability}{{6.5}{19}{When is novelty detectable?}{subsection.6.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Discussion and limitations}{20}{section.7}\protected@file@percent }
+\newlabel{sec:discussion}{{7}{20}{Discussion and limitations}{section.7}{}}
+\@writefile{toc}{\contentsline {paragraph}{Statistical power.}{20}{section*.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Estimating the number of novel classes.}{20}{section*.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Context attributes.}{20}{section*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Evaluation protocol.}{20}{section*.19}\protected@file@percent }
 \citation{vovk2003testing}
-\@writefile{toc}{\contentsline {paragraph}{Evaluation protocol.}{20}{section*.18}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Storage and cost.}{20}{section*.19}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Choices for the stream.}{20}{section*.20}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Calibration.}{20}{section*.21}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Stationarity.}{20}{section*.22}\protected@file@percent }
 \citation{krawczyk2016dcs}
 \citation{fragoso2021modes}
+\@writefile{toc}{\contentsline {paragraph}{Storage and cost.}{21}{section*.20}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Choices for the stream.}{21}{section*.21}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Calibration.}{21}{section*.22}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Stationarity.}{21}{section*.23}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion}{21}{section.8}\protected@file@percent }
+\newlabel{sec:conclusion}{{8}{21}{Conclusion}{section.8}{}}
 \citation{troisemaine2024pbn}
 \citation{vanschoren2013openml}
 \citation{troisemaine2024pbn}
-\@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion}{21}{section.8}\protected@file@percent }
-\newlabel{sec:conclusion}{{8}{21}{Conclusion}{section.8}{}}
-\@writefile{toc}{\contentsline {subparagraph}{Acknowledgements}{21}{section*.23}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {A}Reproduction of PBN}{21}{appendix.a.A}\protected@file@percent }
-\newlabel{app:pbn}{{A}{21}{Reproduction of PBN}{appendix.a.A}{}}
 \citation{troisemaine2024pbn}
+\@writefile{toc}{\contentsline {subparagraph}{Acknowledgements}{22}{section*.24}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {A}Reproduction of PBN}{22}{appendix.a.A}\protected@file@percent }
+\newlabel{app:pbn}{{A}{22}{Reproduction of PBN}{appendix.a.A}{}}
 \bibdata{refs}
 \bibcite{bates2023conformal}{{1}{2023}{{Bates et~al}}{{Bates, Cand{\`e}s, Lei, Romano, and Sesia}}}
-\@writefile{lot}{\contentsline {table}{\numberline {A1}{\ignorespaces PBN in its own NCD protocol: accuracy (\%) on the novel classes of the test split, mean $\pm $ standard deviation over ten runs, against the values published by \citet  {troisemaine2024pbn}.}}{22}{table.1}\protected@file@percent }
-\newlabel{tab:pbnrepro}{{A1}{22}{PBN in its own NCD protocol: accuracy (\%) on the novel classes of the test split, mean $\pm $ standard deviation over ten runs, against the values published by \citet {troisemaine2024pbn}}{table.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {A2}{\ignorespaces NCD, number of novel classes known: transductive accuracy on the novel samples of the training split (mean of three seeds for $k$-means and OCC, ten runs for PBN). OCC: best of Gaussian and MST.}}{22}{table.2}\protected@file@percent }
-\newlabel{tab:c1}{{A2}{22}{NCD, number of novel classes known: transductive accuracy on the novel samples of the training split (mean of three seeds for $k$-means and OCC, ten runs for PBN). OCC: best of Gaussian and MST}{table.2}{}}
 \bibcite{breiman2001rf}{{2}{2001}{{Breiman}}{{}}}
 \bibcite{campello2013hdbscan}{{3}{2013}{{Campello et~al}}{{Campello, Moulavi, and Sander}}}
 \bibcite{cha2000dichotomy}{{4}{2000}{{Cha and Srihari}}{{}}}
+\@writefile{lot}{\contentsline {table}{\numberline {A1}{\ignorespaces PBN in its own NCD protocol: accuracy (\%) on the novel classes of the test split, mean $\pm $ standard deviation over ten runs, against the values published by \citet  {troisemaine2024pbn}.}}{23}{table.1}\protected@file@percent }
+\newlabel{tab:pbnrepro}{{A1}{23}{PBN in its own NCD protocol: accuracy (\%) on the novel classes of the test split, mean $\pm $ standard deviation over ten runs, against the values published by \citet {troisemaine2024pbn}}{table.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A2}{\ignorespaces NCD, number of novel classes known: transductive accuracy on the novel samples of the training split (mean of three seeds for $k$-means and OCC, ten runs for PBN). OCC: best of Gaussian and MST.}}{23}{table.2}\protected@file@percent }
+\newlabel{tab:c1}{{A2}{23}{NCD, number of novel classes known: transductive accuracy on the novel samples of the training split (mean of three seeds for $k$-means and OCC, ten runs for PBN). OCC: best of Gaussian and MST}{table.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {B}Additional results}{23}{appendix.a.B}\protected@file@percent }
+\newlabel{app:tables}{{B}{23}{Additional results}{appendix.a.B}{}}
 \bibcite{demsar2006}{{5}{2006}{{Dem{\v {s}}ar}}{{}}}
 \bibcite{fini2021uno}{{6}{2021}{{Fini et~al}}{{Fini, Sangineto, Lathuili{\`e}re, Zhong, Nabi, and Ricci}}}
 \bibcite{fragoso2021modes}{{7}{2021}{{Fragoso et~al}}{{Fragoso, Cavalcanti, Pinheiro, and Oliveira}}}
 \bibcite{grinsztajn2022tabular}{{8}{2022}{{Grinsztajn et~al}}{{Grinsztajn, Oyallon, and Varoquaux}}}
-\@writefile{lot}{\contentsline {table}{\numberline {B3}{\ignorespaces Transductive GCD, number of novel classes known: ACC All per data set. Conventions as in Table~\ref {tab:c2}.}}{23}{table.3}\protected@file@percent }
-\newlabel{tab:c2known}{{B3}{23}{Transductive GCD, number of novel classes known: ACC All per data set. Conventions as in Table~\ref {tab:c2}}{table.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {B}Additional results}{23}{appendix.a.B}\protected@file@percent }
-\newlabel{app:tables}{{B}{23}{Additional results}{appendix.a.B}{}}
 \bibcite{han2019dtc}{{9}{2019}{{Han et~al}}{{Han, Vedaldi, and Zisserman}}}
 \bibcite{hendrycks2017msp}{{10}{2017}{{Hendrycks and Gimpel}}{{}}}
 \bibcite{holm1979}{{11}{1979}{{Holm}}{{}}}
+\@writefile{lot}{\contentsline {table}{\numberline {B3}{\ignorespaces Transductive GCD, number of novel classes known: ACC All per data set. Conventions as in Table~\ref {tab:c2}.}}{24}{table.3}\protected@file@percent }
+\newlabel{tab:c2known}{{B3}{24}{Transductive GCD, number of novel classes known: ACC All per data set. Conventions as in Table~\ref {tab:c2}}{table.3}{}}
 \bibcite{hsu2018kcl}{{12}{2018}{{Hsu et~al}}{{Hsu, Lv, and Kira}}}
 \bibcite{joseph2022ncdwf}{{13}{2022}{{Joseph et~al}}{{Joseph, Paul, Aggarwal, Biswas, Rai, Han, and Balasubramanian}}}
 \bibcite{juszczak2009mstdd}{{14}{2009}{{Juszczak et~al}}{{Juszczak, Tax, P{\k {e}}kalska, and Duin}}}
-\bibcite{khan2014occ}{{15}{2014}{{Khan and Madden}}{{}}}
-\bibcite{krawczyk2016dcs}{{16}{2016}{{Krawczyk and Wo{\'z}niak}}{{}}}
-\bibcite{ledoit2004shrinkage}{{17}{2004}{{Ledoit and Wolf}}{{}}}
-\bibcite{pedregosa2011sklearn}{{18}{2011}{{Pedregosa et~al}}{{Pedregosa, Varoquaux, Gramfort, Michel, Thirion, Grisel, Blondel, Prettenhofer, Weiss, Dubourg, Vanderplas, Passos, Cournapeau, Brucher, Perrot, and Duchesnay}}}
-\bibcite{pimentel2014novelty}{{19}{2014}{{Pimentel et~al}}{{Pimentel, Clifton, Clifton, and Tarassenko}}}
-\bibcite{rousseeuw1987silhouette}{{20}{1987}{{Rousseeuw}}{{}}}
-\bibcite{roy2022incd}{{21}{2022}{{Roy et~al}}{{Roy, Liu, Zhong, Sebe, and Ricci}}}
-\bibcite{scheirer2013osr}{{22}{2013}{{Scheirer et~al}}{{Scheirer, Rocha, Sapkota, and Boult}}}
-\bibcite{scholkopf2001ocsvm}{{23}{2001}{{Sch{\"o}lkopf et~al}}{{Sch{\"o}lkopf, Platt, Shawe-Taylor, Smola, and Williamson}}}
-\bibcite{tax2004svdd}{{24}{2004}{{Tax and Duin}}{{}}}
-\bibcite{teixeira2025osr}{{25}{2025}{{Teixeira et~al}}{{Teixeira, Bertolini, Oliveira, Cavalcanti, and Costa}}}
-\bibcite{troisemaine2022tabularncd}{{26}{2022}{{Troisemaine et~al}}{{Troisemaine, Flocon-Cholet, Gosselin, Vaton, Reiffers-Masson, and Lemaire}}}
-\bibcite{troisemaine2024pbn}{{27}{2024}{{Troisemaine et~al}}{{Troisemaine, Reiffers-Masson, Gosselin, Lemaire, and Vaton}}}
-\bibcite{vanschoren2013openml}{{28}{2013}{{Vanschoren et~al}}{{Vanschoren, van Rijn, Bischl, and Torgo}}}
-\bibcite{vaze2022gcd}{{29}{2022}{{Vaze et~al}}{{Vaze, Han, Vedaldi, and Zisserman}}}
-\bibcite{vovk2015crossconformal}{{30}{2015}{{Vovk}}{{}}}
-\bibcite{vovk2003testing}{{31}{2003}{{Vovk et~al}}{{Vovk, Nouretdinov, and Gammerman}}}
-\bibcite{vovk2005alrw}{{32}{2005}{{Vovk et~al}}{{Vovk, Gammerman, and Shafer}}}
-\bibcite{wen2023simgcd}{{33}{2023}{{Wen et~al}}{{Wen, Zhao, and Qi}}}
-\bibcite{wu2023metagcd}{{34}{2023}{{Wu et~al}}{{Wu, Chi, Wang, and Feng}}}
-\gdef \@abspage@last{25}
+\bibcite{ke2017lightgbm}{{15}{2017}{{Ke et~al}}{{Ke, Meng, Finley, Wang, Chen, Ma, Ye, and Liu}}}
+\bibcite{khan2014occ}{{16}{2014}{{Khan and Madden}}{{}}}
+\bibcite{krawczyk2016dcs}{{17}{2016}{{Krawczyk and Wo{\'z}niak}}{{}}}
+\bibcite{ledoit2004shrinkage}{{18}{2004}{{Ledoit and Wolf}}{{}}}
+\bibcite{liu2008iforest}{{19}{2008}{{Liu et~al}}{{Liu, Ting, and Zhou}}}
+\bibcite{pedregosa2011sklearn}{{20}{2011}{{Pedregosa et~al}}{{Pedregosa, Varoquaux, Gramfort, Michel, Thirion, Grisel, Blondel, Prettenhofer, Weiss, Dubourg, Vanderplas, Passos, Cournapeau, Brucher, Perrot, and Duchesnay}}}
+\bibcite{pimentel2014novelty}{{21}{2014}{{Pimentel et~al}}{{Pimentel, Clifton, Clifton, and Tarassenko}}}
+\bibcite{rousseeuw1987silhouette}{{22}{1987}{{Rousseeuw}}{{}}}
+\bibcite{roy2022incd}{{23}{2022}{{Roy et~al}}{{Roy, Liu, Zhong, Sebe, and Ricci}}}
+\bibcite{scheirer2013osr}{{24}{2013}{{Scheirer et~al}}{{Scheirer, Rocha, Sapkota, and Boult}}}
+\bibcite{scholkopf2001ocsvm}{{25}{2001}{{Sch{\"o}lkopf et~al}}{{Sch{\"o}lkopf, Platt, Shawe-Taylor, Smola, and Williamson}}}
+\bibcite{tax2004svdd}{{26}{2004}{{Tax and Duin}}{{}}}
+\bibcite{teixeira2025osr}{{27}{2025}{{Teixeira et~al}}{{Teixeira, Bertolini, Oliveira, Cavalcanti, and Costa}}}
+\bibcite{troisemaine2022tabularncd}{{28}{2022}{{Troisemaine et~al}}{{Troisemaine, Flocon-Cholet, Gosselin, Vaton, Reiffers-Masson, and Lemaire}}}
+\bibcite{troisemaine2024pbn}{{29}{2024}{{Troisemaine et~al}}{{Troisemaine, Reiffers-Masson, Gosselin, Lemaire, and Vaton}}}
+\bibcite{vanschoren2013openml}{{30}{2013}{{Vanschoren et~al}}{{Vanschoren, van Rijn, Bischl, and Torgo}}}
+\bibcite{vaze2022gcd}{{31}{2022}{{Vaze et~al}}{{Vaze, Han, Vedaldi, and Zisserman}}}
+\bibcite{vovk2015crossconformal}{{32}{2015}{{Vovk}}{{}}}
+\bibcite{vovk2003testing}{{33}{2003}{{Vovk et~al}}{{Vovk, Nouretdinov, and Gammerman}}}
+\bibcite{vovk2005alrw}{{34}{2005}{{Vovk et~al}}{{Vovk, Gammerman, and Shafer}}}
+\bibcite{wen2023simgcd}{{35}{2023}{{Wen et~al}}{{Wen, Zhao, and Qi}}}
+\bibcite{wu2023metagcd}{{36}{2023}{{Wu et~al}}{{Wu, Chi, Wang, and Feng}}}
+\gdef \@abspage@last{26}

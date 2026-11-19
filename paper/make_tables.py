@@ -12,6 +12,8 @@ Fontes (ver EXPERIMENTOS.md):
       results_pbn/*_c4_pbn.csv (PBN).
   C4 com T=10: results_c4_long_tau (auto), results_c4_long (RF-MSP, PBN).
   Regra de decisão (p-valor x posteriori): results_post.
+  Outros rejeitores (HGB-MSP, OVA-HGB, IF+RF): results_rejectors/a0.1, com
+      results_v7/a0.1 para auto, RF-MSP e LR-MSP.
   Sensibilidade de tau (beta, alpha): results_beta*/a0.1, results_alpha/a*,
       com results_v7/a0.1 como referência (beta = 2, alpha = 0,1).
   Ablações: results_pc (seleção por classe), results_ksil15 (estimador
@@ -340,6 +342,45 @@ def table_tau():
     save("tau.tex", "\n".join(lines) + "\n")
 
 
+REJ = [("auto", "OCC (auto)", "results_v7/a0.1"), ("rf_msp", "RF-MSP", "results_v7/a0.1"),
+       ("hgb_msp", "HGB-MSP", "results_rejectors/a0.1"),
+       ("ova_hgb", "OVA-HGB", "results_rejectors/a0.1"),
+       ("if_rf", "IF + RF", "results_rejectors/a0.1"), ("lr_msp", "LR-MSP", "results_v7/a0.1")]
+
+
+def table_rejectors():
+    """Rejeitores alternativos no transdutivo com K estimado: médias e testes."""
+    from scipy.stats import wilcoxon
+    acc, auc, ker = {}, {}, {}
+    for k, _, f in REJ:
+        rows = []
+        for b in BASES:
+            d = pd.read_csv(R(f, f"{b}_c2_kest.csv"))
+            d = d[d.family == k]
+            rows.append(dict(base=b, acc=d.acc_all.mean(), auc=d.auroc.mean(),
+                             ker=(d.k_new - d.k_true_new).abs().mean()))
+        t = pd.DataFrame(rows).set_index("base")
+        acc[k], auc[k], ker[k] = t.acc, t.auc, t.ker
+    A = pd.DataFrame(acc)
+    rank = A.rank(axis=1, ascending=False).mean()
+    det = ~A.index.isin(HARD)
+    others = [k for k, *_ in REJ if k != "auto"]
+    ph = holm({k: float(wilcoxon(A["auto"] - A[k]).pvalue) for k in others})
+    lines, NUM["rejectors"] = [], {}
+    for k, lab, _ in REJ:
+        r = dict(acc=A[k].mean(), acc_det=A[k][det].mean(), auroc_det=auc[k][det].mean(),
+                 kerr_det=ker[k][det].mean(), rank=rank[k])
+        if k != "auto":
+            r.update(wins=int((A["auto"] > A[k] + 0.005).sum()),
+                     losses=int((A["auto"] < A[k] - 0.005).sum()), holm_p=ph[k])
+        NUM["rejectors"][k] = r
+        wl = "--" if k == "auto" else f"{r['wins']}/{r['losses']}"
+        pv = "--" if k == "auto" else f"{r['holm_p']:.3f}"
+        lines.append(f"{lab} & {f3(r['acc'])} & {f3(r['acc_det'])} & {f3(r['auroc_det'])} & "
+                     f"{r['kerr_det']:.2f} & {r['rank']:.2f} & {wl} & {pv}" + r" \\")
+    save("rejectors.tex", "\n".join(lines) + "\n")
+
+
 # ------------------------------------------------------------------ ablações
 FAMS = [("gauss", "Gaussian"), ("knn", "$k$NN"), ("mst", "MST"), ("dic", "Dichotomy"),
         ("svm", r"OC-SVM ($\gamma$ default)"), ("svm-cv", r"OC-SVM ($\gamma$ by LOCO)")]
@@ -460,6 +501,7 @@ if __name__ == "__main__":
     table_c4_long()
     table_decision()
     table_tau()
+    table_rejectors()
     table_families()
     table_ablation_selection()
     table_pbn_repro()

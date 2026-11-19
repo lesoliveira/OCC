@@ -235,6 +235,7 @@ In incremental GCD the session $S_0$ holds half of the samples of each known cla
 \item \emph{$k$-means} on $\DU$ with $|\Cold| + |\Cnew|$ clusters.
 \item \emph{SS-$k$-means}, the semi-supervised $k$-means of \citet{vaze2022gcd}, in which the samples of $\DL$ keep their labels and anchor the clusters of the known classes.
 \item \emph{RF-MSP} and \emph{LR-MSP}: a random forest (300 trees) or a logistic regression trained on $\DL$, with the maximum softmax probability as rejection score \citep{hendrycks2017msp}. The threshold is the $\alpha$-quantile of the cross-validated MSP of $\DL$, which matches the expected false rejection rate of our method, and the rejected samples go through the same discovery step (Sect.~\ref{sec:discovery}). The comparison with RF-MSP therefore isolates the rejector.
+\item Three further rejectors, with the same threshold and the same discovery step: \emph{HGB-MSP}, the MSP of a histogram gradient boosting classifier \citep{ke2017lightgbm}, \emph{OVA-HGB}, one binary gradient boosting classifier per known class whose largest probability is not normalized across classes, and \emph{IF + RF}, an isolation forest \citep{liu2008iforest} fitted on all of $\DL$ as rejector, with the random forest classifying the accepted samples.
 \item \emph{PBN} \citep{troisemaine2024pbn}, reimplemented in PyTorch following the official code: the same architecture, losses, optimizer, number of epochs and clustering. In the seven data sets of PBN we use the published hyperparameters. In the eight OpenML data sets we ran the hyperparameter search of the paper (random search, hiding at least two known classes and measuring the adjusted Rand index on them, 20 trials and three folds). Before using it, we checked that the reimplementation reproduces the results published by PBN in its own NCD protocol: mean accuracy of 77.8 against the published 77.3 with the number of classes known, and 69.3 against 71.0 with the number estimated (Appendix~\ref{app:pbn}). In transductive GCD, PBN is trained with $\DL$ labeled and $\DU$ unlabeled, and $\DU$ is clustered with $k$-means in the latent space.
 \end{itemize}
 
@@ -274,6 +275,21 @@ The breakdown in Table~\ref{tab:c2summary} shows where the differences come from
 Method & ACC All & ACC Old & ACC New & AUROC & $|\hat K - K|$ \\
 \midrule
 \input{tables/c2_kest_summary.tex}
+\end{tabular}
+\end{table}
+
+\paragraph{Other rejectors.} Table~\ref{tab:rejectors} compares the rejection of the OCCs with three further rejectors. None of them improves on RF-MSP, and on the 11 data sets where novelty is detectable their AUROC ranges from 0.725 to 0.784, against 0.813 of RF-MSP and 0.929 of our method. Gradient boosting does not change the picture, because its MSP is still normalized across the known classes. The one-versus-all classifiers can say that no class fits, but each is trained to separate its class from the other known classes, not to describe the class, so a sample far from all of them may still score high for one. The isolation forest models $\DL$ as a whole and misses novel classes that lie between known ones. Among the detectable data sets it is ahead of our method only on Satimage and Vowel. No difference to our method is significant after Holm's correction.
+
+\begin{table}[t]
+\caption{Transductive GCD, number of novel classes estimated: rejectors compared under the same threshold and discovery step (mean of five seeds). ACC All over the 15 data sets and over the 11 where novelty is detectable (Sect.~\ref{sec:detectability}), AUROC of novelty detection and $|\hat K - K|$ over the same 11. Rank over the six methods. W/L and $p$ as in Table~\ref{tab:c2}.}\label{tab:rejectors}
+\centering\footnotesize
+\begin{tabular}{@{}lrrrrrrr@{}}
+\toprule
+ & \multicolumn{2}{c}{ACC All} & & & & & \\
+\cmidrule(lr){2-3}
+Method & 15 data sets & 11 detectable & AUROC & $|\hat K - K|$ & Rank & W/L & $p$ \\
+\midrule
+\input{tables/rejectors.tex}
 \end{tabular}
 \end{table}
 

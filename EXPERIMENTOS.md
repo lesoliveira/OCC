@@ -421,3 +421,10 @@ results_v7 (beta = 2, alpha = 0,1). ACC All: 0,554 / 0,551 / 0,546 / 0,536 /
 0,531, alpha 0,05: 0,529, alpha 0,2: 0,522. Nenhuma diferença significativa.
 beta = 2 tem o menor erro em K nas 11 bases detectáveis (2,40). Tabela 8 do
 artigo.
+
+## Outros rejeitores: `results_rejectors/`
+
+hgb_msp, ova_hgb e if_rf (occ/baselines.py), transdutivo, K estimado, 15 bases
+(Mac). ACC All: auto 0,546, RF-MSP 0,506, HGB-MSP 0,497, IF+RF 0,482, OVA-HGB
+0,480, LR-MSP 0,464. AUROC nas 11 detectáveis: 0,929 / 0,813 / 0,784 / 0,740 /
+0,725 / 0,606. Nenhuma diferença significativa com Holm. Tabela 4 do artigo.

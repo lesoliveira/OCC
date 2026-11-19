@@ -1,4 +1,4 @@
-\begin{thebibliography}{34}
+\begin{thebibliography}{36}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{{#1}}
 \providecommand{\urlprefix}{URL }
@@ -79,6 +79,12 @@ Juszczak P, Tax DMJ, P{\k{e}}kalska E, et~al (2009) Minimum spanning tree based
   one-class classifier. Neurocomputing 72(7--9):1859--1869.
   \doi{10.1016/j.neucom.2008.05.003}
 
+\bibitem[{Ke et~al(2017)Ke, Meng, Finley, Wang, Chen, Ma, Ye, and
+  Liu}]{ke2017lightgbm}
+Ke G, Meng Q, Finley T, et~al (2017) {LightGBM}: A highly efficient gradient
+  boosting decision tree. In: Advances in Neural Information Processing Systems
+  30 (NeurIPS), pp 3146--3154
+
 \bibitem[{Khan and Madden(2014)}]{khan2014occ}
 Khan SS, Madden MG (2014) One-class classification: taxonomy of study and
   review of techniques. The Knowledge Engineering Review 29(3):345--374
@@ -91,6 +97,11 @@ Krawczyk B, Wo{\'z}niak M (2016) Dynamic classifier selection for one-class
 \bibitem[{Ledoit and Wolf(2004)}]{ledoit2004shrinkage}
 Ledoit O, Wolf M (2004) A well-conditioned estimator for large-dimensional
   covariance matrices. Journal of Multivariate Analysis 88(2):365--411
+
+\bibitem[{Liu et~al(2008)Liu, Ting, and Zhou}]{liu2008iforest}
+Liu FT, Ting KM, Zhou ZH (2008) Isolation forest. In: Proceedings of the 8th
+  IEEE International Conference on Data Mining (ICDM), pp 413--422,
+  \doi{10.1109/ICDM.2008.17}
 
 \bibitem[{Pedregosa et~al(2011)Pedregosa, Varoquaux, Gramfort, Michel, Thirion,
   Grisel, Blondel, Prettenhofer, Weiss, Dubourg, Vanderplas, Passos,
