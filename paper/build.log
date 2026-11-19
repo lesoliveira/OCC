@@ -359,6 +359,7 @@ Package hyperref Warning: Difference (4) between bookmark levels is greater
 (hyperref)                than one, level fixed on input line 439.
 
 
+Underfull \vbox (badness 10000) has occurred while \output is active [21]
 pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has
  been already used, duplicate ignored
 <to be read again> 
@@ -372,7 +373,6 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has
                    \relax 
 l.468 \end{tabular}
                    
-Underfull \vbox (badness 10000) has occurred while \output is active [21]
 pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has
  been already used, duplicate ignored
 <to be read again> 
@@ -425,5 +425,5 @@ r7.pfb></usr/share/texmf/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf/fonts
 usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/
 public/lm/lmsy7.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy8.pfb></usr/sha
 re/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on main.pdf (25 pages, 746965 bytes).
+Output written on main.pdf (25 pages, 747022 bytes).
 Transcript written on main.log.
