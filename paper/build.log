@@ -250,9 +250,8 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.230 I
-       n incremental GCD the session $S_0$ holds half of the samples of each...
-]
+l.229 
+      ]
 Underfull \vbox (badness 10000) has occurred while \output is active [11]
 (./tables/c2_kest.tex) (./tables/c2_kest_summary.tex)
 
@@ -441,5 +440,5 @@ r7.pfb></usr/share/texmf/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf/fonts
 usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/
 public/lm/lmsy7.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy8.pfb></usr/sha
 re/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on main.pdf (26 pages, 752090 bytes).
+Output written on main.pdf (26 pages, 752523 bytes).
 Transcript written on main.log.
