@@ -1,0 +1,75 @@
+{"base": "census", "seed": 0, "ev": "too_few", "n_rej": 344, "tau": 203.33333333333337, "k": 0}
+{"base": "census", "seed": 1, "ev": "fallback", "n_rej": 445, "tau": 180.66666666666669, "k": 0}
+{"base": "census", "seed": 2, "ev": "fallback", "n_rej": 497, "tau": 143.0, "k": 0}
+{"base": "covertype", "seed": 0, "ev": "hdbscan", "n_rej": 8663, "tau": 280.44444444444446, "k": 9}
+{"base": "census", "seed": 3, "ev": "fallback", "n_rej": 393, "tau": 187.77777777777777, "k": 0}
+{"base": "covertype", "seed": 1, "ev": "hdbscan", "n_rej": 6699, "tau": 227.55555555555557, "k": 9}
+{"base": "covertype", "seed": 2, "ev": "hdbscan", "n_rej": 9401, "tau": 280.22222222222223, "k": 11}
+{"base": "census", "seed": 4, "ev": "too_few", "n_rej": 53, "tau": 174.66666666666669, "k": 0}
+{"base": "covertype", "seed": 3, "ev": "hdbscan", "n_rej": 5762, "tau": 261.11111111111114, "k": 8}
+{"base": "covertype", "seed": 4, "ev": "too_few", "n_rej": 1362, "tau": 1715.1111111111113, "k": 0}
+{"base": "helena", "seed": 0, "ev": "fallback", "n_rej": 86, "tau": 24.222222222222225, "k": 0}
+{"base": "helena", "seed": 1, "ev": "fallback", "n_rej": 187, "tau": 39.55555555555556, "k": 2}
+{"base": "helena", "seed": 2, "ev": "fallback", "n_rej": 266, "tau": 42.88888888888889, "k": 2}
+{"base": "helena", "seed": 3, "ev": "fallback", "n_rej": 266, "tau": 42.88888888888889, "k": 2}
+{"base": "har", "seed": 0, "ev": "hdbscan", "n_rej": 3292, "tau": 152.22222222222223, "k": 2}
+{"base": "helena", "seed": 4, "ev": "fallback", "n_rej": 145, "tau": 45.55555555555556, "k": 0}
+{"base": "har", "seed": 1, "ev": "hdbscan", "n_rej": 3080, "tau": 180.22222222222223, "k": 2}
+{"base": "har", "seed": 2, "ev": "hdbscan", "n_rej": 3225, "tau": 164.66666666666669, "k": 2}
+{"base": "isolet", "seed": 0, "ev": "hdbscan", "n_rej": 2442, "tau": 43.111111111111114, "k": 4}
+{"base": "har", "seed": 3, "ev": "hdbscan", "n_rej": 3221, "tau": 143.11111111111111, "k": 2}
+{"base": "har", "seed": 4, "ev": "hdbscan", "n_rej": 3302, "tau": 148.88888888888889, "k": 2}
+{"base": "krvsk", "seed": 0, "ev": "too_few", "n_rej": 57, "tau": 303.11111111111114, "k": 0}
+{"base": "krvsk", "seed": 1, "ev": "too_few", "n_rej": 49, "tau": 288.6666666666667, "k": 0}
+{"base": "krvsk", "seed": 2, "ev": "too_few", "n_rej": 62, "tau": 231.33333333333334, "k": 0}
+{"base": "krvsk", "seed": 3, "ev": "too_few", "n_rej": 20, "tau": 272.8888888888889, "k": 0}
+{"base": "krvsk", "seed": 4, "ev": "too_few", "n_rej": 48, "tau": 276.44444444444446, "k": 0}
+{"base": "letter", "seed": 0, "ev": "hdbscan", "n_rej": 3194, "tau": 68.22222222222223, "k": 4}
+{"base": "letter", "seed": 1, "ev": "hdbscan", "n_rej": 3210, "tau": 62.88888888888889, "k": 4}
+{"base": "letter", "seed": 2, "ev": "hdbscan", "n_rej": 3254, "tau": 62.44444444444445, "k": 4}
+{"base": "letter", "seed": 3, "ev": "hdbscan", "n_rej": 2683, "tau": 70.44444444444444, "k": 5}
+{"base": "letter", "seed": 4, "ev": "hdbscan", "n_rej": 3233, "tau": 63.333333333333336, "k": 5}
+{"base": "mfeat", "seed": 0, "ev": "hdbscan", "n_rej": 787, "tau": 16.88888888888889, "k": 5}
+{"base": "mfeat", "seed": 1, "ev": "hdbscan", "n_rej": 750, "tau": 17.77777777777778, "k": 5}
+{"base": "mfeat", "seed": 2, "ev": "hdbscan", "n_rej": 798, "tau": 16.444444444444446, "k": 5}
+{"base": "mfeat", "seed": 3, "ev": "hdbscan", "n_rej": 796, "tau": 17.11111111111111, "k": 5}
+{"base": "mfeat", "seed": 4, "ev": "hdbscan", "n_rej": 754, "tau": 16.666666666666668, "k": 5}
+{"base": "optdigits", "seed": 0, "ev": "hdbscan", "n_rej": 1804, "tau": 41.333333333333336, "k": 4}
+{"base": "optdigits", "seed": 1, "ev": "hdbscan", "n_rej": 1606, "tau": 42.88888888888889, "k": 3}
+{"base": "optdigits", "seed": 2, "ev": "hdbscan", "n_rej": 1899, "tau": 40.44444444444445, "k": 4}
+{"base": "optdigits", "seed": 3, "ev": "hdbscan", "n_rej": 1438, "tau": 37.333333333333336, "k": 3}
+{"base": "optdigits", "seed": 4, "ev": "hdbscan", "n_rej": 1784, "tau": 38.88888888888889, "k": 4}
+{"base": "pendigits", "seed": 0, "ev": "hdbscan", "n_rej": 3834, "tau": 77.55555555555556, "k": 5}
+{"base": "pendigits", "seed": 1, "ev": "hdbscan", "n_rej": 3848, "tau": 78.0, "k": 5}
+{"base": "pendigits", "seed": 2, "ev": "hdbscan", "n_rej": 3118, "tau": 89.11111111111111, "k": 5}
+{"base": "pendigits", "seed": 3, "ev": "hdbscan", "n_rej": 3861, "tau": 77.55555555555556, "k": 5}
+{"base": "pendigits", "seed": 4, "ev": "hdbscan", "n_rej": 3144, "tau": 88.8888888888889, "k": 5}
+{"base": "satimage", "seed": 0, "ev": "hdbscan", "n_rej": 2980, "tau": 128.22222222222223, "k": 3}
+{"base": "satimage", "seed": 1, "ev": "hdbscan", "n_rej": 2941, "tau": 136.44444444444446, "k": 3}
+{"base": "satimage", "seed": 2, "ev": "hdbscan", "n_rej": 3004, "tau": 121.77777777777779, "k": 3}
+{"base": "satimage", "seed": 3, "ev": "hdbscan", "n_rej": 2981, "tau": 119.77777777777779, "k": 3}
+{"base": "satimage", "seed": 4, "ev": "hdbscan", "n_rej": 2966, "tau": 126.8888888888889, "k": 3}
+{"base": "segment", "seed": 0, "ev": "hdbscan", "n_rej": 870, "tau": 39.333333333333336, "k": 3}
+{"base": "segment", "seed": 1, "ev": "hdbscan", "n_rej": 727, "tau": 36.66666666666667, "k": 3}
+{"base": "segment", "seed": 2, "ev": "hdbscan", "n_rej": 808, "tau": 36.22222222222222, "k": 4}
+{"base": "segment", "seed": 3, "ev": "hdbscan", "n_rej": 732, "tau": 34.88888888888889, "k": 3}
+{"base": "segment", "seed": 4, "ev": "hdbscan", "n_rej": 1038, "tau": 34.44444444444445, "k": 4}
+{"base": "volkert", "seed": 0, "ev": "fallback", "n_rej": 1418, "tau": 635.1111111111112, "k": 0}
+{"base": "volkert", "seed": 1, "ev": "fallback", "n_rej": 1230, "tau": 610.4444444444445, "k": 0}
+{"base": "volkert", "seed": 2, "ev": "fallback", "n_rej": 1544, "tau": 537.1111111111112, "k": 0}
+{"base": "isolet", "seed": 1, "ev": "hdbscan", "n_rej": 2706, "tau": 45.333333333333336, "k": 4}
+{"base": "volkert", "seed": 3, "ev": "fallback", "n_rej": 1490, "tau": 528.2222222222223, "k": 0}
+{"base": "volkert", "seed": 4, "ev": "fallback", "n_rej": 1415, "tau": 577.5555555555555, "k": 0}
+{"base": "isolet", "seed": 2, "ev": "hdbscan", "n_rej": 2396, "tau": 52.00000000000001, "k": 3}
+{"base": "isolet", "seed": 3, "ev": "hdbscan", "n_rej": 2508, "tau": 56.66666666666667, "k": 3}
+{"base": "isolet", "seed": 4, "ev": "hdbscan", "n_rej": 2535, "tau": 46.44444444444445, "k": 4}
+{"base": "vowel", "seed": 0, "ev": "hdbscan"}
+{"base": "vowel", "seed": 1, "ev": "hdbscan"}
+{"base": "vowel", "seed": 2, "ev": "hdbscan"}
+{"base": "vowel", "seed": 3, "ev": "hdbscan"}
+{"base": "vowel", "seed": 4, "ev": "hdbscan"}
+{"base": "cnae9", "seed": 0, "ev": "hdbscan", "n_rej": 368, "k": 2}
+{"base": "cnae9", "seed": 1, "ev": "hdbscan", "n_rej": 313, "k": 3}
+{"base": "cnae9", "seed": 2, "ev": "hdbscan", "n_rej": 304, "k": 2}
+{"base": "cnae9", "seed": 3, "ev": "hdbscan", "n_rej": 333, "k": 3}
+{"base": "cnae9", "seed": 4, "ev": "hdbscan", "n_rej": 364, "k": 3}

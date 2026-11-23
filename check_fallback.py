@@ -32,14 +32,26 @@ if hasattr(G, "corrected_discovery"):
 
 b = sys.argv[1]
 X = np.load(f"data/{b}/X_train.npy"); yr = np.load(f"data/{b}/y_train.npy")
+import os
+L2 = False
+if os.path.exists(f"data/{b}/preproc.json"):  # mesmo pré-processamento de run_gcd.py
+    cfg = json.load(open(f"data/{b}/preproc.json"))
+    if cfg.get("drop_cols"):
+        X = np.delete(X, cfg["drop_cols"], axis=1)
+    if cfg.get("l2"):
+        X = X / np.maximum(np.linalg.norm(X, axis=1, keepdims=True), 1e-12)
+        L2 = True
 names, y = np.unique(yr, return_inverse=True)
 known = [str(c) for c in json.load(open(f"data/{b}/split.json"))["known"]]
 of = np.flatnonzero(np.isin(names.astype(str), known))
 r = pd.read_csv(f"results_v7/a0.1/{b}_c2_kest.csv")
 for seed in range(5):
     il, iu, old = gcd_split(y, 0.5, 0.5, of, seed)
-    sc = StandardScaler().fit(np.vstack([X[il], X[iu]]))
-    Xl, Xu = sc.transform(X[il]), sc.transform(X[iu])
+    if L2:  # data/<base>/preproc.json com l2: sem padronização (como run_gcd.py)
+        Xl, Xu = X[il], X[iu]
+    else:
+        sc = StandardScaler().fit(np.vstack([X[il], X[iu]]))
+        Xl, Xu = sc.transform(X[il]), sc.transform(X[iu])
     fam, kws = parse_spec(r[(r.family == "auto") & (r.seed == seed)].chosen.iloc[0])
     m = OCCDiscovery(fam, kws, alpha=0.1, random_state=seed, cal_mode="nested",
                      k_est="hdbscan-leaf").fit(Xl, y[il])
