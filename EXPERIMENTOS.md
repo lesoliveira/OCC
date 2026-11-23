@@ -428,3 +428,16 @@ hgb_msp, ova_hgb e if_rf (occ/baselines.py), transdutivo, K estimado, 15 bases
 (Mac). ACC All: auto 0,546, RF-MSP 0,506, HGB-MSP 0,497, IF+RF 0,482, OVA-HGB
 0,480, LR-MSP 0,464. AUROC nas 11 detectáveis: 0,929 / 0,813 / 0,784 / 0,740 /
 0,725 / 0,606. Nenhuma diferença significativa com Holm. Tabela 4 do artigo.
+
+## Ideias para depois (não iniciadas)
+
+- **Cluster ensemble no lugar do HDBSCAN.** Acumulação de evidência (Fred e
+  Jain, 2005): várias rodadas variando min_cluster_size, leaf/eom, subamostras
+  ou projeções aleatórias, matriz de coassociação dos rejeitados e consenso por
+  ligação hierárquica. Antes de implementar, medir o teto: trocar o HDBSCAN por
+  um agrupamento oráculo dos rejeitados (classes verdadeiras), transdutivo, 15
+  bases. Se o ganho oráculo for pequeno, o esforço vai para a rejeição.
+- **Juntar clusters pela aceitação mútua dos OCCs.** Ajustar um OCC por cluster
+  e unir clusters cujos p-valores cruzados indicam a mesma classe.
+- **Aprendizado ativo.** Protocolo em
+  https://claude.ai/artifact/8aeEJCeCT3XcCrbgT3DK9Z
