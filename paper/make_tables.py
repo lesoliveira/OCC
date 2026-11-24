@@ -428,6 +428,25 @@ def table_families():
         top = max(c, key=c.get)
         items.append(f"{NAME[b]}: {lab(top)} ({c[top]}/5)")
     save("chosen.tex", ", ".join(items) + ".\n")
+    # apêndice: quantas vezes cada família foi escolhida (base x família, de 5)
+    FCOL = [("dic", "Dichotomy"), ("gauss", "Gaussian"), ("knn", "$k$NN"),
+            ("mst", "MST"), ("svm", "OC-SVM")]
+    tot = {f: 0 for f, _ in FCOL}
+    rows = []
+    for b in BASES:
+        cnt = {f: 0 for f, _ in FCOL}
+        for spec, n in chosen[b].items():
+            cnt[spec.split("@")[0]] += n
+        top = max(cnt.values())
+        for f in cnt:
+            tot[f] += cnt[f]
+        cells = [(r"\textbf{%d}" % cnt[f] if cnt[f] == top else str(cnt[f])) if cnt[f] else ""
+                 for f, _ in FCOL]
+        rows.append(f"{NAME[b]} & " + " & ".join(cells) + r" \\")
+    rows.append(r"\midrule")
+    rows.append("Total & " + " & ".join(str(tot[f]) for f, _ in FCOL) + r" \\")
+    NUM["chosen_counts"] = tot
+    save("chosen_counts.tex", "\n".join(rows) + "\n")
 
 
 def table_ablation_selection():

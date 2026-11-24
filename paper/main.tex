@@ -359,7 +359,7 @@ Method & ACC All & ACC Old & ACC New & Forgetting & Time (s) & Stores & Retrains
 
 \subsection{Choice of the OCC family}\label{sec:res-selection}
 
-Table~\ref{tab:families} compares the family selection with each family used alone in transductive GCD. On average, some fixed families come close: Gaussian and MST reach 0.524, against 0.546 of the selection, and the differences are not significant after Holm's correction, except for the OC-SVM with default $\gamma$. What the selection avoids is the large loss of a wrong family. We compare every method with an oracle that picks, for each data set, the best fixed family in hindsight (mean 0.566). The selection loses 0.020 to the oracle on average and at most 0.055 on a single data set, and is within 0.02 of the oracle on eight data sets. Every single family, including the OC-SVM whose $\gamma$ is chosen by the same simulation with hidden classes, loses between 0.110 and 0.195 on some data set. The family chosen most often varies with the data set: \input{tables/chosen.tex}
+Table~\ref{tab:families} compares the family selection with each family used alone in transductive GCD. On average, some fixed families come close: Gaussian and MST reach 0.524, against 0.546 of the selection, and the differences are not significant after Holm's correction, except for the OC-SVM with default $\gamma$. What the selection avoids is the large loss of a wrong family. We compare every method with an oracle that picks, for each data set, the best fixed family in hindsight (mean 0.566). The selection loses 0.020 to the oracle on average and at most 0.055 on a single data set, and is within 0.02 of the oracle on eight data sets. Every single family, including the OC-SVM whose $\gamma$ is chosen by the same simulation with hidden classes, loses between 0.110 and 0.195 on some data set. The family chosen most often varies with the data set, and four of the five families are the most frequent choice in at least two data sets each. The choice is stable across seeds: in every data set the most frequent family is chosen in at least three of the five seeds, and in five data sets in all of them (Appendix~\ref{app:chosen}, Table~\ref{tab:chosen}).
 
 \begin{table}[t]
 \caption{Transductive GCD, number of novel classes estimated: OCC families used alone against the selection. Oracle: best fixed family per data set in hindsight (Gaussian, $k$NN, MST, dichotomy, OC-SVM with default $\gamma$). Loss: oracle minus method. $\le 0.02$: number of data sets within 0.02 of the oracle. $p$: Wilcoxon test against the selection with Holm's correction.}\label{tab:families}
@@ -468,6 +468,21 @@ We proposed to address generalized category discovery in tabular data by rejecti
 \end{itemize}
 
 \begin{appendices}
+
+\section{Families chosen by the selection}\label{app:chosen}
+
+Table~\ref{tab:chosen} reports how many times the selection chose each family in transductive GCD, over the five seeds of each data set. The variants of $\gamma$ of the OC-SVM are counted together. The $k$NN family was chosen 3 times in 75.
+
+\begin{table}[h]
+\caption{Number of seeds, out of five, in which the selection chose each family in transductive GCD, with the number of novel classes estimated. Most frequent family per data set in bold.}\label{tab:chosen}
+\centering\footnotesize
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Data set & Dichotomy & Gaussian & $k$NN & MST & OC-SVM \\
+\midrule
+\input{tables/chosen_counts.tex}
+\end{tabular}
+\end{table}
 
 \section{Reproduction of PBN}\label{app:pbn}
 
