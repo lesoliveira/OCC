@@ -260,14 +260,14 @@ Underfull \vbox (badness 10000) has occurred while \output is active [12]
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
 (hyperref)                than one, level fixed on input line 283.
 
-(./tables/rejectors.tex)
+
 Underfull \vbox (badness 10000) has occurred while \output is active [13
 pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.296 \end{table}
-                 ] (./tables/c4.tex)
+l.284 
+      ] (./tables/rejectors.tex) (./tables/c4.tex)
 Underfull \vbox (badness 10000) has occurred while \output is active [14
 pdfTeX warning (ext4): destination with the same identifier (name{table.3}) has
  been already used, duplicate ignored
@@ -291,9 +291,8 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.5}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.327 W
-       hat grows along the stream is the cost of the methods that store data...
-] (./tables/c4_long.tex) (./tables/c4_summary.tex) (./tables/chosen.tex)
+l.326 
+      ] (./tables/c4_long.tex) (./tables/c4_summary.tex) (./tables/chosen.tex)
 Underfull \vbox (badness 10000) has occurred while \output is active [16
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) ha
 s been already used, duplicate ignored
@@ -439,5 +438,5 @@ r7.pfb></usr/share/texmf/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf/fonts
 usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/
 public/lm/lmsy7.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy8.pfb></usr/sha
 re/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on main.pdf (27 pages, 754469 bytes).
+Output written on main.pdf (27 pages, 754758 bytes).
 Transcript written on main.log.

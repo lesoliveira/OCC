@@ -362,17 +362,20 @@ def table_rejectors():
         t = pd.DataFrame(rows).set_index("base")
         acc[k], auc[k], ker[k] = t.acc, t.auc, t.ker
     A = pd.DataFrame(acc)
-    rank = A.rank(axis=1, ascending=False).mean()
     det = ~A.index.isin(HARD)
+    D = A[det]  # rank, W/L e p nas 11 bases detectáveis (as 15 estão na Tabela 2)
+    rank = D.rank(axis=1, ascending=False).mean()
     others = [k for k, *_ in REJ if k != "auto"]
-    ph = holm({k: float(wilcoxon(A["auto"] - A[k]).pvalue) for k in others})
+    ph = holm({k: float(wilcoxon(D["auto"] - D[k]).pvalue) for k in others})
+    ph15 = holm({k: float(wilcoxon(A["auto"] - A[k]).pvalue) for k in others})
     lines, NUM["rejectors"] = [], {}
     for k, lab, _ in REJ:
         r = dict(acc=A[k].mean(), acc_det=A[k][det].mean(), auroc_det=auc[k][det].mean(),
                  kerr_det=ker[k][det].mean(), rank=rank[k])
         if k != "auto":
-            r.update(wins=int((A["auto"] > A[k] + 0.005).sum()),
-                     losses=int((A["auto"] < A[k] - 0.005).sum()), holm_p=ph[k])
+            r.update(wins=int((D["auto"] > D[k] + 0.005).sum()),
+                     losses=int((D["auto"] < D[k] - 0.005).sum()), holm_p=ph[k],
+                     holm_p_15=ph15[k])
         NUM["rejectors"][k] = r
         wl = "--" if k == "auto" else f"{r['wins']}/{r['losses']}"
         pv = "--" if k == "auto" else f"{r['holm_p']:.3f}"

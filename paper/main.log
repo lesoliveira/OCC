@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.10.30)  24 NOV 2026 13:58
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.10.30)  24 NOV 2026 14:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1101,7 +1101,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
 (hyperref)                than one, level fixed on input line 283.
 
-(./tables/rejectors.tex)
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [13
@@ -1109,8 +1109,8 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.296 \end{table}
-                 ] (./tables/c4.tex)
+l.284 
+      ] (./tables/rejectors.tex) (./tables/c4.tex)
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [14
@@ -1126,7 +1126,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.4}) has
                                                   \__shipout_drop_firstpage_...
 l.316 
       ]
-<figures/fig_pendigits.pdf, id=510, 369.29971pt x 170.49698pt>
+<figures/fig_pendigits.pdf, id=511, 369.29971pt x 170.49698pt>
 File: figures/fig_pendigits.pdf Graphic file (type pdf)
 <use figures/fig_pendigits.pdf>
 Package pdftex.def Info: figures/fig_pendigits.pdf  used on input line 321.
@@ -1144,10 +1144,9 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.5}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.327 W
-       hat grows along the stream is the cost of the methods that store data...
-]
-<figures/fig_stream.pdf, id=521, 371.59764pt x 173.70897pt>
+l.326 
+      ]
+<figures/fig_stream.pdf, id=522, 371.59764pt x 173.70897pt>
 File: figures/fig_stream.pdf Graphic file (type pdf)
 <use figures/fig_stream.pdf>
 Package pdftex.def Info: figures/fig_stream.pdf  used on input line 332.
@@ -1315,7 +1314,7 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 Here is how much of TeX's memory you used:
  24147 strings out of 476106
  439701 string characters out of 5793932
- 1948975 words of memory out of 5000000
+ 1946975 words of memory out of 5000000
  45507 multiletter control sequences out of 15000+600000
  686046 words of font info for 139 fonts, out of 8000000 for 9000
  69 hyphenation exceptions out of 8191
@@ -1337,10 +1336,10 @@ type1/public/lm/lmri10.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb><
 /usr/share/texmf/fonts/type1/public/lm/lmsy7.pfb></usr/share/texmf/fonts/type1/
 public/lm/lmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
 symbols/msbm10.pfb>
-Output written on main.pdf (27 pages, 754469 bytes).
+Output written on main.pdf (27 pages, 754758 bytes).
 PDF statistics:
- 828 PDF objects out of 1000 (max. 8388607)
- 709 compressed objects within 8 object streams
+ 829 PDF objects out of 1000 (max. 8388607)
+ 710 compressed objects within 8 object streams
  134 named destinations out of 1000 (max. 500000)
  391 words of extra memory for PDF output out of 10000 (max. 10000000)
 
