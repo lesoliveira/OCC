@@ -276,27 +276,47 @@ def table_c4_long():
 
 
 DEC = [("pvalue", "P-value (proposed)"), ("post", "Posterior"),
-       ("hybrid", "P-value to reject, posterior to choose")]
+       ("hybrid", "Hybrid")]
 DEC_BASES = ["pendigits", "letter", "isolet"]
 
 
+DEC_SRC = {"pvalue": ("results_v7/a0.1", "auto", "results_c4_tau"),
+           "post": ("results_post15_post/a0.1", "auto-auroc", "results_post15_c4_post"),
+           "hybrid": ("results_post15_hybrid/a0.1", "auto-auroc", "results_post15_c4_hybrid")}
+
+
 def table_decision():
-    """Regra de decisão: p-valor conforme x posteriori (KDE do escore) x híbrida."""
+    """Regra de decisão: p-valor conforme x posteriori (KDE do escore) x híbrida,
+    nas 15 bases (transdutivo com K estimado e incremental com T = 3)."""
+    from scipy.stats import wilcoxon
+    S = {}
+    for k, _ in DEC:
+        f2, fam2, f4 = DEC_SRC[k]
+        rows = {}
+        for b in BASES:
+            d2 = pd.read_csv(R(f2, f"{b}_c2_kest.csv"))
+            d2 = d2[d2.family == fam2]
+            d4 = pd.read_csv(R(f4, f"{b}_c4.csv"))
+            st = c4_stats(d4[d4.family == "auto-auroc"])
+            rows[b] = dict(c2_all=d2.acc_all.mean(), c2_auroc=d2.auroc.mean(),
+                           c4_all=st["all"], c4_forget=st["forget"])
+        S[k] = pd.DataFrame(rows).T
+    det = ~S["pvalue"].index.isin(HARD)
     lines, NUM["decision"] = [], {}
     for k, lab in DEC:
-        c2 = [pd.read_csv(R("results_post", f"{b}_c2_{k}.csv")) for b in DEC_BASES]
-        c4 = [pd.read_csv(R("results_post", f"c4_{k}", f"{b}_c4.csv")) for b in DEC_BASES]
-        m = dict(c2_all=np.mean([d.acc_all.mean() for d in c2]),
-                 c2_auroc=np.mean([d.auroc.mean() for d in c2]),
-                 c4_all=np.mean([c4_stats(d)["all"] for d in c4]),
-                 c4_forget=np.mean([c4_stats(d)["forget"] for d in c4]),
-                 per_base={b: dict(c2_all=c2[i].acc_all.mean(), c2_auroc=c2[i].auroc.mean(),
-                                   c4_all=c4_stats(c4[i])["all"],
-                                   c4_forget=c4_stats(c4[i])["forget"])
-                           for i, b in enumerate(DEC_BASES)})
+        T = S[k]
+        m = dict(c2_all=T.c2_all.mean(), c2_all_det=T.c2_all[det].mean(),
+                 c2_auroc_det=T.c2_auroc[det].mean(), c4_all=T.c4_all.mean(),
+                 c4_forget=T.c4_forget.mean(), per_base=T.to_dict("index"))
+        if k != "pvalue":
+            m["p_c2"] = float(wilcoxon(S["pvalue"].c2_all - T.c2_all).pvalue)
+            m["p_c4"] = float(wilcoxon(S["pvalue"].c4_all - T.c4_all).pvalue)
         NUM["decision"][k] = m
-        lines.append(f"{lab} & {f3(m['c2_all'])} & {f3(m['c2_auroc'])} & "
-                     f"{f3(m['c4_all'])} & {f3(m['c4_forget'])}" + r" \\")
+        pc2 = "--" if k == "pvalue" else fp(m["p_c2"])
+        pc4 = "--" if k == "pvalue" else fp(m["p_c4"])
+        lines.append(f"{lab} & {f3(m['c2_all'])} & {f3(m['c2_all_det'])} & "
+                     f"{f3(m['c2_auroc_det'])} & {pc2} & {f3(m['c4_all'])} & "
+                     f"{f3(m['c4_forget'])} & {pc4}" + r" \\")
     save("decision.tex", "\n".join(lines) + "\n")
 
 

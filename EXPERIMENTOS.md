@@ -441,3 +441,12 @@ hgb_msp, ova_hgb e if_rf (occ/baselines.py), transdutivo, K estimado, 15 bases
   e unir clusters cujos p-valores cruzados indicam a mesma classe.
 - **Aprendizado ativo.** Protocolo em
   https://claude.ai/artifact/8aeEJCeCT3XcCrbgT3DK9Z
+
+## Regra de decisão nas 15 bases: `results_post15_*`
+
+Posteriori e híbrida (--decision post|hybrid), transdutivo com K estimado e
+incremental T=3 (tau de S0, alpha_d 0,3), 15 bases (Mac). A linha do p-valor é
+results_v7 e results_c4_tau. Transdutivo: 0,546 / 0,405 / 0,541 (AUROC nas 11
+detectáveis 0,929 / 0,486 / 0,929). Incremental: 0,492 / 0,326 / 0,487,
+esquecimento 0,011 / 0,117 / 0,012. Posteriori pior com p = 0,002 nos dois
+cenários, híbrida sem diferença significativa. Substitui as 3 bases de results_post.
