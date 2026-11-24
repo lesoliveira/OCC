@@ -251,38 +251,39 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.240 \end{itemize}
-                   ] (./tables/c2_kest.tex) (./tables/c2_kest_summary.tex)
+l.241 \item \emph
+                 {PBN} \citep{troisemaine2024pbn}, reimplemented in PyTorch ...
+]
+Underfull \vbox (badness 10000) has occurred while \output is active [12]
+(./tables/c2_kest.tex) (./tables/c2_kest_summary.tex)
 
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 281.
+(hyperref)                than one, level fixed on input line 283.
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active [12]
 (./tables/rejectors.tex)
 Underfull \vbox (badness 10000) has occurred while \output is active [13
 pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.297 
-      
+l.296 \end{table}
+                 ] (./tables/c4.tex)
+Underfull \vbox (badness 10000) has occurred while \output is active [14
 pdfTeX warning (ext4): destination with the same identifier (name{table.3}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.297 
-      ] (./tables/c4.tex)
-Underfull \vbox (badness 10000) has occurred while \output is active [14
+l.316 
+      
 pdfTeX warning (ext4): destination with the same identifier (name{table.4}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.321 \end{figure}
-                  ]
+l.316 
+      ]
 
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 323.
+(hyperref)                than one, level fixed on input line 325.
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active [15
@@ -290,84 +291,81 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.5}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.324 
-      
+l.327 W
+       hat grows along the stream is the cost of the methods that store data...
+] (./tables/c4_long.tex) (./tables/c4_summary.tex) (./tables/chosen.tex)
+Underfull \vbox (badness 10000) has occurred while \output is active [16
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.324 
-       <./figures/fig_pendigits.pdf>] (./tables/c4_long.tex)
-(./tables/c4_summary.tex) (./tables/chosen.tex)
-Underfull \vbox (badness 10000) has occurred while \output is active [16
-pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) ha
-s been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.361 
-       <./figures/fig_stream.pdf>] (./tables/families.tex)
-
-Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 375.
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active [17
+l.363 
+      
 pdfTeX warning (ext4): destination with the same identifier (name{table.6}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.376 
-      
+l.363 
+       <./figures/fig_pendigits.pdf>] (./tables/families.tex)
+Underfull \vbox (badness 10000) has occurred while \output is active [17
+pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.373 \end{table}
+                 
 pdfTeX warning (ext4): destination with the same identifier (name{table.7}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.376 
-      ] (./tables/tau.tex)
+l.373 \end{table}
+                  <./figures/fig_stream.pdf>]
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 377.
+
+(./tables/tau.tex)
 Underfull \vbox (badness 10000) has occurred while \output is active [18
 pdfTeX warning (ext4): destination with the same identifier (name{table.8}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.393 \paragraph
+l.395 \paragraph
                 {P-values or posterior probabilities.} A natural alternative...
-
+] (./tables/decision.tex) (./tables/ablation.tex)
+Underfull \vbox (badness 10000) has occurred while \output is active [19
 pdfTeX warning (ext4): destination with the same identifier (name{table.9}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.393 \paragraph
-                {P-values or posterior probabilities.} A natural alternative...
-] (./tables/decision.tex) (./tables/ablation.tex)
-Underfull \vbox (badness 10000) has occurred while \output is active [19
+l.426 
+      ]
+
+Package hyperref Warning: Difference (3) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 432.
+
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 434.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active [20
 pdfTeX warning (ext4): destination with the same identifier (name{table.10}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.423 T
-       o find out whether this is a failure of the representation or a prope...
-
+l.435 
+      
 pdfTeX warning (ext4): destination with the same identifier (name{table.11}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.423 T
-       o find out whether this is a failure of the representation or a prope...
-]
-
-Package hyperref Warning: Difference (3) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 430.
-
-
-Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 432.
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active [20]
+l.435 
+      ]
 Underfull \vbox (badness 10000) has occurred while \output is active [21]
 
 Package hyperref Warning: Difference (4) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 455.
+(hyperref)                than one, level fixed on input line 457.
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active [22]
@@ -375,40 +373,44 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.475 \caption
+l.477 \caption
               {PBN in its own NCD protocol: accuracy (\%) on the novel class...
 (./tables/pbn_repro.tex)
 pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.484 \end{tabular}
+l.486 \end{tabular}
                    
 pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.490 \caption
+l.492 \caption
               {NCD, number of novel classes known: transductive accuracy on ...
 (./tables/c1.tex)
 pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.497 \end{tabular}
+l.499 \end{tabular}
                    
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
 pdfTeX warning (ext4): destination with the same identifier (name{table.3}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.503 \caption
+l.505 \caption
               {Transductive GCD, number of novel classes known: ACC All per ...
 (./tables/c2_kknown.tex)
 pdfTeX warning (ext4): destination with the same identifier (name{table.3}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.510 \end{tabular}
+l.512 \end{tabular}
                    
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -437,5 +439,5 @@ r7.pfb></usr/share/texmf/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf/fonts
 usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/
 public/lm/lmsy7.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy8.pfb></usr/sha
 re/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on main.pdf (27 pages, 752996 bytes).
+Output written on main.pdf (27 pages, 754469 bytes).
 Transcript written on main.log.
