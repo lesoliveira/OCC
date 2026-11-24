@@ -13,3 +13,7 @@ paper/*.out
 paper/*.fls
 paper/*.fdb_latexmk
 paper/build.log
+# o artigo não vai para o repositório (só os scripts que geram tabelas e figuras)
+paper/*
+!paper/make_tables.py
+!paper/make_figures.py
