@@ -30,10 +30,15 @@ INK, INK2, GRID = "#0b0b0b", "#52514e", "#e4e3df"
 
 plt.rcParams.update({
     "font.size": 8, "axes.labelsize": 8, "axes.titlesize": 8,
-    "xtick.labelsize": 7, "ytick.labelsize": 7, "legend.fontsize": 7,
+    "xtick.labelsize": 8, "ytick.labelsize": 8, "legend.fontsize": 8,
     "axes.edgecolor": INK2, "axes.labelcolor": INK, "xtick.color": INK2,
     "ytick.color": INK2, "axes.spines.top": False, "axes.spines.right": False,
-    "font.family": "serif", "pdf.fonttype": 42,
+    # Springer: letras em Helvetica ou Arial, 8 a 12 pt. Liberation Sans tem as
+    # mesmas métricas da Arial e é usada quando a Arial não está instalada.
+    "font.family": "sans-serif",
+    "font.sans-serif": ["Arial", "Helvetica", "Liberation Sans", "TeX Gyre Heros"],
+    "mathtext.fontset": "custom", "mathtext.rm": "sans", "mathtext.it": "sans:italic",
+    "pdf.fonttype": 42,
 })
 
 LONG = ["covertype", "helena", "isolet", "letter", "pendigits", "volkert"]
@@ -58,9 +63,11 @@ def fig_stream():
             a.plot(s, m[col_name], color=col, lw=1.6, marker=mk, ms=4,
                    markeredgecolor="white", markeredgewidth=0.6, label=lab)
         # rótulo direto na última sessão
-        for a, col_name in zip(ax, ["acc_all", "t_session_s"]):
-            a.annotate(lab, (s[-1], m[col_name].iloc[-1]), xytext=(5, 0),
-                       textcoords="offset points", va="center", fontsize=7, color=INK)
+        # no painel de acurácia, RF-MSP e OCC terminam próximos: afasta os rótulos
+        dy0 = {"rf_msp": 4, "auto": -4}.get(k, 0)
+        for a, col_name, dy in zip(ax, ["acc_all", "t_session_s"], [dy0, 0]):
+            a.annotate(lab, (s[-1], m[col_name].iloc[-1]), xytext=(5, dy),
+                       textcoords="offset points", va="center", fontsize=8, color=INK)
     ax[0].set_ylabel("ACC All")
     ax[0].set_ylim(0, 0.6)
     ax[1].set_ylabel("Seconds (log scale)")
