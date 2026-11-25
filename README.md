@@ -1,267 +1,291 @@
-# OCC para GCD com representações fixas (CPU)
+# OCC for GCD with fixed representations (CPU)
 
-Implementação das famílias de OCC do protocolo experimental, com
-calibração conforme, rejeição, descoberta de classes novas e incorporação.
-Tudo roda em CPU com numpy, scipy, scikit-learn e pandas.
+Implementation of the OCC families of the experimental protocol, with
+conformal calibration, rejection, discovery of novel classes and
+incorporation. Everything runs on CPU with numpy, scipy, scikit-learn and
+pandas.
 
-## Instalação
+## Installation
 
 ```bash
 pip install -r requirements.txt
-python run_gcd.py --demo          # teste rápido na base digits (~15 s)
+python run_gcd.py --demo          # quick test on the digits data set (~15 s)
 ```
 
-## Estrutura
+## Structure
 
 ```
 occ/
-  base.py         interface comum: fit(X), score(X); maior = mais típico
+  base.py         common interface: fit(X), score(X); higher = more typical
   families.py     OCC-Gauss (GaussianDD), OCC-kNN, OCC-SVM, MSTDD
-  modes.py        MODES (KBS 2021) como família por classe
-  dichotomy.py    OCC-Dic: dichotomizer global no espaço |a - b|
-  calibration.py  ClassWiseOCC: um OCC por classe + p-valores conformes
-  gcd.py          OCCDiscovery: rejeição -> agrupamento dos rejeitados -> incorporação
-  kest.py         estimativa de K_new: silhueta e critério de Vaze et al.
-  fragments.py    correção dos fragmentos de antigas nos rejeitados
-  select.py       escolha da família por deixa-uma-classe-de-fora em D_L
-  baselines.py    SS-k-means (Vaze et al.) e classificador fechado + MSP
-  metrics.py      ACC húngaro (All/Old/New), AUROC, FPR@95, falsa rejeição
-splits.py         splits GCD (C2) e NCD (C1) no padrão de Vaze et al.
-run_gcd.py        executor por linha de comando, salva CSV
+  modes.py        MODES (KBS 2021) as a per-class family
+  dichotomy.py    OCC-Dic: global dichotomizer in the |a - b| space
+  calibration.py  ClassWiseOCC: one OCC per class + conformal p-values
+  gcd.py          OCCDiscovery: rejection -> clustering of the rejected -> incorporation
+  kest.py         estimation of K_new: silhouette and the criterion of Vaze et al.
+  fragments.py    correction of the fragments of known classes among the rejected
+  select.py       choice of the family by leave-one-class-out on D_L
+  baselines.py    SS-k-means (Vaze et al.) and closed-set classifier + rejector
+  metrics.py      Hungarian ACC (All/Old/New), AUROC, FPR@95, false rejection
+splits.py         GCD (C2) and NCD (C1) splits following Vaze et al.
+run_gcd.py        command-line runner, saves a CSV
 ```
 
-## Famílias (`--families`)
+## Families (`--families`)
 
-| Nome  | Escore | Observação |
-| ----- | ------ | ---------- |
-| gauss | log-verossimilhança gaussiana, covariância Ledoit-Wolf | estável em alta dimensão |
-| knn   | menos a distância média aos k vizinhos | k = 5 |
-| svm   | One-class SVM RBF | nu = 0,05 |
-| mst   | menos a distância à aresta mais próxima da MST | reimplementação do MSTDD do dd_tools |
-| modes | média dos OCCs dos clusters mais próximos, várias segmentações | base em `--modes-base` (padrão knn) |
-| dic   | P(mesma classe) do dichotomizer, média das k referências | incorporar classe = guardar referências |
+| Name  | Score | Note |
+| ----- | ----- | ---- |
+| gauss | Gaussian log-likelihood, Ledoit-Wolf covariance | stable in high dimension |
+| knn   | minus the mean distance to the k neighbours | k = 5 |
+| svm   | RBF one-class SVM | nu = 0.05 |
+| mst   | minus the distance to the nearest edge of the MST | reimplementation of MSTDD from dd_tools |
+| modes | mean of the OCCs of the nearest clusters, several segmentations | base in `--modes-base` (default knn) |
+| dic   | P(same class) from the dichotomizer, mean over the k references | incorporating a class = storing its references |
 
 ## Baselines (`--families`)
 
-| Nome     | O que é | Usa D_L | Rejeição explícita |
-| -------- | ------- | ------- | ------------------ |
-| kmeans   | k-means em D_U com K total | não | não |
-| sskmeans | k-means semi-supervisionado do GCD (Vaze et al.) | sim | não |
-| rf_msp   | Random Forest + probabilidade máxima + k-means dos rejeitados | sim | sim |
-| lr_msp   | regressão logística + probabilidade máxima + k-means | sim | sim |
+| Name     | What it is | Uses D_L | Explicit rejection |
+| -------- | ---------- | -------- | ------------------ |
+| kmeans   | k-means on D_U with the total K | no | no |
+| sskmeans | semi-supervised k-means of GCD (Vaze et al.) | yes | no |
+| rf_msp   | random forest + maximum probability + k-means of the rejected | yes | yes |
+| lr_msp   | logistic regression + maximum probability + k-means | yes | yes |
+| hgb_msp  | histogram gradient boosting + maximum probability | yes | yes |
+| ova_hgb  | one binary gradient boosting per class (one-vs-all), not normalized across classes | yes | yes |
+| if_rf    | isolation forest on D_L as rejector, random forest classifies the accepted | yes | yes |
 
-No MSP, o limiar é o quantil alpha da probabilidade máxima de validação
-cruzada em D_L, com a mesma semântica de alpha dos OCCs.
+For these rejectors, the threshold is the alpha quantile of a cross-validated
+score on D_L, with the same meaning of alpha as for the OCCs.
 
-## Usando com os seus atributos
+## Using your own features
 
 ```bash
-# C2 (GCD transdutivo), 5 repetições, K estimado pela silhueta
+# C2 (transductive GCD), 5 repetitions, K estimated by the silhouette
 python run_gcd.py --X feats.npy --y labels.npy --scenario c2 \
     --seeds 0 1 2 3 4 --out results/base_c2.csv
 
-# C1 (NCD) com a divisão Old fixa do PBN
+# C1 (NCD) with the fixed Old split of PBN
 python run_gcd.py --X feats.npy --y labels.npy --scenario c1 \
     --old-classes 0 1 2 3 4 --seeds 0
 ```
 
-Opções úteis: `--alpha` (padrão 0,05), `--k-known` (usa o K verdadeiro das
-classes novas), `--old-frac 0.8` (CIFAR-100), `--scale {all,labeled,none}`,
+Useful options: `--alpha` (default 0.05), `--k-known` (uses the true K of
+the novel classes), `--old-frac 0.8` (CIFAR-100), `--scale {all,labeled,none}`,
 `--cal-mode {cv,split,nested}`.
 
-**Padronização (`--scale`, padrão `all`)**: usa média e desvio de
-D_L ∪ D_U, só dos atributos, sem rótulos, o que é legítimo no cenário
-transdutivo. A opção `labeled` (só D_L) cria valores extremos quando um
-atributo quase não varia nas classes antigas: no digits, até 90 desvios,
-o que derruba o k-means de 0,78 para 0,59 de ACC All.
+**Standardization (`--scale`, default `all`)**: uses the mean and standard
+deviation of D_L ∪ D_U, of the attributes only, without labels, which is
+legitimate in the transductive setting. The `labeled` option (D_L only)
+creates extreme values when an attribute barely varies within the known
+classes: on digits, up to 90 standard deviations, which drops k-means from
+0.78 to 0.59 ACC All.
 
-## Bases tabulares do PBN (cenário C2)
+## Tabular data sets of PBN (setting C2)
 
 ```bash
-python prepare_pbn_datasets.py            # baixa da UCI; --with-census inclui o Census (~360 MB)
-bash run_pbn_gcd.sh                       # 5 sementes, K estimado e conhecido, α = 0,05 0,1 0,2
-# só algumas bases, outro α, outra pasta, outras famílias:
+python prepare_pbn_datasets.py            # downloads from UCI; --with-census includes Census (~360 MB)
+bash run_pbn_gcd.sh                       # 5 seeds, K estimated and known, α = 0.05 0.1 0.2
+# only some data sets, another α, another folder, other families:
 ALPHAS="0.1" OUT=results_v2 bash run_pbn_gcd.sh pendigits letter
 FAMILIES="mst dic mst+ssk rf_msp" bash run_pbn_gcd.sh pendigits
 ```
 
-Cada α gera `$OUT/a<α>/summary.md`, com ACC All/Old/New, AUROC, falsa
-rejeição de Old, rejeição de New (o que não é rejeitado foi absorvido por
-uma classe antiga) e o K_new usado por cada método.
+Each α produces `$OUT/a<α>/summary.md`, with ACC All/Old/New, AUROC, false
+rejection of Old, rejection of New (what is not rejected was absorbed by a
+known class) and the K_new used by each method.
 
-**Estimativa de K (`--k-est`, padrão `labeled`)**: critério de Vaze et al.
-(CVPR 2022): k-means em D_L ∪ D_U para cada K candidato e escolha do K que
-maximiza a ACC húngara nas amostras rotuladas. A mesma estimativa vale
-para todos os métodos, o que isola o efeito da rejeição. `silhouette` é
-o comportamento antigo (cada método estima nos seus rejeitados).
+**Estimation of K (`--k-est`, default `labeled`)**: the criterion of Vaze
+et al. (CVPR 2022): k-means on D_L ∪ D_U for each candidate K, choosing the
+K that maximizes the Hungarian ACC on the labeled samples. The same estimate
+is used for every method, which isolates the effect of the rejection.
+`silhouette` is the old behaviour (each method estimates on its own
+rejected samples).
 
-**Correção dos fragmentos (`--k-est sil-size` ou `hdbscan`)**: com
-muitas classes antigas, os rejeitados por engano formam um pequeno
-fragmento de cada antiga, e a silhueta conta cada fragmento como classe
-nova (letter: ~30 em vez de 7). O tamanho esperado de um fragmento é
-α/(1−α) × aceitos da classe, e o limiar é τ = `--frag-c` (padrão 2) × a
-mediana desses tamanhos. `sil-size` devolve às antigas os clusters
-menores que τ e reagrupa o resto; `hdbscan` usa o HDBSCAN com
-min_cluster_size = τ e manda o ruído para o centróide mais próximo (cai
-para `sil-size` se não achar nenhum cluster); `hdbscan-leaf` usa
-`cluster_selection_method="leaf"`, que escolhe clusters mais finos e pode
-separar classes novas vizinhas que o modo padrão funde (no letter, o
-`hdbscan` estimou 3,8 classes em vez de 7). Detalhes em
+**Correction of the fragments (`--k-est sil-size` or `hdbscan`)**: with
+many known classes, the samples rejected by mistake form a small fragment
+of each known class, and the silhouette counts each fragment as a novel
+class (letter: ~30 instead of 7). The expected size of a fragment is
+α/(1−α) × the accepted samples of the class, and the threshold is
+τ = `--frag-c` (default 2) × the median of these sizes. `sil-size` returns
+the clusters smaller than τ to the known classes and reclusters the rest.
+`hdbscan` uses HDBSCAN with min_cluster_size = τ and sends the noise to the
+nearest centroid (it falls back to `sil-size` if it finds no cluster).
+`hdbscan-leaf` uses `cluster_selection_method="leaf"`, which picks finer
+clusters and can separate neighbouring novel classes that the default mode
+merges (on letter, `hdbscan` estimated 3.8 classes instead of 7). Details in
 `occ/fragments.py`.
 
-**Pré-processamento por base (`data/<base>/preproc.json`)**: se existir,
-o `run_gcd.py --data` aplica a todos os métodos. Chaves: `drop_cols`
-(colunas removidas) e `l2` (normaliza cada linha; a distância euclidiana
-vira função do cosseno; desliga a padronização). Usamos `{"l2": true}` no
-CNAE-9 (contagens de palavras esparsas) e `{"drop_cols": [561]}` no HAR
-(o PBN acrescenta o identificador do sujeito como atributo, o que faz as
-distâncias agruparem por pessoa). `--no-preproc` ignora o arquivo.
+**Per-data-set preprocessing (`data/<base>/preproc.json`)**: if present,
+`run_gcd.py --data` applies it to every method. Keys: `drop_cols` (removed
+columns) and `l2` (normalizes each row, so the Euclidean distance becomes a
+function of the cosine, and turns standardization off). We use
+`{"l2": true}` on CNAE-9 (sparse word counts) and `{"drop_cols": [561]}` on
+HAR (PBN adds the subject identifier as an attribute, which makes distances
+group by person). `--no-preproc` ignores the file.
 
-**Família `auto`**: escolhe a família de OCC só com D_L. Cada classe
-conhecida (até 5) é deixada de fora e tratada como nova; as demais são
-divididas em treino (70%) e teste; vence a família com maior AUROC médio
-antigas × "nova". Candidatas em `--auto-families` (padrão gauss knn mst
-dic e o SVM com γ ∈ {0,1; 0,3; 1; 3; 10} × o padrão, escritos `svm@g`).
-O CSV guarda a família escolhida (`chosen`) e os AUROCs (`loco_*`).
+**Family `auto`**: chooses the OCC family with D_L only. Each known class
+(up to 5) is left out and treated as novel, the others are split into
+training (70%) and test, and the family with the highest mean AUROC of
+known × "novel" wins. Candidates in `--auto-families` (default gauss knn mst
+dic and the SVM with γ ∈ {0.1, 0.3, 1, 3, 10} × the default, written
+`svm@g`). The CSV stores the chosen family (`chosen`) and the AUROCs
+(`loco_*`).
 
-**Critério do `auto` (`--auto-criterion`, padrão `auroc`)**: `acc` simula
-o GCD inteiro em D_L — esconde 2 classes conhecidas (1 se houver menos de
-4), roda rejeição + HDBSCAN e mede a ACC All; empates (< 0,005) vão para o
-AUROC simulado. `auroc` é o critério original (só a rejeição, uma classe
-escondida por vez). Nas bases do PBN, `acc` foi pior (0,699 contra 0,730;
-`results_v5/`): com 3 ou 4 classes conhecidas, o GCD simulado fica pequeno
-e ruidoso. A família `auto-auroc` roda o `auto` sempre com `auroc`. O mesmo critério
-vale para o `svm-cv`.
+**Criterion of `auto` (`--auto-criterion`, default `auroc`)**: `acc`
+simulates the whole GCD on D_L. It hides 2 known classes (1 if there are
+fewer than 4), runs rejection + HDBSCAN and measures ACC All, with ties
+(< 0.005) broken by the simulated AUROC. `auroc` is the original criterion
+(rejection only, one hidden class at a time). On the PBN data sets, `acc`
+was worse (0.699 against 0.730, `results_v5/`): with 3 or 4 known classes,
+the simulated GCD is small and noisy. The family `auto-auroc` always runs
+`auto` with `auroc`. The same criterion applies to `svm-cv`.
 
-**SVM com γ ajustado (`svm-cv`)**: o One-class SVM não tem como ajustar
-γ por validação cruzada comum, porque não há negativos. O `svm-cv` usa o
-mesmo protocolo do `auto` (esconder uma classe conhecida e tratá-la como
-nova) para escolher γ na grade acima; `svm` é o γ padrão do scikit-learn
-(`scale`).
+**SVM with tuned γ (`svm-cv`)**: the one-class SVM cannot tune γ by
+ordinary cross-validation, because there are no negatives. `svm-cv` uses the
+same protocol as `auto` (hide a known class and treat it as novel) to choose
+γ on the grid above. `svm` is the default γ of scikit-learn (`scale`).
 
-**Variante `+ssk`** (ex.: `mst+ssk`): os rejeitados vão para o SS-k-means
-com as antigas ancoradas em D_L, em vez de k-means isolado. Fica fora do
-padrão: no digits, quase zera a falsa rejeição, mas devolve às classes
-antigas também as amostras novas próximas delas (o 6 vai para o 4, o 9 para
-o 3), e o casamento húngaro então troca as antigas: ACC Old cai de 0,82
-para 0,39–0,54.
+**Variant `+ssk`** (e.g. `mst+ssk`): the rejected samples go to SS-k-means
+with the known classes anchored on D_L, instead of plain k-means. It is not
+the default: on digits it nearly removes false rejection, but it also
+returns to the known classes the novel samples close to them (6 goes to 4,
+9 to 3), and the Hungarian matching then swaps the known classes: ACC Old
+drops from 0.82 to 0.39–0.54.
 
-O `prepare_pbn_datasets.py` reproduz o pré-processamento e a divisão de
-classes conhecidas/novas do repositório oficial do PBN e salva em
-`data/<base>/`. O `run_pbn_gcd.sh` grava um CSV por base em `results/`,
-as versões das bibliotecas em `results/versions.txt`, e chama o
-`summarize.py`, que monta `results/summary.md` com média ± desvio por base,
-rank médio e Wilcoxon pareado contra o melhor OCC.
+**Decision rule (`--decision`, default `pvalue`)**: `post` replaces the
+conformal p-values by posterior probabilities (kernel density of the score
+of each class, normalized across classes), and `hybrid` rejects with the
+p-values and chooses among the accepting classes by the posterior. Used in
+the ablation of the paper.
 
-Três cuidados ao comparar com o artigo do PBN:
+`prepare_pbn_datasets.py` reproduces the preprocessing and the known/novel
+class split of the official PBN repository and saves them in
+`data/<base>/`. `run_pbn_gcd.sh` writes one CSV per data set in `results/`,
+the library versions in `results/versions.txt`, and calls `summarize.py`,
+which builds `results/summary.md` with mean ± standard deviation per data
+set, mean rank and paired Wilcoxon test against the best OCC.
 
-- Nas rodadas antigas (pasta `results/` sem `a<α>`), o `kmeans` em "K
-  estimado" usava o K verdadeiro; agora usa a estimativa.
-- O PBN reporta o cenário NCD (C1): o conjunto não rotulado tem só classes
-  novas, e a ACC é medida no teste. Aqui rodamos GCD (C2), em que D_U
-  mistura antigas e novas. Os números não são comparáveis diretamente;
-  para isso falta adaptar o PBN ao GCD (próximo passo).
-- Com a divisão fixa do PBN, as 5 sementes variam as amostras de D_L e
-  D_U, não quais classes são novas.
-- CNAE-9: os rótulos vão de 1 a 9, mas a divisão do PBN inclui a classe 0,
-  que não existe; por isso ficam 4 conhecidas e 5 novas, como no artigo.
+Cautions when comparing with the PBN paper:
 
-## Bases adicionais do OpenML
+- In the old runs (folder `results/` without `a<α>`), `kmeans` with
+  "estimated K" used the true K. It now uses the estimate.
+- PBN reports the NCD setting (C1): the unlabeled set holds only novel
+  classes, and ACC is measured on the test split. Here we run GCD (C2), in
+  which D_U mixes known and novel classes, so the numbers are not directly
+  comparable.
+- With the fixed split of PBN, the 5 seeds vary the samples of D_L and D_U,
+  not which classes are novel.
+- CNAE-9: labels go from 1 to 9, but the split of PBN includes class 0,
+  which does not exist. Hence 4 known and 5 novel classes, as in the paper.
 
-```bash
-python prepare_pbn_datasets.py --only census --with-census   # a 7ª base do PBN
-python prepare_openml_datasets.py                            # 9 candidatas do OpenML
-```
-
-Critérios fixados antes de rodar os métodos (ver o cabeçalho do
-`prepare_openml_datasets.py`): ≥ 6 classes, ≥ 500 amostras, classes com
-menos de 20 amostras descartadas, sem imagens brutas; acima de 20.000
-amostras, subamostragem estratificada. Conhecidas = metade das classes,
-sorteadas com semente fixa. Cada base ganha um `meta.json` com origem e
-características. Os `summary.md` passam a ter o teste de Friedman nas
-bases (uma observação por base) e Wilcoxon com correção de Holm.
-
-## Cenário incremental (C4)
+## Additional data sets from OpenML
 
 ```bash
-bash run_pbn_c4.sh pendigits letter       # 3 sessões, 5 sementes, α = 0,1
-bash run_pbn_c4.sh                        # todas as bases em data/
+python prepare_pbn_datasets.py --only census --with-census   # the 7th data set of PBN
+python prepare_openml_datasets.py                            # 9 candidates from OpenML
 ```
 
-Protocolo (`run_c4.py`), inspirado no Continual GCD (MetaGCD, Happy):
-sessão 0 com D_L (metade das amostras das classes conhecidas); as classes
-novas, sorteadas pela semente, estreiam em T sessões (padrão 3); cada lote
-não rotulado traz parte das conhecidas, 60% das classes que estreiam e o
-resto das descobertas antes. Sem rótulos depois da sessão 0, sessões
-disjuntas, padronização só com a sessão 0. O OCC incorpora cada cluster
-descoberto como uma classe nova sem re-treinar as antigas; o `rf_msp` é
-re-treinado a cada sessão com os pseudorrótulos (e precisa guardar os
-dados); o `sskmeans` é refeito a cada sessão. O casamento cluster →
-classe é fixado na sessão em que o cluster aparece, para que um erro de
-descoberta se propague. O `summarize_c4.py` gera `summary_c4.md` com ACC
-All/Old/New, esquecimento das classes da sessão 0, classes descobertas e
-tempo por sessão.
+Criteria fixed before running the methods (see the header of
+`prepare_openml_datasets.py`): ≥ 6 classes, ≥ 500 samples, classes with
+fewer than 20 samples discarded, no raw images, and stratified subsampling
+above 20,000 samples. Known classes = half of the classes, drawn with a
+fixed seed. Each data set gets a `meta.json` with its source and
+characteristics. The `summary.md` files include the Friedman test over data
+sets (one observation per data set) and the Wilcoxon test with Holm's
+correction.
 
-## Decisões de implementação a conhecer
+## Incremental setting (C4)
 
-- **Calibração por validação cruzada dentro da classe** (`cal_mode="cv"`,
-  5 folds). Com n pontos de calibração, o menor p-valor possível é
-  1/(n+1); só há rejeição se 1/(n+1) < α. Reservar 20% de uma classe com
-  45 amostras dá 9 pontos e torna a rejeição impossível com α = 0,05.
-  Na validação cruzada, a classe inteira serve de calibração e o OCC final
-  é treinado com todas as amostras. O código avisa quando a classe é
-  pequena demais.
-- **OCC-Dic**: com `--cal-mode cv`, o classificador de pares é treinado com
-  todo D_L e a calibração fica otimista (falsa rejeição de Old 0,28 com
-  α = 0,2). Use `--cal-mode nested`: uma floresta por fold, sem vazamento
-  (falsa rejeição 0,16; ACC Old 0,72 para 0,84; custo de 5 florestas a mais).
-  Para as outras famílias, `nested` é igual a `cv`.
-- **MODES**: usa 4 dos 13 índices do NbClust (silhueta, Calinski-Harabasz,
-  Davies-Bouldin, Dunn); cada OCC de cluster é padronizado pelos seus
-  escores de treino antes da média; a poda por região de competência entre
-  classes fica desligada, porque em mundo aberto ela força a escolha entre
-  classes conhecidas.
-- **Rótulos**: o executor converte qualquer rótulo para inteiros 0..C-1;
-  -1 é reservado para rejeição.
+```bash
+bash run_pbn_c4.sh pendigits letter       # 3 sessions, 5 seeds, α = 0.1
+bash run_pbn_c4.sh                        # every data set in data/
+SESSIONS=10 bash run_pbn_c4.sh letter     # longer stream
+```
 
-## Teste na base digits (pixels brutos, 5 Old / 5 New, α = 0,2, K conhecido, 5 sementes)
+Protocol (`run_c4.py`), inspired by Continual GCD (MetaGCD, Happy):
+session 0 with D_L (half of the samples of the known classes). The novel
+classes, drawn by the seed, debut over T sessions (default 3). Each
+unlabeled batch brings part of the known classes, 60% of the classes that
+debut and the rest of the ones discovered before. There are no labels after
+session 0, sessions are disjoint, and standardization uses session 0 only.
+The OCC incorporates each discovered cluster as a novel class without
+retraining the known ones. `rf_msp` is retrained at every session with the
+pseudo-labels (and must store the data), and `sskmeans` is refitted at every
+session. The cluster → class matching is fixed in the session where the
+cluster appears, so that a discovery error propagates. `summarize_c4.py`
+produces `summary_c4.md` with ACC All/Old/New, forgetting of the classes of
+session 0, discovered classes and time per session.
 
-| Método | ACC All | ACC Old | ACC New | AUROC | Falsa rej. Old |
+Options used in the paper: `--tau-s0` computes the fragment threshold τ once,
+from the class sizes of session 0, and keeps it fixed, and `--alpha-disc 0.3`
+makes discovered classes accept a sample only when its p-value is at least
+0.3. Example:
+
+```bash
+EXTRA="--tau-s0 --alpha-disc 0.3" FAMILIES="auto-auroc" OUT=results_c4_tau bash run_pbn_c4.sh
+```
+
+## Implementation decisions worth knowing
+
+- **Calibration by cross-validation within the class** (`cal_mode="cv"`,
+  5 folds). With n calibration points, the smallest possible p-value is
+  1/(n+1), and rejection is only possible if 1/(n+1) < α. Holding out 20%
+  of a class with 45 samples gives 9 points and makes rejection impossible
+  with α = 0.05. With cross-validation the whole class serves as
+  calibration and the final OCC is trained with all samples. The code warns
+  when a class is too small.
+- **OCC-Dic**: with `--cal-mode cv`, the pair classifier is trained with all
+  of D_L and the calibration is optimistic (false rejection of Old 0.28 with
+  α = 0.2). Use `--cal-mode nested`: one forest per fold, without leakage
+  (false rejection 0.16, ACC Old from 0.72 to 0.84, at the cost of 5 more
+  forests). For the other families, `nested` is the same as `cv`.
+- **MODES**: uses 4 of the 13 NbClust indices (silhouette,
+  Calinski-Harabasz, Davies-Bouldin, Dunn). Each cluster OCC is standardized
+  by its training scores before averaging. Pruning by region of competence
+  between classes is off, because in an open world it forces a choice among
+  known classes.
+- **Labels**: the runner converts any label to integers 0..C-1, and -1 is
+  reserved for rejection.
+
+## Test on digits (raw pixels, 5 Old / 5 New, α = 0.2, known K, 5 seeds)
+
+| Method | ACC All | ACC Old | ACC New | AUROC | False rej. Old |
 | ------ | ------- | ------- | ------- | ----- | -------------- |
-| rf_msp | 0,737 | 0,818 | 0,697 | 0,952 | 0,18 |
-| mst | 0,722 | 0,784 | 0,692 | 0,917 | 0,18 |
-| dic (nested) | 0,700 | 0,838 | 0,631 | 0,952 | 0,16 |
-| gauss | 0,699 | 0,779 | 0,659 | 0,909 | 0,18 |
-| lr_msp | 0,691 | 0,798 | 0,637 | 0,905 | 0,20 |
-| knn | 0,673 | 0,789 | 0,614 | 0,894 | 0,17 |
-| svm | 0,660 | 0,806 | 0,587 | 0,885 | 0,18 |
-| kmeans | 0,654 | 0,511 | 0,726 | | |
-| sskmeans | 0,653 | 0,646 | 0,656 | | |
-| modes | 0,628 | 0,792 | 0,546 | 0,880 | 0,15 |
+| rf_msp | 0.737 | 0.818 | 0.697 | 0.952 | 0.18 |
+| mst | 0.722 | 0.784 | 0.692 | 0.917 | 0.18 |
+| dic (nested) | 0.700 | 0.838 | 0.631 | 0.952 | 0.16 |
+| gauss | 0.699 | 0.779 | 0.659 | 0.909 | 0.18 |
+| lr_msp | 0.691 | 0.798 | 0.637 | 0.905 | 0.20 |
+| knn | 0.673 | 0.789 | 0.614 | 0.894 | 0.17 |
+| svm | 0.660 | 0.806 | 0.587 | 0.885 | 0.18 |
+| kmeans | 0.654 | 0.511 | 0.726 | | |
+| sskmeans | 0.653 | 0.646 | 0.656 | | |
+| modes | 0.628 | 0.792 | 0.546 | 0.880 | 0.15 |
 
-O classificador fechado com MSP é o baseline a bater: em pixels brutos,
-ele supera todos os OCCs. O digits serve como teste de fumaça; o teste
-real é com atributos DINO e as bases do PBN. A silhueta tende a
-subestimar K_new nessa base (escolhe 2 em vez de 5).
+The closed-set classifier with MSP is the baseline to beat: on raw pixels it
+outperforms every OCC. Digits serves as a smoke test, and the real tests are
+with DINO features and the PBN data sets. The silhouette tends to
+underestimate K_new on this data set (it chooses 2 instead of 5).
 
-## Estudo com imagens (DINO congelado)
+## Study with images (frozen DINO)
 
 ```bash
 pip install torch torchvision certifi timm
-python prepare_image_features.py --only cifar10 --max-samples 5000   # teste rápido
-python prepare_image_features.py --only cifar10 cifar100             # completo
+python prepare_image_features.py --only cifar10 --max-samples 5000   # quick test
+python prepare_image_features.py --only cifar10 cifar100             # full
 python prepare_image_features.py --only cub --ssb-split cub_osr_splits.pkl
-bash run_images.sh cifar10        # C2 em results_img/, C4 em results_img_c4/
+bash run_images.sh cifar10        # C2 in results_img/, C4 in results_img_c4/
 ```
 
-`prepare_image_features.py` extrai uma vez o vetor CLS do DINO ViT-B/16 e grava
-em `data_img/<base>/` no formato das bases tabulares, com a divisão de classes
-de Vaze et al. (a mesma do SimGCD). Depois disso tudo roda em CPU. Para o CUB,
-a divisão SSB vem do repositório do SimGCD (`data/ssb_splits/cub_osr_splits.pkl`).
-Os scripts `run_pbn_gcd.sh` e `run_pbn_c4.sh` aceitam `DATA=data_img`.
+`prepare_image_features.py` extracts the CLS vector of DINO ViT-B/16 once and
+saves it in `data_img/<base>/` in the format of the tabular data sets, with
+the class split of Vaze et al. (the same as SimGCD). After that everything
+runs on CPU. For CUB, the SSB split comes from the SimGCD repository
+(`data/ssb_splits/cub_osr_splits.pkl`). The scripts `run_pbn_gcd.sh` and
+`run_pbn_c4.sh` accept `DATA=data_img`.
 
-## Seleção por classe (`auto-pc`)
+## Per-class selection (`auto-pc`)
 
-`--families auto-pc` no `run_gcd.py`: cada classe conhecida fica com a família
-cujo OCC melhor separa a própria classe das classes escondidas (mesma simulação
-do `auto`, `occ/select.py: select_per_class`). Resultados em `results_pc/`.
+`--families auto-pc` in `run_gcd.py`: each known class gets the family whose
+OCC best separates the class from the hidden classes (same simulation as
+`auto`, `occ/select.py: select_per_class`). Results in `results_pc/`.
